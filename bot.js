@@ -7,6 +7,10 @@ client.on('ready', () => {
 });
 
 client.on('message', message => {
+    if (message.content === "!restrict") {
+      message.reply("wat");
+    // message.author.voiceChannel.setUserLimit();
+    }
     if (message.content === 'ping') {
       client.sendMessage(message.channel, 'pong');
     }
