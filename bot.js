@@ -7,13 +7,9 @@ client.on('ready', () => {
 });
 
 client.on('message', message => {
-  if (message.client == "AcrobaticMouse#8451") {
-
-  } else {
     if (message.content === 'ping') {
       message.sendMessage('pong');
     }
-  }
 });
 
 client.login(process.env.BOT_TOKEN);
