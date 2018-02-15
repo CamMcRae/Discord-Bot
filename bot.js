@@ -6,8 +6,12 @@ client.on('ready', () => {
 });
 
 client.on('message', message => {
-  if (message.content === 'ping') {
-    message.reply('pong');
+  if (message.client == "AcrobaticMouse#8451") {
+
+  } else {
+    if (message.content === 'ping') {
+      message.reply('pong');
+    }
   }
 });
 
