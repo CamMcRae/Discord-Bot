@@ -7,10 +7,7 @@ bot.on('ready', () => {
 });
 
 bot.on("disconnected", function () {
-	// alert the console
 	console.log("Disconnected!");
-
-	// exit node.js with an error
 	process.exit(1);
 });
 
