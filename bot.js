@@ -15,6 +15,8 @@ bot.on('message', message => {
     message.channel.send('pong');
   } else if (message.content === 'pong') {
     message.channel.send('hah you suck');
+  }else if (message.content === 'somebody touch ma') {
+    message.channel.send('spaghett');
   }
 });
 
