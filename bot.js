@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const bot = new Discord.Client();
+const prefix = "1";
 
 bot.on('ready', () => {
   console.log('I am ready!');
@@ -7,12 +8,13 @@ bot.on('ready', () => {
 });
 
 bot.on('message', message => {
-  if (message.content.startsWith("!restrict")) {
+  if (message.content.startsWith(prefix + "restrict")) {
     message.channel.send("wat");
-    // message.author.voiceChannel.setUserLimit();
-  }
-  if (message.content === 'ping') {
+    message.author.voiceChannel.setUserLimit(message.content.ends);
+  } else if (message.content === 'ping') {
     message.channel.send('pong');
+  } else if (message.content === 'pong') {
+    message.channel.send('hah you suck');
   }
 });
 
