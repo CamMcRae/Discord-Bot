@@ -1,19 +1,27 @@
 const Discord = require('discord.js');
-const client = new Discord.Client();
+const bot = new Discord.Client();
 
-client.on('ready', () => {
+bot.on('ready', () => {
   console.log('I am ready!');
-   client.user.setUsername("Bot Dude");
+   bot.user.setUsername("Bot Dude");
 });
 
-client.on('message', message => {
+bot.on("disconnected", function () {
+	// alert the console
+	console.log("Disconnected!");
+
+	// exit node.js with an error
+	process.exit(1);
+});
+
+bot.on('message', message => {
     if (message.content === "!restrict") {
       message.reply("wat");
     // message.author.voiceChannel.setUserLimit();
     }
     if (message.content === 'ping') {
-      client.sendMessage(message.channel, 'pong');
+      bot.sendMessage(message.channel, 'pong');
     }
 });
 
-client.login(process.env.BOT_TOKEN);
+bot.login(process.env.BOT_TOKEN);
