@@ -8,7 +8,7 @@ bot.on('ready', () => {
 });
 
 bot.on('message', message => {
-  if (message.content.startsWith(prefix + "restrict")) {
+  if (message.content.startsWith(prefix + "restrict") && message.auther.hasPermission("ADMINISTRATOR")) {
     message.channel.send('wat');
     // message.author.voiceChannel.setUserLimit(message.content.substr(10));
   } else if (message.content === 'ping') {
@@ -16,7 +16,7 @@ bot.on('message', message => {
   } else if (message.content === 'pong') {
     message.channel.send('hah you suck');
   } else if (message.content.startsWith(prefix + "lmgtfy")) {
-    message.channel.send("http://lmgtfy.com/?q=" + message.content.substr(8));
+    message.channel.send("http://lmgtfy.com/?q=" + message.content.substr(8).replace(" ", "_"));
   }
 });
 //asdas
