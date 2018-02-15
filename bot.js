@@ -16,7 +16,7 @@ bot.on('message', message => {
   } else if (message.content === 'pong') {
     message.channel.send('hah you suck');
   } else if (message.content.startsWith(prefix + "lmgtfy")) {
-    message.channel.send("http://lmgtfy.com/?q=" + message.content.substr(8).replace(" ", "_"));
+    message.channel.send("http://lmgtfy.com/?q=" + message.content.substr(8).replace(" ", "%20"));
   }
 });
 //asdas
