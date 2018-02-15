@@ -8,7 +8,7 @@ bot.on('ready', () => {
 });
 
 bot.on('message', message => {
-  if (message.content.startsWith(prefix + "restrict") && message.author.hasPermission("ADMINISTRATOR")) {
+  if (message.content.startsWith(prefix + "restrict")) {
     message.channel.send("wat");
     message.author.voiceChannel.setUserLimit(message.content.substr(10));
   } else if (message.content === 'ping') {
