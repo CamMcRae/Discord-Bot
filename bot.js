@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const bot = new Discord.Client();
-const prefix = "1";
+const prefix = "!";
 
 bot.on('ready', () => {
   console.log('I am ready!');
@@ -15,8 +15,6 @@ bot.on('message', message => {
     message.channel.send('pong');
   } else if (message.content === 'pong') {
     message.channel.send('hah you suck');
-  }else if (message.content === 'somebody touch ma') {
-    message.channel.send('spaghett');
   }
 });
 
