@@ -17,13 +17,13 @@ bot.on('message', message => {
     message.channel.send('hah you suck');
   } else if (message.content.startsWith(prefix + "lmgtfy")) {
     message.channel.send("http://lmgtfy.com/?q=" + message.content.substr(8).replace(/ /g, "%20"));
+  } else if (message.content.startsWith(prefix + "define")) {
+    message.channel.send("stuff");
   } else if (message.content.startsWith(prefix + "clean")) {
     while (true) {
       //go up through bot messages and delete them until 1 day old
       break;
     }
-  } else if (message.content.startsWith(prefix + "define")) {
-    message.channel.send("stuff");
   }
 });
 //asdas
