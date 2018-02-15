@@ -8,15 +8,16 @@ bot.on('ready', () => {
 });
 
 bot.on('message', message => {
-  if (message.content.startsWith(prefix + "restrict")) {
-    message.channel.send("wat");
-    message.author.voiceChannel.setUserLimit(message.content.ends);
-  } else if (message.content === 'ping') {
-    message.channel.send('pong');
-  } else if (message.content === 'pong') {
-    message.channel.send('hah you suck');
-  }else if (message.content.startsWith(prefix + "lmgtfy")) {
-    message.channel.send("http://lmgtfy.com/?q=" + message.substr(message.length - 7));
-});
+    if (message.content.startsWith(prefix + "restrict")) {
+      message.channel.send("wat");
+      message.author.voiceChannel.setUserLimit(message.content.ends);
+    } else if (message.content === 'ping') {
+      message.channel.send('pong');
+    } else if (message.content === 'pong') {
+      message.channel.send('hah you suck');
+    } else if (message.content.startsWith(prefix + "lmgtfy")) {
+      message.channel.send("http://lmgtfy.com/?q=" + message.substr(message.length - 7));
+    });
+}
 //asdas
 bot.login(process.env.BOT_TOKEN);
