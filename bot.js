@@ -17,5 +17,5 @@ bot.on('message', message => {
     message.channel.send('hah you suck');
   }
 });
-
+//asdas
 bot.login(process.env.BOT_TOKEN);
