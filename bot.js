@@ -10,13 +10,13 @@ bot.on('ready', () => {
 bot.on('message', message => {
   if (message.content.startsWith(prefix + "restrict")) {
     message.channel.send("wat");
-    message.author.voiceChannel.setUserLimit(message.content.ends);
+    message.author.voiceChannel.setUserLimit(message.content.substr(10));
   } else if (message.content === 'ping') {
     message.channel.send('pong');
   } else if (message.content === 'pong') {
     message.channel.send('hah you suck');
   } else if (message.content.startsWith(prefix + "lmgtfy")) {
-    message.channel.send("stuff");
+    message.channel.send("http://lmgtfy.com/?q=" + message.content.substr(8));
   }
 });
 //asdas
