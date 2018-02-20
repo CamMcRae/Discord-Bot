@@ -106,7 +106,6 @@ function printMsg(entries, json, type) {
 
 function apiRequest(url, type, callback) {
   let xhttp = new XMLHttpRequest(); // opens html request
-  xhttp.setRequestHeader("Accept", "text/xml");
   xhttp.onreadystatechange = function() { // waits until an xml is returned
     if (this.readyState == 4 && this.status == 200) {
       let json = getJSON(this);
@@ -115,6 +114,7 @@ function apiRequest(url, type, callback) {
     }
   };
   xhttp.open("GET", url, true); // opens request
+  xhttp.setRequestHeader("Accept", "text/xml");
   xhttp.send(); //starts request
 }
 
