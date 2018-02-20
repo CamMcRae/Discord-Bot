@@ -40,6 +40,7 @@ bot.on('message', message => {
 bot.login(process.env.BOT_TOKEN);
 
 function dictionary(json, type) {
+  console.log("dictStart");
   let entries = [];
   for (let i in json.entry) {
     for (let j of json.entry[i].def.dt) {
@@ -53,12 +54,13 @@ function dictionary(json, type) {
     }
   }
   let embed = printMsg(entries, json, type);
-  message.channel.send(embed);
+  console.log("dictEnd");
 }
 
 
 // goes through json for dictionary entries
 function printMsg(entries, json, type) {
+  console.log("printmsg");
   let obj = {
     embed: {
       thumbnail: {
@@ -103,10 +105,10 @@ function printMsg(entries, json, type) {
 }
 
 function apiRequest(url, type, callback) {
-  var xhttp = new XMLHttpRequest(); // opens html request
+  let xhttp = new XMLHttpRequest(); // opens html request
   xhttp.onreadystatechange = function() { // waits until an xml is returned
     if (this.readyState == 4 && this.status == 200) {
-      json = getJSON(this);
+      let json = getJSON(this);
       console.log("got json");
       callback(json, type);
     }
