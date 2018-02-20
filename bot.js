@@ -105,6 +105,7 @@ function printMsg(entries, json, type) {
 }
 
 function apiRequest(url, type, callback) {
+  let XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
   let xhttp = new XMLHttpRequest(); // opens html request
   xhttp.onreadystatechange = function() { // waits until an xml is returned
     if (this.readyState == 4 && this.status == 200) {
