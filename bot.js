@@ -3,6 +3,7 @@ const bot = new Discord.Client();
 const prefix = "$";
 const dictKey = process.env.DICT_TOKEN;
 const thesKey = process.env.THES_TOKEN;
+let https = require('https');
 
 bot.on('ready', () => {
   console.log('I am ready!');
@@ -105,18 +106,26 @@ function printMsg(entries, json, type) {
 }
 
 function apiRequest(url, type, callback) {
-  let xhttp = new XMLHttpRequest(); // opens html request
-  xhttp.onreadystatechange = function() { // waits until an xml is returned
-    if (this.readyState == 4 && this.status == 200) {
-      let json = getJSON(this);
-      console.log("got json");
-      callback(json, type);
-    }
-  };
-  xhttp.open("GET", url, true); // opens request
-  xhttp.setRequestHeader("Accept", "text/xml");
-  xhttp.send(); //starts request
+  let req = https.request(url, (resp) => {
+    let data = '';
+  });
+  req.on('data', (chunk) => {
+    data += chunk;
+    console.log(data);
+  });
+  req.end();
 }
+//   let xhttp = new XMLHttpRequest(); // opens html request
+//   xhttp.onreadystatechange = function() { // waits until an xml is returned
+//     if (this.readyState == 4 && this.status == 200) {
+//       let json = getJSON(this);
+//       console.log("got json");
+//       callback(json, type);
+//     }
+//   };
+//   xhttp.open("GET", url, true); // opens request
+//   xhttp.send(); //starts request
+// }
 
 function getJSON(xml) {
   let xmlDoc = new DOMParser().parseFromString(xml.responseText, 'text/xml');
