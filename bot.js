@@ -20,7 +20,8 @@ bot.on('message', message => {
   } else if (message.content.startsWith(prefix + "lmgtfy")) {
     message.channel.send("http://lmgtfy.com/?q=" + message.content.substr(8).replace(/ /g, "%20"));
   } else if (message.content.startsWith(prefix + "define")) {
-    let query = message.content.substr(8).trim().replace(/ /g, "_").lowercased();
+    let query = message.content.substr(8).trim().replace(/ /g, "_").toLowerCase();
+    console.log(query);
     let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/ + ${query} +?key= + ${dictKey}`;
     apiRequest(url, "dict", dictionary);
   }
