@@ -25,7 +25,7 @@ bot.on('message', message => {
     let query = message.content.substr(8).trim().replace(/ /g, "_").toLowerCase();
     let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${query}?key=${dictKey}`;
     console.log(url);
-    apiRequest(url, "dict", dictionary);
+    apiRequest(url, "dict", message, dictionary);
   } else if (message.content.startsWith(prefix + "this bot sucks")) {
     message.channel.send("No it doesn't");
   }
@@ -41,7 +41,7 @@ bot.on('message', message => {
 
 bot.login(process.env.BOT_TOKEN);
 
-function dictionary(json, type) {
+function dictionary(json, type, message) {
   let entries = [];
   for (let i in json.entry) {
     for (let j of json.entry[i].def) {
@@ -56,7 +56,7 @@ function dictionary(json, type) {
       }
     }
   }
-  message.send("Something Something.... Im trying my best here hold on");//entries.join(""));
+  message.channel.send("Something Something.... Im trying my best here hold on"); //entries.join(""));
   // let embed = printMsg(entries, json, type);
 }
 
@@ -107,15 +107,14 @@ function printMsg(entries, json, type) {
   return obj;
 }
 
-function apiRequest(url, type, callback) {
+function apiRequest(url, type, message, callback) {
   https.get(url, res => {
     let data = '';
     res.on('data', chunk => {
       data += chunk;
     });
     res.on("end", () => {
-      console.log(data);
-      let json = getJSON(data, type, callback);
+      let json = getJSON(data, type, message, callback);
     });
   });
 }
@@ -131,10 +130,10 @@ function apiRequest(url, type, callback) {
 //   xhttp.send(); //starts request
 // }
 
-function getJSON(xml, type, callback) {
+function getJSON(xml, type, message, callback) {
   let parser = new xml2js.Parser();
   parser.parseString(xml, function(err, result) {
     let json = result.entry_list;
-    callback(json, type);
+    callback(json, type, message);
   });
 }
