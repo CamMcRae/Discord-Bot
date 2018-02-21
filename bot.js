@@ -55,7 +55,7 @@ function dictionary(json, type) {
       }
     }
   }
-  message.send(entries.join(""));
+  message.send("Something Something.... Im trying my best here hold on");//entries.join(""));
   // let embed = printMsg(entries, json, type);
 }
 
