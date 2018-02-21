@@ -113,6 +113,7 @@ function apiRequest(url, type, callback) {
       data += chunk;
     });
     res.on("end", () => {
+      console.log(data);
       let json = getJSON(data, type, callback);
     });
   });
