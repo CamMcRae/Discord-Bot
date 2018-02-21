@@ -24,6 +24,7 @@ bot.on('message', message => {
   } else if (message.content.startsWith(prefix + "define")) {
     let query = message.content.substr(8).trim().replace(/ /g, "_").toLowerCase();
     let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/ + ${query} +?key= + ${dictKey}`;
+    console.log(url);
     apiRequest(url, "dict", dictionary);
   } else if (message.content.startsWith(prefix + "this bot sucks")) {
     message.channel.send("No it doesn't");
