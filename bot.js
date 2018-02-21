@@ -22,7 +22,6 @@ bot.on('message', message => {
     message.channel.send("http://lmgtfy.com/?q=" + message.content.substr(8).replace(/ /g, "%20"));
   } else if (message.content.startsWith(prefix + "define")) {
     let query = message.content.substr(8).trim().replace(/ /g, "_").toLowerCase();
-    console.log(query);
     let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/ + ${query} +?key= + ${dictKey}`;
     apiRequest(url, "dict", dictionary);
   } else if (message.content === (prefix + "this bot sucks ass")) {
@@ -41,21 +40,22 @@ bot.on('message', message => {
 bot.login(process.env.BOT_TOKEN);
 
 function dictionary(json, type) {
-  console.log("dictStart");
   let entries = [];
   for (let i in json.entry) {
-    for (let j of json.entry[i].def.dt) {
-      if (j.sx) {
+    for (let j of json.entry[i].def) {
+      if (j.dt[0].sx) {
         break;
       } else {
-        entries.push(" - ");
-        entries.push(j["#text"].slice(1));
-        entries.push("\n");
+      for (k of j.dt) {
+          entries.push(" - ");
+          entries.push(k.slice(1));
+          entries.push("\n");
+        }
       }
     }
   }
-  let embed = printMsg(entries, json, type);
-  console.log("dictEnd");
+  message.send(entries.join(""));
+  // let embed = printMsg(entries, json, type);
 }
 
 
@@ -106,14 +106,15 @@ function printMsg(entries, json, type) {
 }
 
 function apiRequest(url, type, callback) {
-  let req = https.request(url, (resp) => {
+  https.get(url, res => {
     let data = '';
+    res.on('data', chunk => {
+      data += chunk;
+    });
+    res.on("end", () => {
+      let json = getJSON(data, type, callback);
+    });
   });
-  req.on('data', (chunk) => {
-    data += chunk;
-    console.log(data + "data");
-  });
-  req.end();
 }
 //   let xhttp = new XMLHttpRequest(); // opens html request
 //   xhttp.onreadystatechange = function() { // waits until an xml is returned
@@ -127,44 +128,11 @@ function apiRequest(url, type, callback) {
 //   xhttp.send(); //starts request
 // }
 
-function getJSON(xml) {
-  let xmlDoc = new DOMParser().parseFromString(xml.responseText, 'text/xml');
-  let x = xmlDoc.getElementsByTagName('entry_list')[0];
-  let json = xmlToJson(x);
-  return json;
+function getJSON(xml, type, callback) {
+  let parser = new xml2js.Parser();
+  // fs.readFile(xml, function(err, data) {
+  parser.parseString(xml, function(err, result) {
+    let json = result.entry_list;
+    callback(json, type);
+  });
 }
-
-function xmlToJson(xml) {
-  var obj = {};
-  if (xml.nodeType == 1) { // element
-    // do attributes
-    if (xml.attributes.length > 0) {
-      obj["attributes"] = {};
-      for (var j = 0; j < xml.attributes.length; j++) {
-        var attribute = xml.attributes.item(j);
-        obj["attributes"][attribute.nodeName] = attribute.nodeValue;
-      }
-    }
-  } else if (xml.nodeType == 3) { // text
-    obj = xml.nodeValue;
-  }
-
-  // do children
-  if (xml.hasChildNodes()) {
-    for (var i = 0; i < xml.childNodes.length; i++) {
-      var item = xml.childNodes.item(i);
-      var nodeName = item.nodeName;
-      if (typeof(obj[nodeName]) == "undefined") {
-        obj[nodeName] = xmlToJson(item);
-      } else {
-        if (typeof(obj[nodeName].push) == "undefined") {
-          var old = obj[nodeName];
-          obj[nodeName] = [];
-          obj[nodeName].push(old);
-        }
-        obj[nodeName].push(xmlToJson(item));
-      }
-    }
-  }
-  return obj;
-};
