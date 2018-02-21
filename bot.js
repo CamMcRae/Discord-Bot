@@ -111,7 +111,7 @@ function apiRequest(url, type, callback) {
   });
   req.on('data', (chunk) => {
     data += chunk;
-    console.log(data);
+    console.log(data + "data");
   });
   req.end();
 }
