@@ -84,6 +84,8 @@ function printMsg(entries, json, type) {
   };
   switch (type) {
     case "dict": //dictionary entry
+    console.log(json);
+    console.log(entries);
       let word = json.entry[0].ew["#text"];
       console.log(word);
       obj.embed.title = "Definitions for:";
