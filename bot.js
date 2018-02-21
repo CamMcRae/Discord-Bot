@@ -24,7 +24,6 @@ bot.on('message', message => {
   } else if (message.content.startsWith(prefix + "define")) {
     let query = message.content.substr(8).trim().replace(/ /g, "_").toLowerCase();
     let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${query}?key=${dictKey}`;
-    console.log(url);
     apiRequest(url, "dict", message, dictionary);
   } else if (message.content.startsWith(prefix + "this bot sucks")) {
     message.channel.send("No it doesn't");
@@ -71,8 +70,8 @@ function printMsg(entries, json, type) {
         url: "https://cdn.discordapp.com/embed/avatars/0.png"
       },
       author: {
-        name: client.user.username,
-        icon_url: client.user.avatarURL
+        name: bot.user.username,
+        icon_url: bot.user.avatarURL
       },
       footer: {
         icon_url: "https://cdn.discordapp.com/embed/avatars/0.png"
