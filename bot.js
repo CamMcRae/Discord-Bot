@@ -1,9 +1,10 @@
 const Discord = require('discord.js');
+const xml2js = require('xml2js');
+const https = require('https');
 const bot = new Discord.Client();
 const prefix = "$";
 const dictKey = process.env.DICT_TOKEN;
 const thesKey = process.env.THES_TOKEN;
-let https = require('https');
 
 bot.on('ready', () => {
   console.log('I am ready!');
@@ -130,7 +131,6 @@ function apiRequest(url, type, callback) {
 
 function getJSON(xml, type, callback) {
   let parser = new xml2js.Parser();
-  // fs.readFile(xml, function(err, data) {
   parser.parseString(xml, function(err, result) {
     let json = result.entry_list;
     callback(json, type);
