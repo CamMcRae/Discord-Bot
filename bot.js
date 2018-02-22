@@ -68,7 +68,8 @@ function dictionary(json, type, message) {
       } else {
         console.log(j.dt);
         for (k of j.dt) {
-          try (k.slice(1)) {
+          try {
+            k.slice(1);
             entries.push(" - ");
             entries.push(k.slice(1));
             entries.push("\n");
