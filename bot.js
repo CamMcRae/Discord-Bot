@@ -81,7 +81,6 @@ function dictionary(json, type, message) {
 
 // goes through json for dictionary entries
 function printMsg(entries, json, type) {
-  console.log("printmsg");
   let obj = {
     embed: {
       thumbnail: {
@@ -105,7 +104,8 @@ function printMsg(entries, json, type) {
       let word = json.entry[0].ew.join("");
       console.log(word);
       obj.embed.title = "Definitions for:";
-      obj.embed.description = "["word.charAt(0).toUpperCase() + word.slice(1)"](http://www.dictionary.com/browse/" + word + "?s=t)";
+      let desc = "[" + word.charAt(0).toUpperCase() + word.slice(1) + "](http://www.dictionary.com/browse/" + word + "?s=t)";
+      obj.embed.description = desc;
       obj.embed.color = 3447003;
       obj.embed.text = word.charAt(0).toUpperCase() + word.slice(1);
       if (entries.length > 0) {
