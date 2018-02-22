@@ -28,16 +28,16 @@ bot.on('message', message => {
     } else if (message.content.startsWith(prefix + "link")) {
       mainChannel = message.channel;
     } else if (message.content.startsWith(prefix + "prefix")) {
-      if (message.author.hasPermission(ADMINISTRATOR) && message.content.substr(7).trim().length == 1){
+      if (message.author.hasPermission(ADMINISTRATOR) && message.content.substr(7).trim().length == 1) {
         prefix = message.content.substr(7).trim();
       }
-
     }
   } else {
     if (message.content === 'ping') {
       message.channel.send('pong');
     } else if (message.content === 'pong') {
       message.channel.send('hah you suck');
+    }
   }
   //else if (message.content.startsWith(prefix + "thesaurus")) {
   //   let query = message.content.substr(8, len(message.content.trim() - 2)).trim().replace(/ /g, "_").lowercased();
@@ -47,7 +47,6 @@ bot.on('message', message => {
   //     break;
   //   }
 });
-
 
 bot.login(process.env.BOT_TOKEN);
 
