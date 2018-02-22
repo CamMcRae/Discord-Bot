@@ -102,7 +102,7 @@ function printMsg(entries, json, type) {
   };
   switch (type) {
     case "dict": //dictionary entry
-      let word = json.entry[0].ew;
+      let word = json.entry[0].ew.join("");
       console.log(word);
       obj.embed.title = "Definitions for:";
       obj.embed.description = "[word.charAt(0).toUpperCase() + word.slice(1)](http://www.dictionary.com/browse/ + word + ?s=t)";
