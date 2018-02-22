@@ -67,6 +67,7 @@ function dictionary(json, type, message) {
         break;
       } else {
         for (k of j.dt) {
+          console.log(k);
           entries.push(" - ");
           entries.push(k.slice(1));
           entries.push("\n");
