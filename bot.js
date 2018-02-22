@@ -14,155 +14,156 @@ bot.on('ready', () => {
 });
 
 bot.on('message', message => {
-  if (message.author.bot) return;
-  const query = message.content.slice(prefix.length).trim().split(/ +/g);
-  const command = query.shift().toLowerCase();
-  if (message.content.startsWith("$")) {
-    switch (command) {
-      case "restrict":
-        message.channel.send('wat');
-        break;
-      case "lmgtfy":
-        message.channel.send("http://lmgtfy.com/?q=" + message.content.substr(8).replace(/ /g, "%20"));
-        break;
-      case "define":
-        let dictSearchQuery = query.join(" ").toLowerCase();
-        let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${dictSearchQuery}?key=${dictKey}`;
-        apiRequest(url, "dict", message, dictionary);
-        break;
-      case "thesaurus":
-        let thesSearchQuery = query.join(" ").toLowerCase();
-        apiRequest(url, "thes", message, thesaurus);
-        // thesaurus
-        break;
-      case "this bot sucks":
-        message.channel.send("No it doesn't");
-        break;
-      case "link":
-        config.mainId = message.channel;
-      case "prefix":
-        if (message.author.id == config.ownerId && query.length == 1) {
-          prefix = query;
-          config.prefix = prefix;
-          message.channel.send("Prefix changed to " + "```" + config.prefix + "```");
+      if (message.author.bot) return;
+      const query = message.content.slice(prefix.length).trim().split(/ +/g);
+      const command = query.shift().toLowerCase();
+      if (message.content.startsWith("$")) {
+        switch (command) {
+          case "restrict":
+            message.channel.send('wat');
+            break;
+          case "lmgtfy":
+            message.channel.send("http://lmgtfy.com/?q=" + message.content.substr(8).replace(/ /g, "%20"));
+            break;
+          case "define":
+            let dictSearchQuery = query.join(" ").toLowerCase();
+            let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${dictSearchQuery}?key=${dictKey}`;
+            apiRequest(url, "dict", message, dictionary);
+            break;
+          case "thesaurus":
+            let thesSearchQuery = query.join(" ").toLowerCase();
+            apiRequest(url, "thes", message, thesaurus);
+            // thesaurus
+            break;
+          case "this bot sucks":
+            message.channel.send("No it doesn't");
+            break;
+          case "link":
+            if (message.author.id == config.ownerId) {
+              config.mainId = message.channel;
+              fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
+            }
+          case "prefix":
+            if (message.author.id == config.ownerId && query.length == 1) {
+              prefix = query;
+              config.prefix = prefix;
+              message.channel.send("Prefix changed to " + "```" + config.prefix + "```");
+              fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
+            }
+            break;
+          case "clean":
+            // go up through bot messages and delete them until 1 day old
+            break;
+        } else {
+          switch (message.content.toLowerCase()) {
+            case "ping":
+              message.channel.send('pong');
+            case "pong":
+              message.channel.send('hah you suck');
+          }
         }
-        break;
-      case "clean":
-        // go up through bot messages and delete them until 1 day old
-        break;
-      default:
-        fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
+      });
+
+    bot.login(process.env.BOT_TOKEN);
+
+    function apiRequest(url, type, message, callback, searchQuery) {
+      https.get(url, res => {
+        let data = '';
+        res.on('data', chunk => {
+          data += chunk;
+        });
+        res.on("end", () => {
+          let json = getJSON(data, type, message, callback);
+        });
+        res.on("error", () => {
+          console.log("nuffin");
+          printMsg([], type, searchQuery);
+        });
+      });
     }
-  } else {
-    switch (message.content.toLowerCase()) {
-      case "ping":
-        message.channel.send('pong');
-      case "pong":
-        message.channel.send('hah you suck');
-    }
-  }
-});
 
-bot.login(process.env.BOT_TOKEN);
+    function dictionary(json, type, message) {
+      let entries = [];
+      for (let i in json.entry) {
+        for (let j of json.entry[i].def) {
+          if (j.dt[0].sx) {
+            break;
+          } else {
+            for (k of j.dt) {
+              try {
+                k.substring(k.indexOf(":") + 1);
+                entries.push(" - ");
+                entries.push(k.substring(k.indexOf(":") + 1));
+                entries.push("\n");
+              } catch (e) {
 
-function apiRequest(url, type, message, callback, searchQuery) {
-  https.get(url, res => {
-    let data = '';
-    res.on('data', chunk => {
-      data += chunk;
-    });
-    res.on("end", () => {
-      let json = getJSON(data, type, message, callback);
-    });
-    res.on("error", () => {
-      console.log("nuffin");
-      printMsg([], type, searchQuery);
-    });
-  });
-}
-
-function dictionary(json, type, message) {
-  let entries = [];
-  for (let i in json.entry) {
-    for (let j of json.entry[i].def) {
-      if (j.dt[0].sx) {
-        break;
-      } else {
-        for (k of j.dt) {
-          try {
-            k.substring(k.indexOf(":") + 1);
-            entries.push(" - ");
-            entries.push(k.substring(k.indexOf(":") + 1));
-            entries.push("\n");
-          } catch (e) {
-
+              }
+            }
           }
         }
       }
+      // message.channel.send("Something Something.... Im trying my best here hold on"); //entries.join(""));
+      let embed = printMsg(entries, type, null, json);
+      message.channel.send(embed);
     }
-  }
-  // message.channel.send("Something Something.... Im trying my best here hold on"); //entries.join(""));
-  let embed = printMsg(entries, type, null, json);
-  message.channel.send(embed);
-}
 
-// goes through json for dictionary entries
-function printMsg(entries, type, searchQuery, json) {
-  let obj = {
-    embed: {
-      thumbnail: {
-        url: "https://cdn.discordapp.com/embed/avatars/0.png"
-      },
-      author: {
-        name: bot.user.username,
-        icon_url: bot.user.avatarURL
-      },
-      footer: {
-        icon_url: "https://cdn.discordapp.com/embed/avatars/0.png"
-      },
-      timestamp: new Date(),
-      fields: [{
-        name: "Entries"
-      }]
+    // goes through json for dictionary entries
+    function printMsg(entries, type, searchQuery, json) {
+      let obj = {
+        embed: {
+          thumbnail: {
+            url: "https://cdn.discordapp.com/embed/avatars/0.png"
+          },
+          author: {
+            name: bot.user.username,
+            icon_url: bot.user.avatarURL
+          },
+          footer: {
+            icon_url: "https://cdn.discordapp.com/embed/avatars/0.png"
+          },
+          timestamp: new Date(),
+          fields: [{
+            name: "Entries"
+          }]
+        }
+      };
+      switch (type) {
+        case "dict": //dictionary entry
+          let word = (searchQuery ? searchQuery : json.entry[0].ew.join(""));
+          obj.embed.title = "Definitions for:";
+          let dictDesc = "[" + word.charAt(0).toUpperCase() + word.slice(1) + "](http://www.dictionary.com/browse/" + word + "?s=t)";
+          obj.embed.description = dictDesc;
+          obj.embed.color = 3447003;
+          obj.embed.footer.text = word.charAt(0).toUpperCase() + word.slice(1);
+          if (entries.length > 0) {
+            obj.embed.fields[0].value = entries.join("");
+          } else {
+            obj.embed.fields[0].name = "No entries found for " + word;
+            obj.embed.fields[0].value = "\u200b";
+          }
+          break;
+        case "thes":
+          let word2 = (searchQuery ? searchQuery : json.entry[0].ew.join(""));
+          obj.embed.title = "Synonyms for:";
+          let thesDesc = "[" + word.charAt(0).toUpperCase() + word.slice(1) + "](http://www.thesaurus.com/browse/" + word + "?s=ts)";
+          obj.embed.description = thesDesc;
+          obj.embed.color = 15105570;
+          obj.embed.footer.text = word.charAt(0).toUpperCase() + word.slice(1);
+          if (entries.length > 0) {
+            obj.embed.fields[0].value = entries.join("");
+          } else {
+            obj.embed.fields[0].name = "No entries found for " + word2;
+            obj.embed.fields[0].value = "\u200b";
+          }
+          break;
+      }
+      return obj;
     }
-  };
-  switch (type) {
-    case "dict": //dictionary entry
-      let word = (searchQuery ? searchQuery : json.entry[0].ew.join(""));
-      obj.embed.title = "Definitions for:";
-      let dictDesc = "[" + word.charAt(0).toUpperCase() + word.slice(1) + "](http://www.dictionary.com/browse/" + word + "?s=t)";
-      obj.embed.description = dictDesc;
-      obj.embed.color = 3447003;
-      obj.embed.footer.text = word.charAt(0).toUpperCase() + word.slice(1);
-      if (entries.length > 0) {
-        obj.embed.fields[0].value = entries.join("");
-      } else {
-        obj.embed.fields[0].name = "No entries found for " + word;
-        obj.embed.fields[0].value = "\u200b";
-      }
-      break;
-    case "thes":
-      let word2 = (searchQuery ? searchQuery : json.entry[0].ew.join(""));
-      obj.embed.title = "Synonyms for:";
-      let thesDesc = "[" + word.charAt(0).toUpperCase() + word.slice(1) + "](http://www.thesaurus.com/browse/" + word + "?s=ts)";
-      obj.embed.description = thesDesc;
-      obj.embed.color = 15105570;
-      obj.embed.footer.text = word.charAt(0).toUpperCase() + word.slice(1);
-      if (entries.length > 0) {
-        obj.embed.fields[0].value = entries.join("");
-      } else {
-        obj.embed.fields[0].name = "No entries found for " + word2;
-        obj.embed.fields[0].value = "\u200b";
-      }
-      break;
-  }
-  return obj;
-}
 
-function getJSON(xml, type, message, callback) {
-  let parser = new xml2js.Parser();
-  parser.parseString(xml, function(err, result) {
-    let json = result.entry_list;
-    callback(json, type, message);
-  });
-}
+    function getJSON(xml, type, message, callback) {
+      let parser = new xml2js.Parser();
+      parser.parseString(xml, function(err, result) {
+        let json = result.entry_list;
+        callback(json, type, message);
+      });
+    }
