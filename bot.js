@@ -4,7 +4,7 @@ const https = require('https');
 const fs = require("fs");
 const bot = new Discord.Client();
 const config = require("./config.json");
-const prefix = config.prefix;
+let prefix = config.prefix;
 const dictKey = process.env.DICT_TOKEN;
 const thesKey = process.env.THES_TOKEN;
 
