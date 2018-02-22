@@ -41,7 +41,7 @@ bot.on('message', message => {
       case "link":
         config.mainId = message.channel;
       case "prefix":
-        if (message.author.id == config.userId && query.length == 1) {
+        if (message.author.id == config.ownerId && query.length == 1) {
           prefix = config.prefix = query;
         }
         break;
