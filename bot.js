@@ -1,11 +1,12 @@
 const Discord = require('discord.js');
 const xml2js = require('xml2js');
 const https = require('https');
+const fs = require("fs");
 const bot = new Discord.Client();
-const prefix = "$";
+const config = require("./config.json");
+const prefix = config.prefix;
 const dictKey = process.env.DICT_TOKEN;
 const thesKey = process.env.THES_TOKEN;
-const mainChannel = null;
 
 bot.on('ready', () => {
   console.log('I am ready!');
@@ -38,15 +39,17 @@ bot.on('message', message => {
         message.channel.send("No it doesn't");
         break;
       case "link":
-        mainChannel = message.channel;
+        config.mainId = message.channel;
       case "prefix":
-        if (message.author.hasPermission("ADMINISTRATOR") && query.length == 1) {
-          prefix = query;
+        if (message.author.id == config.userId && query.length == 1) {
+          prefix = config.prefix = query;
         }
         break;
       case "clean":
         // go up through bot messages and delete them until 1 day old
         break;
+      default:
+        fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
     }
   } else {
     switch (message.content.toLowerCase()) {
