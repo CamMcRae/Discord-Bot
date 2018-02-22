@@ -25,12 +25,12 @@ bot.on('message', message => {
         message.channel.send("http://lmgtfy.com/?q=" + message.content.substr(8).replace(/ /g, "%20"));
         break;
       case "define":
-        let searchQuery = query.join(" ").toLowerCase();
-        let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${searchQuery}?key=${dictKey}`;
+        let dictSearchQuery = query.join(" ").toLowerCase();
+        let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${dictSearchQuery}?key=${dictKey}`;
         apiRequest(url, "dict", message, dictionary);
         break;
       case "thesaurus":
-        let searchQuery = query.join(" ").toLowerCase();
+        let thesSearchQuery = query.join(" ").toLowerCase();
         // thesaurus
         break;
       case "this bot sucks":
