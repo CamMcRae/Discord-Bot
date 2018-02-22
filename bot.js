@@ -15,7 +15,7 @@ bot.on('ready', () => {
 bot.on('message', message => {
   if (message.author.bot) return;
   const query = message.content.slice(prefix.length).trim().split(/ +/g);
-  const command = args.shift().toLowerCase();
+  const command = query.shift().toLowerCase();
   switch (command) {
     case "restrict":
       message.channel.send('wat');
