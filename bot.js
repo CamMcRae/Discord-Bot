@@ -74,7 +74,7 @@ function dictionary(json, type, message) {
       }
     }
   }
-  message.channel.send("Something Something.... Im trying my best here hold on"); //entries.join(""));
+  // message.channel.send("Something Something.... Im trying my best here hold on"); //entries.join(""));
   let embed = printMsg(entries, json, type);
   message.channel.send(embed);
 }
@@ -105,7 +105,7 @@ function printMsg(entries, json, type) {
       let word = json.entry[0].ew.join("");
       console.log(word);
       obj.embed.title = "Definitions for:";
-      obj.embed.description = "[word.charAt(0).toUpperCase() + word.slice(1)](http://www.dictionary.com/browse/ + word + ?s=t)";
+      obj.embed.description = "["word.charAt(0).toUpperCase() + word.slice(1)"](http://www.dictionary.com/browse/" + word + "?s=t)";
       obj.embed.color = 3447003;
       obj.embed.text = word.charAt(0).toUpperCase() + word.slice(1);
       if (entries.length > 0) {
