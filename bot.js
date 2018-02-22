@@ -68,9 +68,9 @@ function dictionary(json, type, message) {
       } else {
         for (k of j.dt) {
           try {
-            k.slice(1);
+            k.substring(k.indexOf(":") + 1);
             entries.push(" - ");
-            entries.push(k.slice(1));
+            entries.push(k.substring(k.indexOf(":") + 1));
             entries.push("\n");
           } catch (e) {
 
