@@ -9,7 +9,7 @@ const mainChannel = null;
 
 bot.on('ready', () => {
   console.log('I am ready!');
-  bot.user.setUsername("Bot Dude");
+  // bot.user.setUsername("Bot Dude");
 });
 
 bot.on('message', message => {
@@ -27,10 +27,11 @@ bot.on('message', message => {
       case "define":
         let dictSearchQuery = query.join(" ").toLowerCase();
         let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${dictSearchQuery}?key=${dictKey}`;
-        apiRequest(url, "dict", message, dictionary);
+        apiRequest(url, "dict", message, dictSearchQuery, dictionary);
         break;
       case "thesaurus":
         let thesSearchQuery = query.join(" ").toLowerCase();
+        apiRequest(url, "thes", message, thesSearchQuery, thesaurus);
         // thesaurus
         break;
       case "this bot sucks":
@@ -59,6 +60,22 @@ bot.on('message', message => {
 
 bot.login(process.env.BOT_TOKEN);
 
+function apiRequest(url, type, message, callback, searchQuery) {
+  https.get(url, res => {
+    let data = '';
+    res.on('data', chunk => {
+      data += chunk;
+    });
+    res.on("end", () => {
+      let json = getJSON(data, type, message, callback);
+    });
+    res.on("error", () => {
+      console.log("nuffin");
+      printMsg([], type, searchQuery);
+    });
+  });
+}
+
 function dictionary(json, type, message) {
   let entries = [];
   for (let i in json.entry) {
@@ -80,16 +97,16 @@ function dictionary(json, type, message) {
     }
   }
   // message.channel.send("Something Something.... Im trying my best here hold on"); //entries.join(""));
-  let embed = printMsg(entries, json, type);
+  let embed = printMsg(entries, type, null, json);
   message.channel.send(embed);
 }
 
 // goes through json for dictionary entries
-function printMsg(entries, json, type) {
+function printMsg(entries, type, searchQuery, json) {
   let obj = {
     embed: {
       thumbnail: {
-        url: "https://dictionary.com"
+        url: "https://cdn.discordapp.com/embed/avatars/0.png"
       },
       author: {
         name: bot.user.username,
@@ -106,7 +123,7 @@ function printMsg(entries, json, type) {
   };
   switch (type) {
     case "dict": //dictionary entry
-      let word = json.entry[0].ew.join("");
+      let word = json.entry[0].ew.join("") || searchQuery;
       obj.embed.title = "Definitions for:";
       let desc = "[" + word.charAt(0).toUpperCase() + word.slice(1) + "](http://www.dictionary.com/browse/" + word + "?s=t)";
       obj.embed.description = desc;
@@ -115,31 +132,26 @@ function printMsg(entries, json, type) {
       if (entries.length > 0) {
         obj.embed.fields[0].value = entries.join("");
       } else {
-        obj.embed.fields[0].name = "No entries found for " + dictSearchQuery;
+        obj.embed.fields[0].name = "No entries found for " + word;
         obj.embed.fields[0].value = "\u200b";
       }
       break;
     case "thes":
-      let word2 = json.entry[0].ew["#text"];
+      let word2 = json.entry[0].ew.join("") || searchQuery;
       obj.embed.title = "Synonyms for:";
-      obj.embed.description = "[word.charAt(0).toUpperCase() + word.slice(1)](http://www.dictionary.com/browse/ + word + ?s=t)";
+      let desc = "[" + word.charAt(0).toUpperCase() + word.slice(1) + "](http://www.thesaurus.com/browse/" + word + "?s=ts)";
+      obj.embed.description = desc;
       obj.embed.color = 15105570;
-      obj.embed.text = word.charAt(0).toUpperCase() + word.slice(1);
+      obj.embed.footer.text = word.charAt(0).toUpperCase() + word.slice(1);
+      if (entries.length > 0) {
+        obj.embed.fields[0].value = entries.join("");
+      } else {
+        obj.embed.fields[0].name = "No entries found for " + word2;
+        obj.embed.fields[0].value = "\u200b";
+      }
       break;
   }
   return obj;
-}
-
-function apiRequest(url, type, message, callback) {
-  https.get(url, res => {
-    let data = '';
-    res.on('data', chunk => {
-      data += chunk;
-    });
-    res.on("end", () => {
-      let json = getJSON(data, type, message, callback);
-    });
-  });
 }
 
 function getJSON(xml, type, message, callback) {
