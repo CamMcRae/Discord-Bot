@@ -125,8 +125,8 @@ function printMsg(entries, type, searchQuery, json) {
     case "dict": //dictionary entry
       let word = json.entry[0].ew.join("") || searchQuery;
       obj.embed.title = "Definitions for:";
-      let desc = "[" + word.charAt(0).toUpperCase() + word.slice(1) + "](http://www.dictionary.com/browse/" + word + "?s=t)";
-      obj.embed.description = desc;
+      let dictDesc = "[" + word.charAt(0).toUpperCase() + word.slice(1) + "](http://www.dictionary.com/browse/" + word + "?s=t)";
+      obj.embed.description = dictDesc;
       obj.embed.color = 3447003;
       obj.embed.footer.text = word.charAt(0).toUpperCase() + word.slice(1);
       if (entries.length > 0) {
@@ -139,8 +139,8 @@ function printMsg(entries, type, searchQuery, json) {
     case "thes":
       let word2 = json.entry[0].ew.join("") || searchQuery;
       obj.embed.title = "Synonyms for:";
-      let desc = "[" + word.charAt(0).toUpperCase() + word.slice(1) + "](http://www.thesaurus.com/browse/" + word + "?s=ts)";
-      obj.embed.description = desc;
+      let thesDesc = "[" + word.charAt(0).toUpperCase() + word.slice(1) + "](http://www.thesaurus.com/browse/" + word + "?s=ts)";
+      obj.embed.description = thesDesc;
       obj.embed.color = 15105570;
       obj.embed.footer.text = word.charAt(0).toUpperCase() + word.slice(1);
       if (entries.length > 0) {
