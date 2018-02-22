@@ -5,6 +5,7 @@ const bot = new Discord.Client();
 const prefix = "$";
 const dictKey = process.env.DICT_TOKEN;
 const thesKey = process.env.THES_TOKEN;
+const mainChannel;
 
 bot.on('ready', () => {
   console.log('I am ready!');
@@ -12,21 +13,31 @@ bot.on('ready', () => {
 });
 
 bot.on('message', message => {
-  if (message.content.startsWith(prefix + "restrict") && message.auther.hasPermission("ADMINISTRATOR")) {
-    message.channel.send('wat');
-    // message.author.voiceChannel.setUserLimit(message.content.substr(10));
-  } else if (message.content === 'ping') {
-    message.channel.send('pong');
-  } else if (message.content === 'pong') {
-    message.channel.send('hah you suck');
-  } else if (message.content.startsWith(prefix + "lmgtfy")) {
-    message.channel.send("http://lmgtfy.com/?q=" + message.content.substr(8).replace(/ /g, "%20"));
-  } else if (message.content.startsWith(prefix + "define")) {
-    let query = message.content.substr(8).trim().replace(/ /g, "_").toLowerCase();
-    let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${query}?key=${dictKey}`;
-    apiRequest(url, "dict", message, dictionary);
-  } else if (message.content.startsWith(prefix + "this bot sucks")) {
-    message.channel.send("No it doesn't");
+  if (message.content.startsWith(prefix)) {
+    if (message.content.startsWith(prefix + "restrict") && message.auther.hasPermission("ADMINISTRATOR")) {
+      message.channel.send('wat');
+      // message.author.voiceChannel.setUserLimit(message.content.substr(10));
+    } else if (message.content.startsWith(prefix + "lmgtfy")) {
+      message.channel.send("http://lmgtfy.com/?q=" + message.content.substr(8).replace(/ /g, "%20"));
+    } else if (message.content.startsWith(prefix + "define")) {
+      let query = message.content.substr(8).trim().replace(/ /g, "_").toLowerCase();
+      let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${query}?key=${dictKey}`;
+      apiRequest(url, "dict", message, dictionary);
+    } else if (message.content.startsWith(prefix + "this bot sucks")) {
+      message.channel.send("No it doesn't");
+    } else if (message.content.startsWith(prefix + "link")) {
+      mainChannel = message.channel;
+    } else if (message.content.startsWith(prefix + "prefix")) {
+      if (message.author.hasPermission(ADMINISTRATOR) && message.content.substr(7).trim().length == 1){
+        prefix = message.content.substr(7).trim();
+      }
+
+    }
+  } else {
+    if (message.content === 'ping') {
+      message.channel.send('pong');
+    } else if (message.content === 'pong') {
+      message.channel.send('hah you suck');
   }
   //else if (message.content.startsWith(prefix + "thesaurus")) {
   //   let query = message.content.substr(8, len(message.content.trim() - 2)).trim().replace(/ /g, "_").lowercased();
@@ -85,8 +96,8 @@ function printMsg(entries, json, type) {
   };
   switch (type) {
     case "dict": //dictionary entry
-    console.log(json);
-    console.log(entries);
+      console.log(json);
+      console.log(entries);
       let word = json.entry[0].ew["#text"];
       console.log(word);
       obj.embed.title = "Definitions for:";
