@@ -27,11 +27,11 @@ bot.on('message', message => {
       case "define":
         let dictSearchQuery = query.join(" ").toLowerCase();
         let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${dictSearchQuery}?key=${dictKey}`;
-        apiRequest(url, "dict", message, dictSearchQuery, dictionary);
+        apiRequest(url, "dict", message, dictionary);
         break;
       case "thesaurus":
         let thesSearchQuery = query.join(" ").toLowerCase();
-        apiRequest(url, "thes", message, thesSearchQuery, thesaurus);
+        apiRequest(url, "thes", message, thesaurus);
         // thesaurus
         break;
       case "this bot sucks":
