@@ -66,7 +66,6 @@ function dictionary(json, type, message) {
       if (j.dt[0].sx) {
         break;
       } else {
-        console.log(j.dt);
         for (k of j.dt) {
           try {
             k.slice(1);
