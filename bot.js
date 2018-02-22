@@ -13,32 +13,64 @@ bot.on('ready', () => {
 });
 
 bot.on('message', message => {
-  if (message.content.startsWith(prefix)) {
-    if (message.content.startsWith(prefix + "restrict") && message.auther.hasPermission("ADMINISTRATOR")) {
+  if (message.author.bot) return;
+  const query = message.content.slice(prefix.length).trim().split(/ +/g);
+  const command = args.shift().toLowerCase();
+  switch (command) {
+    case "restrict":
       message.channel.send('wat');
-      // message.author.voiceChannel.setUserLimit(message.content.substr(10));
-    } else if (message.content.startsWith(prefix + "lmgtfy")) {
+      break;
+    case "lmgtfy":
       message.channel.send("http://lmgtfy.com/?q=" + message.content.substr(8).replace(/ /g, "%20"));
-    } else if (message.content.startsWith(prefix + "define")) {
-      let query = message.content.substr(8).trim().replace(/ /g, "_").toLowerCase();
-      let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${query}?key=${dictKey}`;
+      break;
+    case "define":
+      let searchQuery = query.join(" ").toLowerCase();
+      let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${searchQuery}?key=${dictKey}`;
       apiRequest(url, "dict", message, dictionary);
-    } else if (message.content.startsWith(prefix + "this bot sucks")) {
+      break;
+    case "this bot sucks":
       message.channel.send("No it doesn't");
-    } else if (message.content.startsWith(prefix + "link")) {
+      break;
+    case "link":
       mainChannel = message.channel;
-    } else if (message.content.startsWith(prefix + "prefix")) {
-      if (message.author.hasPermission(ADMINISTRATOR) && message.content.substr(7).trim().length == 1) {
-        prefix = message.content.substr(7).trim();
+    case "prefix":
+      if (message.author.hasPermission("ADMINISTRATOR") && query.length == 1) {
+        prefix = query;
       }
-    }
-  } else {
-    if (message.content === 'ping') {
-      message.channel.send('pong');
-    } else if (message.content === 'pong') {
-      message.channel.send('hah you suck');
-    }
+      break;
   }
+  switch (message.content) {
+    case "ping":
+      message.channel.send('pong');
+    case "pong":
+      message.channel.send('hah you suck');
+  }
+  // if (command) {
+  //   if (message.content.startsWith(prefix + "restrict") && message.auther.hasPermission("ADMINISTRATOR")) {
+  //     message.channel.send('wat');
+  //     // message.author.voiceChannel.setUserLimit(message.content.substr(10));
+  //   } else if (message.content.startsWith(prefix + "lmgtfy")) {
+  //     message.channel.send("http://lmgtfy.com/?q=" + message.content.substr(8).replace(/ /g, "%20"));
+  //   } else if (message.content.startsWith(prefix + "define")) {
+  //     let query = message.content.substr(8).trim().replace(/ /g, "_").toLowerCase();
+  //     let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${query}?key=${dictKey}`;
+  //     apiRequest(url, "dict", message, dictionary);
+  //   } else if (message.content.startsWith(prefix + "this bot sucks")) {
+  //     message.channel.send("No it doesn't");
+  //   } else if (message.content.startsWith(prefix + "link")) {
+  //     mainChannel = message.channel;
+  //   } else if (message.content.startsWith(prefix + "prefix")) {
+  //     if (message.author.hasPermission("ADMINISTRATOR") && message.content.substr(7).trim().length == 1) {
+  //       prefix = message.content.substr(7).trim();
+  //     }
+  //   }
+  // } else {
+  //   if (message.content === 'ping') {
+  //     message.channel.send('pong');
+  //   } else if (message.content === 'pong') {
+  //     message.channel.send('hah you suck');
+  //   }
+  // }
   //else if (message.content.startsWith(prefix + "thesaurus")) {
   //   let query = message.content.substr(8, len(message.content.trim() - 2)).trim().replace(/ /g, "_").lowercased();
   // } else if (message.content.startsWith(prefix + "clean")) {
