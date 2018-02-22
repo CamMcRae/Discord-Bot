@@ -49,7 +49,7 @@ bot.on('message', message => {
         break;
     }
   } else {
-    switch (message.content) {
+    switch (message.content.toLowerCase()) {
       case "ping":
         message.channel.send('pong');
       case "pong":
@@ -123,7 +123,7 @@ function printMsg(entries, type, searchQuery, json) {
   };
   switch (type) {
     case "dict": //dictionary entry
-      let word = json.entry[0].ew.join("") || searchQuery;
+      let word = (searchQuery ? searchQuery : json.entry[0].ew.join(""));
       obj.embed.title = "Definitions for:";
       let dictDesc = "[" + word.charAt(0).toUpperCase() + word.slice(1) + "](http://www.dictionary.com/browse/" + word + "?s=t)";
       obj.embed.description = dictDesc;
@@ -137,7 +137,7 @@ function printMsg(entries, type, searchQuery, json) {
       }
       break;
     case "thes":
-      let word2 = json.entry[0].ew.join("") || searchQuery;
+      let word2 = (searchQuery ? searchQuery : json.entry[0].ew.join(""));
       obj.embed.title = "Synonyms for:";
       let thesDesc = "[" + word.charAt(0).toUpperCase() + word.slice(1) + "](http://www.thesaurus.com/browse/" + word + "?s=ts)";
       obj.embed.description = thesDesc;
