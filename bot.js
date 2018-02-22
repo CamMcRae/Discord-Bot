@@ -102,9 +102,7 @@ function printMsg(entries, json, type) {
   };
   switch (type) {
     case "dict": //dictionary entry
-      console.log(json.entry[0].ew);
-      let word = json.entry[0].ew["#text"];
-      console.log(word);
+      let word = json.entry[0].ew;
       obj.embed.title = "Definitions for:";
       obj.embed.description = "[word.charAt(0).toUpperCase() + word.slice(1)](http://www.dictionary.com/browse/ + word + ?s=t)";
       obj.embed.color = 3447003;
@@ -112,7 +110,7 @@ function printMsg(entries, json, type) {
       if (entries.length > 0) {
         obj.embed.fields[0].value = entries.join("");
       } else {
-        obj.embed.fields[0].name = "No entries found for " + query;
+        obj.embed.fields[0].name = "No entries found for " + dictSearchQuery;
         obj.embed.fields[0].value = "\u200b";
       }
       break;
