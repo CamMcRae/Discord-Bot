@@ -5,7 +5,7 @@ const bot = new Discord.Client();
 const prefix = "$";
 const dictKey = process.env.DICT_TOKEN;
 const thesKey = process.env.THES_TOKEN;
-const mainChannel;
+const mainChannel = null;
 
 bot.on('ready', () => {
   console.log('I am ready!');
