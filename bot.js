@@ -66,8 +66,8 @@ function dictionary(json, type, message) {
       if (j.dt[0].sx) {
         break;
       } else {
+        console.log(j.dt);
         for (k of j.dt) {
-          console.log(k);
           entries.push(" - ");
           entries.push(k.slice(1));
           entries.push("\n");
@@ -85,7 +85,7 @@ function printMsg(entries, json, type) {
   let obj = {
     embed: {
       thumbnail: {
-        url: "https://cdn.discordapp.com/embed/avatars/0.png"
+        url: "https://dictionary.com"
       },
       author: {
         name: bot.user.username,
