@@ -102,12 +102,11 @@ function printMsg(entries, json, type) {
   switch (type) {
     case "dict": //dictionary entry
       let word = json.entry[0].ew.join("");
-      console.log(word);
       obj.embed.title = "Definitions for:";
       let desc = "[" + word.charAt(0).toUpperCase() + word.slice(1) + "](http://www.dictionary.com/browse/" + word + "?s=t)";
       obj.embed.description = desc;
       obj.embed.color = 3447003;
-      obj.embed.text = word.charAt(0).toUpperCase() + word.slice(1);
+      obj.embed.footer.text = word.charAt(0).toUpperCase() + word.slice(1);
       if (entries.length > 0) {
         obj.embed.fields[0].value = entries.join("");
       } else {
