@@ -42,7 +42,8 @@ bot.on('message', message => {
         config.mainId = message.channel;
       case "prefix":
         if (message.author.id == config.ownerId && query.length == 1) {
-          prefix = config.prefix = query;
+          prefix = query;
+          config.prefix = prefix;
           message.channel.send("Prefix changed to " + "```" + config.prefix + "```");
         }
         break;
