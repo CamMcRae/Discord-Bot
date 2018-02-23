@@ -40,15 +40,23 @@ bot.on('message', message => {
         break;
       case "link":
         if (message.author.id == config.ownerId) {
-          config.mainId = message.channel;
-          fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
+          switch (query) {
+            case "music":
+              config.musicID = message.channel;
+              break;
+            case "main":
+              config.mainId = message.channel;
+              break;
+            default:
+              fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
+          }
         }
       case "prefix":
         if (message.author.id == config.ownerId && query.length == 1) {
-          prefix = query;
-          config.prefix = prefix;
-          message.channel.send("Prefix changed to " + "```" + config.prefix + "```");
+          config.prefix = query;
+          prefix = config.prefix;
           fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
+          message.channel.send("Prefix changed to " + "```" + config.prefix + "```");
         }
         break;
       case "clean":
@@ -87,25 +95,25 @@ function dictionary(json, type, message) {
   let entries = [];
   for (let i in json.entry) {
     for (let j of json.entry[i].def) {
-      if (j.dt[0].sx) {
-        break;
-      } else {
-        for (k of j.dt) {
-          try {
-            k.substring(k.indexOf(":") + 1);
-            entries.push(" - ");
-            entries.push(k.substring(k.indexOf(":") + 1));
-            entries.push("\n");
-          } catch (e) {
-
+      for (k of j.dt) {
+        try {
+          k.substring(k.indexOf(":") + 1);
+          entries.push(" - ");
+          entries.push(k.substring(k.indexOf(":") + 1));
+          if (k.sx) {
+            entries.push(" " + k.sx)
           }
+          entries.push("\n");
+        } catch (e) {
+
         }
       }
     }
   }
-  // message.channel.send("Something Something.... Im trying my best here hold on"); //entries.join(""));
-  let embed = printMsg(entries, type, null, json);
-  message.channel.send(embed);
+}
+// message.channel.send("Something Something.... Im trying my best here hold on"); //entries.join(""));
+let embed = printMsg(entries, type, null, json);
+message.channel.send(embed);
 }
 
 // goes through json for dictionary entries
