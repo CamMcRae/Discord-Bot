@@ -94,25 +94,28 @@ function apiRequest(url, type, message, callback, searchQuery) {
 function dictionary(json, type, message) {
   //goes through json for dictionary entries
   let entries = [];
-  for (let i in json.entry) { // main entry loop
+  for (let i of json.entry) { // main entry loop
     let entry = [];
-    temp.push(i.ew);
-    for (let j of json.entry[i].def) { // goes through all definitions of entry
+    for (let j of i.def) { // goes through all definitions of entry
+      let header = []; // makes header list with name and date
+      header.push(i.ew.join("")); // name
+      if (j.date) { // date
+        header.push(j.date.join(""));
+      }
+      entry.push(header);
       for (k of j.dt) { // finds the "dt" key
-        let temp = "";
-        try {
-          k.substring(k.indexOf(":") + 1);
-          entries.push(" - ");
-          entries.push(k.substring(k.indexOf(":") + 1));
+        if (typeof(k) == "object") { //object
+          let temp = k["_"].substring(k["_"].indexOf(":") + 1);
           if (k.sx) {
-            entries.push(" " + k.sx)
+            temp += k.sx;
           }
-          entries.push("\n");
-        } catch (e) {
-
+          entry.push(temp);
+        } else { //string
+          entry.push(k.substring(k.indexOf(":") + 1));
         }
       }
     }
+    entries.push(entry);
   }
   message.channel.send(printMsg(entries, type, null, json));
 }
@@ -144,10 +147,20 @@ function printMsg(entries, type, searchQuery, json) {
       obj.embed.description = dictDesc;
       obj.embed.color = 3447003;
       obj.embed.footer.text = word.charAt(0).toUpperCase() + word.slice(1);
-      if (entries.length > 0) { // printing entries nicely
-        for (let i = 0; i < entries.length; i++) {
-          obj.embed.fields[i].name = "*" + entries[0].shift() + "*";
-          obj.embed.fields[i].value = " - " + entries.shift().join("\n - ");
+      if (entries.length > 0) {
+        for (let i = 0; i < entries.length; i++) { // first list element with name and date
+          let temp = "";
+          temp += "**" + entries[i][0].shift() + "** ";
+          if (entries[i][0].length > 0) {
+            temp += "*" + entries[i][0].shift() + "*";
+          }
+          obj.embed.fields[i].name = temp; // adds to embed
+          entries[i].shift(); // removes list
+          temp = "";
+          for (let j of entries[i]) { // adds each element
+            temp += " - " + j.trim() + "\n";
+          }
+          obj.embed.fields[i].value = temp;
         }
       } else {
         // if there are no entries for the input
@@ -158,7 +171,7 @@ function printMsg(entries, type, searchQuery, json) {
         if (json.suggestion) {
           obj.embed.fields.push({});
           obj.embed.fields[1].name = "Did you mean:"
-          obj.embed.fields[1].value = " - " + json.suggestion.join("\n - ")
+          obj.embed.fields[1].value = "  - " + json.suggestion.join("\n - ")
         }
       }
       break;
