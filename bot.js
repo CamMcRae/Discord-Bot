@@ -7,6 +7,10 @@ const config = require("./config.json");
 let prefix = config.prefix;
 const dictKey = process.env.DICT_TOKEN;
 const thesKey = process.env.THES_TOKEN;
+let message = {
+  content: "",
+  author: ""
+};
 
 bot.on('ready', () => {
   console.log('I am ready!');
@@ -84,10 +88,6 @@ function apiRequest(url, type, message, callback, searchQuery) {
     res.on("end", () => {
       let json = getJSON(data, type, message, callback);
     });
-    res.on("error", () => {
-      console.log("nuffin");
-      printMsg([], type, searchQuery);
-    });
   });
 }
 
@@ -110,9 +110,10 @@ function dictionary(json, type, message) {
       }
     }
   }
-  // message.channel.send("Something Something.... Im trying my best here hold on"); //entries.join(""));
-  let embed = printMsg(entries, type, null, json);
-  message.channel.send(embed);
+}
+// message.channel.send("Something Something.... Im trying my best here hold on"); //entries.join(""));
+let embed = printMsg(entries, type, null, json);
+message.channel.send(embed);
 }
 
 // goes through json for dictionary entries
@@ -144,9 +145,12 @@ function printMsg(entries, type, searchQuery, json) {
       obj.embed.color = 3447003;
       obj.embed.footer.text = word.charAt(0).toUpperCase() + word.slice(1);
       if (entries.length > 0) {
-        obj.embed.fields[0].value = entries.join("");
+        for (let i = 0; i < entries.length; i++) {
+          obj.embed.fields[i].name = "*" + entries[i].shift() + "*";
+          obj.embed.value = entries.join("\n - ");
+        }
       } else {
-        obj.embed.fields[0].name = "No entries found for " + word;
+        obj.embed.fields[0].name = "No entries found for " + query;
         obj.embed.fields[0].value = "\u200b";
       }
       break;
@@ -158,9 +162,12 @@ function printMsg(entries, type, searchQuery, json) {
       obj.embed.color = 15105570;
       obj.embed.footer.text = word.charAt(0).toUpperCase() + word.slice(1);
       if (entries.length > 0) {
-        obj.embed.fields[0].value = entries.join("");
+        for (let i = 0; i < entries.length; i++) {
+          obj.embed.fields[i].name = "*" + entries[i].shift() + "*";
+          obj.embed.value = entries.join("\n - ");
+        }
       } else {
-        obj.embed.fields[0].name = "No entries found for " + word2;
+        obj.embed.fields[0].name = "No entries found for " + query;
         obj.embed.fields[0].value = "\u200b";
       }
       break;
@@ -172,6 +179,10 @@ function getJSON(xml, type, message, callback) {
   let parser = new xml2js.Parser();
   parser.parseString(xml, function(err, result) {
     let json = result.entry_list;
-    callback(json, type, message);
+    if (!json.suggestion) {
+      callback(json, type, message);
+    } else {
+      printMsg([], type, searchQuery, json);
+    }
   });
 }
