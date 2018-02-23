@@ -154,9 +154,13 @@ function printMsg(entries, type, searchQuery, json) {
         obj.embed.fields[0].name = "No entries found for " + word;
         obj.embed.fields[0].value = "\u200b";
         if (json.suggestion) { // if a suggested word list is returned
-          obj.embed.fields[1].name = "Did you mean:"
+          obj.embed.fields.push({
+            name: "Did you mean:"
+          });
           let similar = []
-          obj.embed.fields[1].value = " - " + json.suggestion.join("\n - ")
+          obj.embed.fields.push({
+            value: " - " + json.suggestion.join("\n - ")
+          });
         }
       }
       break;
