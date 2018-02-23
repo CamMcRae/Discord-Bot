@@ -92,10 +92,14 @@ function apiRequest(url, type, message, callback, searchQuery) {
 }
 
 function dictionary(json, type, message) {
+  //goes through json for dictionary entries
   let entries = [];
-  for (let i in json.entry) {
-    for (let j of json.entry[i].def) {
-      for (k of j.dt) {
+  for (let i in json.entry) { // main entry loop
+    let entry = [];
+    temp.push(i.ew);
+    for (let j of json.entry[i].def) { // goes through all definitions of entry
+      for (k of j.dt) { // finds the "dt" key
+        let temp = "";
         try {
           k.substring(k.indexOf(":") + 1);
           entries.push(" - ");
@@ -110,13 +114,12 @@ function dictionary(json, type, message) {
       }
     }
   }
-// message.channel.send("Something Something.... Im trying my best here hold on"); //entries.join(""));
-let embed = printMsg(entries, type, null, json);
-message.channel.send(embed);
+  message.channel.send(printMsg(entries, type, null, json));
 }
 
 // goes through json for dictionary entries
 function printMsg(entries, type, searchQuery, json) {
+  // default object creation
   let obj = {
     embed: {
       thumbnail: {
@@ -130,9 +133,7 @@ function printMsg(entries, type, searchQuery, json) {
         icon_url: "https://cdn.discordapp.com/embed/avatars/0.png"
       },
       timestamp: new Date(),
-      fields: [{
-        name: "Entries"
-      }]
+      fields: [{}]
     }
   };
   switch (type) {
@@ -143,14 +144,20 @@ function printMsg(entries, type, searchQuery, json) {
       obj.embed.description = dictDesc;
       obj.embed.color = 3447003;
       obj.embed.footer.text = word.charAt(0).toUpperCase() + word.slice(1);
-      if (entries.length > 0) {
+      if (entries.length > 0) { // printing entries nicely
         for (let i = 0; i < entries.length; i++) {
-          obj.embed.fields[i].name = "*" + entries[i].shift() + "*";
-          obj.embed.value = entries.join("\n - ");
+          obj.embed.fields[i].name = "*" + entries[0].shift() + "*";
+          obj.embed.fields[i].value = " - " + entries.shift().join("\n - ");
         }
       } else {
+        // if there are no entries for the input
         obj.embed.fields[0].name = "No entries found for " + word;
         obj.embed.fields[0].value = "\u200b";
+        if (json.suggestion) { // if a suggested word list is returned
+          obj.embed.fields[1].name = "Did you mean:"
+          let similar = []
+          obj.embed.fields[1].value = " - " + json.suggestion.join("\n - ")
+        }
       }
       break;
     case "thes":
