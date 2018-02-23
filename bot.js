@@ -133,7 +133,7 @@ function printMsg(entries, type, searchQuery, json) {
         icon_url: "https://cdn.discordapp.com/embed/avatars/0.png"
       },
       timestamp: new Date(),
-      fields: [{}]
+      fields: []
     }
   };
   switch (type) {
@@ -151,16 +151,14 @@ function printMsg(entries, type, searchQuery, json) {
         }
       } else {
         // if there are no entries for the input
+        obj.embed.fields.push({});
         obj.embed.fields[0].name = "No entries found for " + word;
         obj.embed.fields[0].value = "\u200b";
-        if (json.suggestion) { // if a suggested word list is returned
-          obj.embed.fields.push({
-            name: "Did you mean:"
-          });
-          let similar = []
-          obj.embed.fields.push({
-            value: " - " + json.suggestion.join("\n - ")
-          });
+        // if a suggested word list is returned
+        if (json.suggestion) {
+          obj.embed.fields.push({});
+          obj.embed.fields[1].name = "Did you mean:"
+          obj.embed.fields[1].value = " - " + json.suggestion.join("\n - ")
         }
       }
       break;
