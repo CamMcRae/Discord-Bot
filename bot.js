@@ -153,11 +153,11 @@ function printMsg(entries, type, searchQuery, json) {
           let temp = "";
           temp += "**" + entries[i][0].shift() + "** ";
           if (entries[i][0].length > 0) {
-            temp += "_" + entries[i][0].shift() + "_";
+            temp += "[" + entries[i][0].shift() + "]";
           }
           obj.embed.fields[i].name = temp; // adds to embed
           entries[i].shift(); // removes list
-          temp = " ";
+          temp = "\u2060";
           for (let j of entries[i]) { // adds each element
             temp += " - " + j.trim() + "\n";
           }
