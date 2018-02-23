@@ -150,10 +150,10 @@ function printMsg(entries, type, searchQuery, json) {
       if (entries.length > 0) {
         for (let i = 0; i < entries.length; i++) { // first list element with name and date
           obj.embed.fields.push({});
-          let temp = "";
+          let temp = " ";
           temp += "**" + entries[i][0].shift() + "** ";
           if (entries[i][0].length > 0) {
-            temp += "*" + entries[i][0].shift() + "*";
+            temp += "_" + entries[i][0].shift() + "_";
           }
           obj.embed.fields[i].name = temp; // adds to embed
           entries[i].shift(); // removes list
