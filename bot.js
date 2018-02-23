@@ -178,7 +178,7 @@ function getJSON(xml, type, message, callback, searchQuery) {
   let parser = new xml2js.Parser();
   parser.parseString(xml, function(err, result) {
     let json = result.entry_list;
-    if (json.embed) {
+    if (json.entry) {
       callback(json, type, message);
     } else {
       message.channel.send(printMsg([], type, searchQuery, json));
