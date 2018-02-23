@@ -86,7 +86,7 @@ function apiRequest(url, type, message, callback, searchQuery) {
       data += chunk;
     });
     res.on("end", () => {
-      let json = getJSON(data, type, message, callback);
+      let json = getJSON(data, type, message, callback, searchQuery);
     });
   });
 }
@@ -174,7 +174,7 @@ function printMsg(entries, type, searchQuery, json) {
   return obj;
 }
 
-function getJSON(xml, type, message, callback) {
+function getJSON(xml, type, message, callback, searchQuery) {
   let parser = new xml2js.Parser();
   parser.parseString(xml, function(err, result) {
     let json = result.entry_list;
