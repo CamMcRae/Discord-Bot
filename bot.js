@@ -166,7 +166,7 @@ function printMsg(entries, type, searchQuery, json) {
           obj.embed.value = entries.join("\n - ");
         }
       } else {
-        obj.embed.fields[0].name = "No entries found for " + query;
+        obj.embed.fields[0].name = "No entries found for " + word;
         obj.embed.fields[0].value = "\u200b";
       }
       break;
@@ -181,7 +181,7 @@ function getJSON(xml, type, message, callback, searchQuery) {
     if (!json.suggestion) {
       callback(json, type, message);
     } else {
-      printMsg([], type, searchQuery, json);
+      message.channel.send(printMsg([], type, searchQuery, json));
     }
   });
 }
