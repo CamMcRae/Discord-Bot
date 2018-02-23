@@ -149,6 +149,7 @@ function printMsg(entries, type, searchQuery, json) {
       obj.embed.footer.text = word.charAt(0).toUpperCase() + word.slice(1);
       if (entries.length > 0) {
         for (let i = 0; i < entries.length; i++) { // first list element with name and date
+          obj.embed.fields.push({});
           let temp = "";
           temp += "**" + entries[i][0].shift() + "** ";
           if (entries[i][0].length > 0) {
