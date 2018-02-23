@@ -110,10 +110,9 @@ function dictionary(json, type, message) {
       }
     }
   }
-}
-// message.channel.send("Something Something.... Im trying my best here hold on"); //entries.join(""));
-let embed = printMsg(entries, type, null, json);
-message.channel.send(embed);
+  // message.channel.send("Something Something.... Im trying my best here hold on"); //entries.join(""));
+  let embed = printMsg(entries, type, null, json);
+  message.channel.send(embed);
 }
 
 // goes through json for dictionary entries
