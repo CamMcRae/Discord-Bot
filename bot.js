@@ -112,7 +112,7 @@ function dictionary(json, type, message) {
           } catch (e) {
             if (typeof(k) == "object") {
               fs.appendFile("./errorWords.txt", Object.keys(k).map(function(j) {
-                return obj[j]
+                return k[j]
               }) + "\n");
             } else {
               fs.appendFile("./errorWords.txt", k);
