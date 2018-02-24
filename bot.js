@@ -4,13 +4,8 @@ const https = require('https');
 const fs = require("fs");
 const bot = new Discord.Client();
 const config = require("./config.json");
-let prefix = config.prefix;
 const dictKey = process.env.DICT_TOKEN;
 const thesKey = process.env.THES_TOKEN;
-let message = {
-  content: "",
-  author: ""
-};
 
 bot.on('ready', () => {
   console.log('I am ready!');
@@ -18,13 +13,16 @@ bot.on('ready', () => {
 });
 
 bot.on('message', message => {
-  if (message.author.bot) return;
-  const query = message.content.slice(prefix.length).trim().split(/ +/g);
-  const command = query.shift().toLowerCase();
-  if (message.content.startsWith("$")) {
+  if (message.author.bot) return; // if a bot is talking
+  const query = message.content.slice(prefix.length).trim().split(/ +/g); // gets query
+  const command = query.shift().toLowerCase(); // gets command
+  if (message.content.startsWith(config.prefix)) {
     switch (command) {
       case "restrict":
-        message.channel.send('wat');
+        if (message.author.id == config.ownerId){
+          message.channel.send('wat');
+          console.log(message)
+        }
         break;
       case "lmgtfy":
         message.channel.send("http://lmgtfy.com/?q=" + message.content.substr(8).replace(/ /g, "%20"));
@@ -55,10 +53,10 @@ bot.on('message', message => {
               fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
           }
         }
+        break;
       case "prefix":
-        if (message.author.id == config.ownerId && query.length == 1) {
+        if (message.author.id == config.ownerId && query.join(" ").length == 1) {
           config.prefix = query;
-          prefix = config.prefix;
           fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
           message.channel.send("Prefix changed to " + "```" + config.prefix + "```");
         }
@@ -80,12 +78,12 @@ bot.on('message', message => {
 bot.login(process.env.BOT_TOKEN);
 
 function apiRequest(url, type, message, callback, searchQuery) {
-  https.get(url, res => {
+  https.get(url, res => { // calls api
     let data = '';
-    res.on('data', chunk => {
+    res.on('data', chunk => { // when data is recieved
       data += chunk;
     });
-    res.on("end", () => {
+    res.on("end", () => { // when call if finished
       let json = getJSON(data, type, message, callback, searchQuery);
     });
   });
@@ -107,20 +105,19 @@ function dictionary(json, type, message) {
         if (typeof(k) == "object") { //object
           let temp = k["_"].substring(k["_"].indexOf(":") + 1);
           if (k.sx) {
-            temp += k.sx;
+            temp += k.sx; // adds anything extra
           }
           entry.push(temp);
         } else { //string
-          entry.push(k.substring(k.indexOf(":") + 1));
+          entry.push(k.substring(k.indexOf(":") + 1)); // adds string
         }
       }
     }
-    entries.push(entry);
+    entries.push(entry); // adds one entry to master list
   }
   message.channel.send(printMsg(entries, type, null, json));
 }
 
-// goes through json for dictionary entries
 function printMsg(entries, type, searchQuery, json) {
   // default object creation
   let obj = {
@@ -199,11 +196,11 @@ function printMsg(entries, type, searchQuery, json) {
 
 function getJSON(xml, type, message, callback, searchQuery) {
   let parser = new xml2js.Parser();
-  parser.parseString(xml, function(err, result) {
+  parser.parseString(xml, function(err, result) { // converts xml to json
     let json = result.entry_list;
-    if (json.entry) {
+    if (json.entry) { // if there are valid entries
       callback(json, type, message);
-    } else {
+    } else { // if no valid entries
       message.channel.send(printMsg([], type, searchQuery, json));
     }
   });
