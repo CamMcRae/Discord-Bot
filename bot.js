@@ -19,7 +19,7 @@ bot.on('message', message => {
   if (message.content.startsWith(config.prefix)) {
     switch (command) {
       case "restrict":
-        if (message.author.id == config.ownerId){
+        if (message.author.id == config.ownerId) {
           message.channel.send('wat');
           console.log(message)
         }
@@ -103,11 +103,21 @@ function dictionary(json, type, message) {
       entry.push(header);
       for (k of j.dt) { // finds the "dt" key
         if (typeof(k) == "object") { //object
-          let temp = k["_"].substring(k["_"].indexOf(":") + 1);
-          if (k.sx) {
-            temp += k.sx; // adds anything extra
+          try {
+            let temp = k["_"].substring(k["_"].indexOf(":") + 1);
+            if (k.sx) {
+              temp += k.sx; // adds anything extra
+            }
+            entry.push(temp);
+          } catch (e) {
+            if (typeof(k) == "object") {
+              fs.appendFile("./errorWords.txt", Object.keys(k).map(function(j) {
+                return obj[j]
+              }) + "\n");
+            } else {
+              fs.appendFile("./errorWords.txt", k);
+            }
           }
-          entry.push(temp);
         } else { //string
           entry.push(k.substring(k.indexOf(":") + 1)); // adds string
         }
@@ -169,7 +179,7 @@ function printMsg(entries, type, searchQuery, json) {
         if (json.suggestion) {
           obj.embed.fields.push({});
           obj.embed.fields[1].name = "Did you mean:"
-          obj.embed.fields[1].value = "  - " + json.suggestion.join("\n - ")
+          obj.embed.fields[1].value = "\u2060- " + json.suggestion.join("\n - ")
         }
       }
       break;
