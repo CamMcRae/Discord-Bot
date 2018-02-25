@@ -44,14 +44,17 @@ bot.on('message', message => {
         break;
       case "link":
         if (message.author.id == config.ownerId) {
+          console.log("ids match");
           switch (query) {
             case "music":
-              config.musicID = message.channel;
+              config.musicID = message.channel.id;
               message.channel.send(":link: Channel linked as music.");
+              console.log(config.musicID);
               break;
             case "main":
-              config.mainId = message.channel;
+              config.mainId = message.channel.id;
               message.channel.send(":link: Channel linked as main.");
+              console.log(config.mainID);
               break;
             default:
               fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
