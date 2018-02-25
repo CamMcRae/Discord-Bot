@@ -28,9 +28,11 @@ bot.on('message', message => {
         message.channel.send("http://lmgtfy.com/?q=" + message.content.substr(8).replace(/ /g, "%20"));
         break;
       case "define":
-        let dictSearchQuery = query.join(" ").toLowerCase();
-        let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${dictSearchQuery}?key=${dictKey}`;
-        apiRequest(url, "dict", message, dictionary, dictSearchQuery);
+      let dictSearchQuery = query.join(" ").toLowerCase();
+        if (dictSearchQuery){
+          let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${dictSearchQuery}?key=${dictKey}`;
+          apiRequest(url, "dict", message, dictionary, dictSearchQuery);
+        }
         break;
       case "thesaurus":
         let thesSearchQuery = query.join(" ").toLowerCase();
