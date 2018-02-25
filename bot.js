@@ -14,7 +14,7 @@ bot.on('ready', () => {
 
 bot.on('message', message => {
   if (message.author.bot) return; // if a bot is talking
-  const query = message.content.slice(config.prefix.length).trim().split(/ +/g); // gets query
+  const query = message.content.slice(config.prefix.length).trim().split(/ +/g).join(" "); // gets query
   const command = query.shift().toLowerCase(); // gets command
   if (message.content.startsWith(config.prefix)) {
     switch (command) {
