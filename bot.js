@@ -45,9 +45,11 @@ bot.on('message', message => {
           switch (query) {
             case "music":
               config.musicID = message.channel;
+              message.channel.send(":link: Channel linked as music.");
               break;
             case "main":
               config.mainId = message.channel;
+              message.channel.send(":link: Channel linked as main.");
               break;
             default:
               fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
@@ -110,7 +112,7 @@ function dictionary(json, type, message) {
             }
             entry.push(temp);
           } catch (e) {
-            if (typeof(k) == "object") {
+            if (typeof(k) == "object") { // logs the words if there is an error
               fs.appendFile("./errorWords.txt", Object.keys(k).map(function(j) {
                 return k[j]
               }) + "\n");
