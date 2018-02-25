@@ -45,6 +45,7 @@ bot.on('message', message => {
       case "link":
         if (message.author.id == config.ownerId) {
           console.log("ids match");
+          console.log(query);
           switch (query) {
             case "music":
               config.musicID = message.channel.id;
