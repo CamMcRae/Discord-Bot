@@ -16,7 +16,7 @@ bot.on('message', message => {
   if (message.author.bot) return; // if a bot is talking
   let query = message.content.slice(config.prefix.length).trim().split(/ +/g); // gets query
   const command = query.shift().toLowerCase(); // gets command
-  query = query.join(" ")
+  query = query.join(" ");
   if (message.content.startsWith(config.prefix)) {
     switch (command) {
       case "restrict":
@@ -29,14 +29,14 @@ bot.on('message', message => {
         message.channel.send("http://lmgtfy.com/?q=" + message.content.substr(8).replace(/ /g, "%20"));
         break;
       case "define":
-      let dictSearchQuery = query.join(" ").toLowerCase();
+      let dictSearchQuery = query;
         if (dictSearchQuery){
           let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${dictSearchQuery}?key=${dictKey}`;
           apiRequest(url, "dict", message, dictionary, dictSearchQuery);
         }
         break;
       case "thesaurus":
-        let thesSearchQuery = query.join(" ").toLowerCase();
+        let thesSearchQuery = query;
         apiRequest(url, "thes", message, thesaurus, thesSearchQuery);
         // thesaurus
         break;
@@ -45,18 +45,14 @@ bot.on('message', message => {
         break;
       case "link":
         if (message.author.id == config.ownerId) {
-          console.log("ids match");
-          console.log(query);
           switch (query) {
             case "music":
               config.musicID = message.channel.id;
               message.channel.send(":link: Channel linked as music.");
-              console.log(config.musicID);
               break;
             case "main":
               config.mainId = message.channel.id;
               message.channel.send(":link: Channel linked as main.");
-              console.log(config.mainID);
               break;
             default:
               fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
