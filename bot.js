@@ -155,7 +155,7 @@ function printMsg(entries, type, searchQuery, json) {
     case "dict": //dictionary entry
       let word = (searchQuery ? searchQuery : json.entry[0].ew.join(""));
       obj.embed.title = "Definitions for:";
-      let dictDesc = "[" + word.charAt(0).toUpperCase() + word.slice(1) + "](http://www.dictionary.com/browse/" + word + "?s=t)";
+      let dictDesc = "[" + word.charAt(0).toUpperCase() + word.slice(1) + "](http://www.dictionary.com/browse/" + word.split(" ").join("-") + "?s=t)";
       obj.embed.description = dictDesc;
       obj.embed.color = 3447003;
       obj.embed.footer.text = word.charAt(0).toUpperCase() + word.slice(1);
