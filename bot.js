@@ -4,13 +4,8 @@ const https = require('https');
 const fs = require("fs");
 const bot = new Discord.Client();
 const config = require("./config.json");
-let prefix = config.prefix;
 const dictKey = process.env.DICT_TOKEN;
 const thesKey = process.env.THES_TOKEN;
-let message = {
-  content: "",
-  author: ""
-};
 
 bot.on('ready', () => {
   console.log('I am ready!');
@@ -18,24 +13,30 @@ bot.on('ready', () => {
 });
 
 bot.on('message', message => {
-  if (message.author.bot) return;
-  const query = message.content.slice(prefix.length).trim().split(/ +/g);
-  const command = query.shift().toLowerCase();
-  if (message.content.startsWith("$")) {
+  if (message.author.bot) return; // if a bot is talking
+  let query = message.content.slice(config.prefix.length).trim().split(/ +/g); // gets query
+  const command = query.shift().toLowerCase(); // gets command
+  query = query.join(" ");
+  if (message.content.startsWith(config.prefix)) {
     switch (command) {
       case "restrict":
-        message.channel.send('wat');
+        if (message.author.id == config.ownerId) {
+          message.channel.send('wat');
+          console.log(message)
+        }
         break;
       case "lmgtfy":
         message.channel.send("http://lmgtfy.com/?q=" + message.content.substr(8).replace(/ /g, "%20"));
         break;
       case "define":
-        let dictSearchQuery = query.join(" ").toLowerCase();
-        let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${dictSearchQuery}?key=${dictKey}`;
-        apiRequest(url, "dict", message, dictionary, dictSearchQuery);
+        let dictSearchQuery = query;
+        if (dictSearchQuery) {
+          let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${dictSearchQuery.split(" ").join("%20")}?key=${dictKey}`;
+          apiRequest(url, "dict", message, dictionary, dictSearchQuery);
+        }
         break;
       case "thesaurus":
-        let thesSearchQuery = query.join(" ").toLowerCase();
+        let thesSearchQuery = query;
         apiRequest(url, "thes", message, thesaurus, thesSearchQuery);
         // thesaurus
         break;
@@ -46,19 +47,21 @@ bot.on('message', message => {
         if (message.author.id == config.ownerId) {
           switch (query) {
             case "music":
-              config.musicID = message.channel;
+              config.musicID = message.channel.id;
+              message.channel.send(":link: Channel linked as music.");
               break;
             case "main":
-              config.mainId = message.channel;
+              config.mainId = message.channel.id;
+              message.channel.send(":link: Channel linked as main.");
               break;
             default:
               fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
           }
         }
+        break;
       case "prefix":
-        if (message.author.id == config.ownerId && query.length == 1) {
+        if (message.author.id == config.ownerId && query.join(" ").length == 1) {
           config.prefix = query;
-          prefix = config.prefix;
           fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
           message.channel.send("Prefix changed to " + "```" + config.prefix + "```");
         }
@@ -80,43 +83,58 @@ bot.on('message', message => {
 bot.login(process.env.BOT_TOKEN);
 
 function apiRequest(url, type, message, callback, searchQuery) {
-  https.get(url, res => {
+  https.get(url, res => { // calls api
     let data = '';
-    res.on('data', chunk => {
+    res.on('data', chunk => { // when data is recieved
       data += chunk;
     });
-    res.on("end", () => {
+    res.on("end", () => { // when call if finished
       let json = getJSON(data, type, message, callback, searchQuery);
     });
   });
 }
 
 function dictionary(json, type, message) {
+  //goes through json for dictionary entries
   let entries = [];
-  for (let i in json.entry) {
-    for (let j of json.entry[i].def) {
-      for (k of j.dt) {
-        try {
-          k.substring(k.indexOf(":") + 1);
-          entries.push(" - ");
-          entries.push(k.substring(k.indexOf(":") + 1));
-          if (k.sx) {
-            entries.push(" " + k.sx)
+  for (let i of json.entry) { // main entry loop
+    let entry = [];
+    for (let j of i.def) { // goes through all definitions of entry
+      let header = []; // makes header list with name and date
+      header.push(i.ew.join("")); // name
+      if (j.date) { // date
+        header.push(j.date.join(""));
+      }
+      entry.push(header);
+      for (k of j.dt) { // finds the "dt" key
+        if (typeof(k) == "object") { //object
+          try {
+            let temp = k["_"].substring(k["_"].indexOf(":") + 1);
+            if (k.sx) {
+              temp += k.sx; // adds anything extra
+            }
+            entry.push(temp);
+          } catch (e) {
+            if (typeof(k) == "object") { // logs the words if there is an error
+              fs.appendFile("./errorWords.txt", Object.keys(k).map(function(j) {
+                return k[j]
+              }) + "\n");
+            } else {
+              fs.appendFile("./errorWords.txt", k);
+            }
           }
-          entries.push("\n");
-        } catch (e) {
-
+        } else { //string
+          entry.push(k.substring(k.indexOf(":") + 1)); // adds string
         }
       }
     }
+    entries.push(entry); // adds one entry to master list
   }
-// message.channel.send("Something Something.... Im trying my best here hold on"); //entries.join(""));
-let embed = printMsg(entries, type, null, json);
-message.channel.send(embed);
+  message.channel.send(printMsg(entries, type, null, json));
 }
 
-// goes through json for dictionary entries
 function printMsg(entries, type, searchQuery, json) {
+  // default object creation
   let obj = {
     embed: {
       thumbnail: {
@@ -130,27 +148,44 @@ function printMsg(entries, type, searchQuery, json) {
         icon_url: "https://cdn.discordapp.com/embed/avatars/0.png"
       },
       timestamp: new Date(),
-      fields: [{
-        name: "Entries"
-      }]
+      fields: []
     }
   };
   switch (type) {
     case "dict": //dictionary entry
       let word = (searchQuery ? searchQuery : json.entry[0].ew.join(""));
       obj.embed.title = "Definitions for:";
-      let dictDesc = "[" + word.charAt(0).toUpperCase() + word.slice(1) + "](http://www.dictionary.com/browse/" + word + "?s=t)";
+      let dictDesc = "[" + word.charAt(0).toUpperCase() + word.slice(1) + "](http://www.dictionary.com/browse/" + word.split(" ").join("-") + "?s=t)";
       obj.embed.description = dictDesc;
       obj.embed.color = 3447003;
       obj.embed.footer.text = word.charAt(0).toUpperCase() + word.slice(1);
       if (entries.length > 0) {
-        for (let i = 0; i < entries.length; i++) {
-          obj.embed.fields[i].name = "*" + entries[i].shift() + "*";
-          obj.embed.value = entries.join("\n - ");
+        for (let i = 0; i < entries.length; i++) { // first list element with name and date
+          obj.embed.fields.push({});
+          let temp = "";
+          temp += "**" + entries[i][0].shift() + "** ";
+          if (entries[i][0].length > 0) {
+            temp += "[" + entries[i][0].shift() + "]";
+          }
+          obj.embed.fields[i].name = temp; // adds to embed
+          entries[i].shift(); // removes list
+          temp = "\u2060";
+          for (let j of entries[i]) { // adds each element
+            temp += " - " + j.trim() + "\n";
+          }
+          obj.embed.fields[i].value = temp;
         }
       } else {
+        // if there are no entries for the input
+        obj.embed.fields.push({});
         obj.embed.fields[0].name = "No entries found for " + word;
         obj.embed.fields[0].value = "\u200b";
+        // if a suggested word list is returned
+        if (json.suggestion) {
+          obj.embed.fields.push({});
+          obj.embed.fields[1].name = "Did you mean:"
+          obj.embed.fields[1].value = "\u2060- " + json.suggestion.join("\n - ")
+        }
       }
       break;
     case "thes":
@@ -176,11 +211,11 @@ function printMsg(entries, type, searchQuery, json) {
 
 function getJSON(xml, type, message, callback, searchQuery) {
   let parser = new xml2js.Parser();
-  parser.parseString(xml, function(err, result) {
+  parser.parseString(xml, function(err, result) { // converts xml to json
     let json = result.entry_list;
-    if (json.entry) {
+    if (json.entry) { // if there are valid entries
       callback(json, type, message);
-    } else {
+    } else { // if no valid entries
       message.channel.send(printMsg([], type, searchQuery, json));
     }
   });
