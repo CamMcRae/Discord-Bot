@@ -80,7 +80,7 @@ bot.on('message', message => {
             } else {
               try {
                 if (parseInt(query[i]) >= 0 && parseInt(query[i]) <= 10) {
-                  spellTemp.push(":regional_indicator_" + firstTen[i] + ":");
+                  spellTemp.push(":" + firstTen[i] + ":");
                 }
               } catch (e) {}
 
