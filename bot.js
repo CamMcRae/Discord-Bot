@@ -79,8 +79,10 @@ bot.on('message', message => {
               spellTemp.push(":regional_indicator_" + query[i] + ":");
             } else {
               try {
-                if (parseInt(query[i]) >= 0 && parseInt(query[i]) <= 10) {
-                  spellTemp.push(":" + firstTen[i] + ":");
+                if (parseInt(query[i]) >= 0 && parseInt(query[i]) < 10) {
+                  spellTemp.push(":" + firstTen[parseInt(query[i])] + ":");
+                } else if (parseInt(query[i]) == "10") {
+                  spellTemp.push(":keycap_ten:");
                 }
               } catch (e) {}
 
