@@ -7,6 +7,7 @@ const config = require("./config.json");
 const dictKey = process.env.DICT_TOKEN;
 const thesKey = process.env.THES_TOKEN;
 const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+const firstTen = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
 
 bot.on('ready', () => {
   console.log('I am ready!');
@@ -76,6 +77,13 @@ bot.on('message', message => {
           if (query[i] != " ") {
             if (alphabet.includes(query[i])) {
               spellTemp.push(":regional_indicator_" + query[i] + ":");
+            } else {
+              try {
+                if (parseInt(query[i]) >= 0 && parseInt(query[i]) <= 10) {
+                  spellTemp.push(":regional_indicator_" + firstTen[i] + ":");
+                }
+              } catch (e) {}
+
             }
           } else {
             spellTemp.push("     ");
