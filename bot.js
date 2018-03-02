@@ -71,8 +71,12 @@ bot.on('message', message => {
         break;
       case "emoji":
         let emojiTemp = [];
-        for (let i = 0; i < query.length; i++){
+        for (let i = 0; i < query.length; i++) {
+          if (query[i] != " ") {
             emojiTemp.push(":regional_indicator_" + query[i] + ":");
+          } else {
+            emojiTemp.push("     ");
+          }
         }
         message.channel.send(emojiTemp.join(" "));
         break;
