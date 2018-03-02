@@ -6,6 +6,7 @@ const bot = new Discord.Client();
 const config = require("./config.json");
 const dictKey = process.env.DICT_TOKEN;
 const thesKey = process.env.THES_TOKEN;
+const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 
 bot.on('ready', () => {
   console.log('I am ready!');
@@ -16,7 +17,7 @@ bot.on('message', message => {
   if (message.author.bot) return; // if a bot is talking
   let query = message.content.slice(config.prefix.length).trim().split(/ +/g); // gets query
   const command = query.shift().toLowerCase(); // gets command
-  query = query.join(" ");
+  query = query.join(" ").toLowerCase();
   if (message.content.startsWith(config.prefix)) {
     switch (command) {
       case "restrict":
@@ -69,16 +70,18 @@ bot.on('message', message => {
       case "clean":
         // go up through bot messages and delete them until 1 day old
         break;
-      case "emoji":
-        let emojiTemp = [];
+      case "spell":
+        let spellTemp = [];
         for (let i = 0; i < query.length; i++) {
           if (query[i] != " ") {
-            emojiTemp.push(":regional_indicator_" + query[i] + ":");
+            if (alphabet.includes(query[i])) {
+              spellTemp.push(":regional_indicator_" + query[i] + ":");
+            }
           } else {
-            emojiTemp.push("     ");
+            spellTemp.push("     ");
           }
         }
-        message.channel.send(emojiTemp.join(" "));
+        message.channel.send(spellTemp.join(" "));
         break;
     }
   } else {
