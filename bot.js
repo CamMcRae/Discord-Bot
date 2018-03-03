@@ -92,6 +92,8 @@ bot.on('message', message => {
         }
         message.channel.send(spellTemp.join(" "));
         break;
+      case "leave":
+        message.channel.send("!leave");
     }
   } else {
     switch (message.content.toLowerCase()) {
