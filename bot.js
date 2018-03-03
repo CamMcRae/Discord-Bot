@@ -89,6 +89,7 @@ bot.on('message', message => {
             spellTemp.push("     ");
           }
         }
+        message.delete();
         message.channel.send(spellTemp.join(" "));
         break;
     }
