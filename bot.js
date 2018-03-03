@@ -72,6 +72,7 @@ bot.on('message', message => {
         // go up through bot messages and delete them until 1 day old
         break;
       case "spell":
+        message.delete();
         let spellTemp = [];
         for (let i = 0; i < query.length; i++) {
           if (query[i] != " ") {
@@ -89,7 +90,6 @@ bot.on('message', message => {
             spellTemp.push("     ");
           }
         }
-        message.delete();
         message.channel.send(spellTemp.join(" "));
         break;
     }
