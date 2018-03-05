@@ -96,6 +96,9 @@ bot.on('message', message => {
         message.delete()
         message.channel.send("( ͡° ͜ʖ ͡°)");
         break;
+      case "r u kidding me right now":
+        message.channel.send("No im not");
+        break;
     }
   } else {
     switch (message.content.toLowerCase()) {
