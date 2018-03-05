@@ -93,6 +93,7 @@ bot.on('message', message => {
         message.channel.send(spellTemp.join(" "));
         break;
       case "lenny":
+        message.delete()
         message.channel.send("( ͡° ͜ʖ ͡°)");
         break;
     }
