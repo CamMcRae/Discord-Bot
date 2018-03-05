@@ -43,9 +43,6 @@ bot.on('message', message => {
         apiRequest(url, "thes", message, thesaurus, thesSearchQuery);
         // thesaurus
         break;
-      case "this bot sucks":
-        message.channel.send("No it doesn't");
-        break;
       case "link":
         if (message.author.id == config.ownerId) {
           switch (query) {
@@ -97,9 +94,6 @@ bot.on('message', message => {
         message.delete()
         message.channel.send("( ͡° ͜ʖ ͡°)");
         break;
-      case "r u kidding me right now":
-        message.channel.send("No im not");
-        break;
     }
   } else {
     switch (message.content.toLowerCase()) {
@@ -107,6 +101,13 @@ bot.on('message', message => {
         message.channel.send('pong');
       case "pong":
         message.channel.send('hah you suck');
+        break;
+      case "r u kidding me right now":
+        message.channel.send("No im not");
+        break;
+      case "this bot sucks":
+        message.channel.send("No it doesn't");
+        break;
     }
   }
 });
