@@ -19,7 +19,6 @@ bot.on('message', message => {
   let query = message.content.slice(config.prefix.length).trim().split(/ +/g); // gets query
   const command = query.shift().toLowerCase(); // gets command
   query = query.join(" ").toLowerCase();
-  console.log(query);
   if (message.content.startsWith(config.prefix)) {
     switch (command) {
       case "restrict":
