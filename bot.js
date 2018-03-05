@@ -92,6 +92,9 @@ bot.on('message', message => {
         }
         message.channel.send(spellTemp.join(" "));
         break;
+      case "lenny":
+        message.channel.send("( ͡° ͜ʖ ͡°)");
+        break;
     }
   } else {
     switch (message.content.toLowerCase()) {
