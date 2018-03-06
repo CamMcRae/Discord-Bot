@@ -93,8 +93,8 @@ bot.on('message', message => {
         message.channel.send(spellTemp.join(" "));
         break;
       case "lenny":
-        if (message.author.id == config.ownerID) {
-          message.delete();
+        message.delete();
+        if (message.author.id == config.ownerId) {
           message.channel.send("( ͡° ͜ʖ ͡°)");
         }
         break;
