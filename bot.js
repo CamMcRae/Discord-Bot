@@ -18,7 +18,10 @@ bot.on('message', message => {
   if (message.author.bot) return; // if a bot is talking
   let query = message.content.slice(config.prefix.length).trim().split(/ +/g); // gets query
   const command = query.shift().toLowerCase(); // gets command
-  query = query.join(" ").toLowerCase();
+  query = query.join(" ")
+  if (command != wiki) {
+    query = query..toLowerCase();
+  }
   if (message.content.startsWith(config.prefix)) {
     switch (command) {
       case "restrict":
