@@ -20,7 +20,7 @@ bot.on('message', message => {
   const command = query.shift().toLowerCase(); // gets command
   query = query.join(" ")
   if (command != "wiki") {
-    query = query..toLowerCase();
+    query = query.toLowerCase();
   }
   if (message.content.startsWith(config.prefix)) {
     switch (command) {
