@@ -93,6 +93,9 @@ bot.on('message', message => {
         message.delete()
         message.channel.send("( ͡° ͜ʖ ͡°)");
         break;
+      case "wiki":
+        message.channel.send("https://en.wikipedia.org/wiki/" + query.split(" ").join("_"));
+        break;
     }
   } else {
     switch (message.content.toLowerCase()) {
