@@ -6,6 +6,8 @@ const bot = new Discord.Client();
 const config = require("./config.json");
 const dictKey = process.env.DICT_TOKEN;
 const thesKey = process.env.THES_TOKEN;
+const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+const firstTen = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
 
 bot.on('ready', () => {
   console.log('I am ready!');
@@ -16,7 +18,10 @@ bot.on('message', message => {
   if (message.author.bot) return; // if a bot is talking
   let query = message.content.slice(config.prefix.length).trim().split(/ +/g); // gets query
   const command = query.shift().toLowerCase(); // gets command
-  query = query.join(" ");
+  query = query.join(" ")
+  if (command != "wiki") {
+    query = query.toLowerCase();
+  }
   if (message.content.startsWith(config.prefix)) {
     switch (command) {
       case "restrict":
@@ -39,9 +44,6 @@ bot.on('message', message => {
         let thesSearchQuery = query;
         apiRequest(url, "thes", message, thesaurus, thesSearchQuery);
         // thesaurus
-        break;
-      case "this bot sucks":
-        message.channel.send("No it doesn't");
         break;
       case "link":
         if (message.author.id == config.ownerId) {
@@ -69,6 +71,34 @@ bot.on('message', message => {
       case "clean":
         // go up through bot messages and delete them until 1 day old
         break;
+      case "spell":
+        message.delete();
+        let spellTemp = [];
+        for (let i = 0; i < query.length; i++) {
+          if (query[i] != " ") {
+            if (alphabet.includes(query[i])) {
+              spellTemp.push(":regional_indicator_" + query[i] + ":");
+            } else {
+              try {
+                if (parseInt(query[i]) >= 0 && parseInt(query[i]) < 10) {
+                  spellTemp.push(":" + firstTen[parseInt(query[i])] + ":");
+                }
+              } catch (e) {}
+
+            }
+          } else {
+            spellTemp.push("     ");
+          }
+        }
+        message.channel.send(spellTemp.join(" "));
+        break;
+      case "lenny":
+        message.delete()
+        message.channel.send("( ͡° ͜ʖ ͡°)");
+        break;
+      case "wiki":
+        message.channel.send("https://en.wikipedia.org/wiki/" + query.split(" ").join("_"));
+        break;
     }
   } else {
     switch (message.content.toLowerCase()) {
@@ -76,6 +106,13 @@ bot.on('message', message => {
         message.channel.send('pong');
       case "pong":
         message.channel.send('hah you suck');
+        break;
+      case "r u kidding me right now":
+        message.channel.send("No im not");
+        break;
+      case "this bot sucks":
+        message.channel.send("No it doesn't");
+        break;
     }
   }
 });
