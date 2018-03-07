@@ -93,8 +93,10 @@ bot.on('message', message => {
         message.channel.send(spellTemp.join(" "));
         break;
       case "lenny":
-        message.delete()
-        message.channel.send("( ͡° ͜ʖ ͡°)");
+        message.delete();
+        if (message.author.id == config.ownerId) {
+          message.channel.send("( ͡° ͜ʖ ͡°)");
+        }
         break;
       case "wiki":
         message.channel.send("https://en.wikipedia.org/wiki/" + query.split(" ").join("_"));
