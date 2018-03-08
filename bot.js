@@ -24,8 +24,7 @@ bot.on('message', message => {
   if (message.author.bot) return; // if a bot is talking
   for (let i of words) {
     if (message.content.includes(i)) {
-      let id = message.author.id
-      config.counter.[id] += 1;
+      config.counter[message.author.id] += 1;
       fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
     }
 
