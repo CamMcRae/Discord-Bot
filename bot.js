@@ -1,5 +1,5 @@
-const Discord = require('discord.js');
 const xml2js = require('xml2js');
+const Discord = require('discord.js');
 const https = require('https');
 const fs = require("fs");
 const bot = new Discord.Client();
