@@ -11,11 +11,24 @@ const firstTen = ["zero", "one", "two", "three", "four", "five", "six", "seven",
 
 bot.on('ready', () => {
   console.log('I am ready!');
+  client.user.setActivity({
+    game: {
+      name: "with some weird shit",
+      type: 0
+    }
+  });
   // bot.user.setUsername("Bot Dude");
 });
 
 bot.on('message', message => {
   if (message.author.bot) return; // if a bot is talking
+  for (let i of words) {
+    if (message.content.includes(i)) {
+      config.counter.(message.author.id) += 1;
+      fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
+    }
+
+  }
   let query = message.content.slice(config.prefix.length).trim().split(/ +/g); // gets query
   const command = query.shift().toLowerCase(); // gets command
   query = query.join(" ")
@@ -100,6 +113,13 @@ bot.on('message', message => {
         break;
       case "wiki":
         message.channel.send("https://en.wikipedia.org/wiki/" + query.split(" ").join("_"));
+        break;
+      case "swears":
+        entries = [];
+        for (let i = 0; i < Object.keys(config.counter).length; i++) {
+          entries.push([Object.entries(config.counter)[i]]);
+        }
+        message.channel.send(printMSG(entries, "swears"));
         break;
     }
   } else {
@@ -243,6 +263,20 @@ function printMsg(entries, type, searchQuery, json) {
         obj.embed.fields[0].name = "No entries found for " + word;
         obj.embed.fields[0].value = "\u200b";
       }
+      break;
+    case "swears":
+      obj.embed.title = "Swear Counter";
+      let swearDesc = entries.shift() + "is in the lead."
+      obj.embed.description = thesDesc;
+      obj.embed.fields.push({});
+      obj.embed.fields[0].name = "Counter";
+      let temp = "";
+      for (let i = 0; i < entries.length; i++) {
+        temp += client.users.get(entries[i][0]); + ": " + entries[i][1] + "\n";
+      }
+      obj.embed.fields[0].value = temp;
+      obj.embed.footer.text = "\u200b";
+      obj.embed.color = 0xff00ff;
       break;
   }
   return obj;
