@@ -1,6 +1,6 @@
 {
   "name": "Discord Bot",
-  "description": "Discord Bot",
+  "description": "Bot Dude",
   "version": "0.0.2",
   "main": "bot.js",
   "scripts": {
