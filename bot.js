@@ -11,14 +11,16 @@ const firstTen = ["zero", "one", "two", "three", "four", "five", "six", "seven",
 
 bot.on('ready', () => {
   console.log('I am ready!');
-  client.user.setActivity({
-    game: {
-      name: "with some weird shit",
-      type: 0
-    }
-  });
+  // bot.user.setActivity({
+  //   game: {
+  //     name: "with some weird shit",
+  //     type: 0
+  //   }
+  // });
   // bot.user.setUsername("Bot Dude");
 });
+
+bot.login(process.env.BOT_TOKEN);
 
 bot.on('message', message => {
   if (message.author.bot) return; // if a bot is talking
@@ -30,7 +32,7 @@ bot.on('message', message => {
 
   }
   let query = message.content.slice(config.prefix.length).trim().split(/ +/g); // gets query
-  const command = query.shift().toLowerCase(); // gets command
+  let command = query.shift().toLowerCase(); // gets command
   query = query.join(" ")
   if (command != "wiki") {
     query = query.toLowerCase();
@@ -138,8 +140,6 @@ bot.on('message', message => {
     }
   }
 });
-
-bot.login(process.env.BOT_TOKEN);
 
 function apiRequest(url, type, message, callback, searchQuery) {
   https.get(url, res => { // calls api
