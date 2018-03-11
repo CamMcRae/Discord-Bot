@@ -8,9 +8,7 @@
   },
   "dependencies": {
     "discord.js": "11.3.2",
-    "xml2js": "0.4.19"
-  },
-  "engines": {
-    "node": "8.9.x"
+    "xml2js": "0.4.19",
+    "xmlbuilder": "~9.0.1"
   }
 }

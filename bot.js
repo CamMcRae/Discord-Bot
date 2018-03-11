@@ -1,9 +1,7 @@
-const discord = require("discord.js");
-
-// const Discord = require("discord.js");
+const Discord = require("discord.js");
 // const xml2js = require("xml2js");
 const fs = require("fs");
-const bot = new discord.Client();
+const bot = new Discord.Client();
 const config = require("./config.json");
 const dictKey = process.env.DICT_TOKEN;
 const thesKey = process.env.THES_TOKEN;
