@@ -1,7 +1,7 @@
 {
   "name": "Discord Bot",
   "description": "Bot Dude",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "main": "bot.js",
   "scripts": {
     "start": "node bot.js"
