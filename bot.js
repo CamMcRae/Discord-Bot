@@ -10,12 +10,12 @@ const firstTen = ["zero", "one", "two", "three", "four", "five", "six", "seven",
 
 bot.on('ready', () => {
   console.log('I am ready!');
-  // bot.user.setActivity({
-  //   game: {
-  //     name: "with some weird shit",
-  //     type: 0
-  //   }
-  // });
+  bot.user.setActivity({
+    game: {
+      name: "with some weird shit",
+      type: 0
+    }
+  });
   // bot.user.setUsername("Bot Dude");
 });
 
