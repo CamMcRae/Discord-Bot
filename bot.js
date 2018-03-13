@@ -153,7 +153,9 @@ bot.on('message', message => {
         for (let i = 0; i < diceAmt; i++) {
           rolls.push(Math.floor(Math.random() * Math.floor(max)));
         }
-        message.channel.send("The dice landed on: " + rolls.join(", ") + " with a total sum of " + rolls.reduce((a, b) => a + b, 0)).catch("Ya dun did something and it no work.");
+        if (rolls.length > 0){
+          message.channel.send("The dice landed on: " + rolls.join(", ") + " with a total sum of " + rolls.reduce((a, b) => a + b, 0)).catch("Ya dun did something and it no work.");
+        }
     }
   } else {
     switch (message.content.toLowerCase()) {
