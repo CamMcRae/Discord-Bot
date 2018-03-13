@@ -24,12 +24,17 @@ bot.login(process.env.BOT_TOKEN);
 
 bot.on('message', message => {
   if (message.author.bot) return; // if a bot is talking
+
   let query = message.content.slice(config.prefix.length).trim().split(/ +/g); // gets query
   let command = query.shift().toLowerCase(); // gets command
-  query = query.join(" ")
+
+  // converts query to lowercase;
   if (command != "wiki") {
-    query = query.toLowerCase();
+    for (let i = 0; i < query.length; i++){
+      query[i] = query[i].toLowerCase();
+    }
   }
+
   // counter
   var counter = 0;
   query.split(" ").every(word => {
@@ -42,6 +47,7 @@ bot.on('message', message => {
   });
   config.counter[message.author.id] += counter;
   fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
+
   // cases
   if (message.content.startsWith(config.prefix)) {
     if (config.ownerId === message.author.id) {
@@ -51,7 +57,7 @@ bot.on('message', message => {
           console.log(message)
           break;
         case "link":
-          switch (query) {
+          switch (query.shift()) {
             case "music":
               config.musicID = message.channel.id;
               message.channel.send(":link: Channel linked as music.");
@@ -85,16 +91,15 @@ bot.on('message', message => {
         message.channel.send("http://lmgtfy.com/?q=" + message.content.substr(8).replace(/ /g, "%20"));
         break;
       case "define":
-        let dictSearchQuery = query;
+        let dictSearchQuery = query.join(" ");
         if (dictSearchQuery) {
           let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${dictSearchQuery.split(" ").join("%20")}?key=${dictKey}`;
           apiRequest(url, "dict", message, dictionary, dictSearchQuery);
         }
         break;
       case "thesaurus":
-        let thesSearchQuery = query;
+        let thesSearchQuery = query.join(" ");
         apiRequest(url, "thes", message, thesaurus, thesSearchQuery);
-        // thesaurus
         break;
       case "clean":
         // go up through bot messages and delete them until 1 day old
@@ -102,7 +107,7 @@ bot.on('message', message => {
       case "spell":
         message.delete();
         let spellTemp = [];
-        for (let i = 0; i < query.length; i++) {
+        for (let i = 0; i < query.join(" ").length; i++) {
           if (query[i] != " ") {
             if (alphabet.includes(query[i])) {
               spellTemp.push(":regional_indicator_" + query[i] + ":");
@@ -134,10 +139,10 @@ bot.on('message', message => {
         break;
       case "roll":
         let rolls = [];
-        for (let i = 0; i < query; i++) {
-          rolls.push(Math.floor(Math.random() * Math.floor(6)));
+        for (let i = 0; i < query.shift(); i++) {
+          rolls.push(Math.floor(Math.random() * Math.floor(query.shift())));
         }
-        message.channel.send("The dice landed on:" + rolls.join(", ") + "with a total sum of " + rolls.reduce((a, b) => a + b, 0));
+        message.channel.send("The dice landed on: " + rolls.join(", ") + " with a total sum of " + rolls.reduce((a, b) => a + b, 0));
     }
   } else {
     switch (message.content.toLowerCase()) {
