@@ -23,27 +23,63 @@ bot.login(process.env.BOT_TOKEN);
 
 bot.on('message', message => {
   if (message.author.bot) return; // if a bot is talking
-  for (let i of words) {
-    if (message.content.includes(i)) {
-      config.counter[message.author.id] += 1;
-      fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
-    }
-
-  }
   let query = message.content.slice(config.prefix.length).trim().split(/ +/g); // gets query
   let command = query.shift().toLowerCase(); // gets command
   query = query.join(" ")
   if (command != "wiki") {
     query = query.toLowerCase();
   }
+  // counter
+  var counter = 0;
+  query.split(" ").every(word => {
+    for (let i of words) {
+      if (word.includes(i)) {
+        counter++;
+      }
+    }
+    return true;
+  });
+  config.counter[message.author.id] += counter;
+  fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
+  // cases
   if (message.content.startsWith(config.prefix)) {
-    switch (command) {
-      case "restrict":
-        if (message.author.id == config.ownerId) {
+    if (config.ownerId.equals(message.author.id)) {
+      switch (command) {
+        case "restrict":
           message.channel.send('wat');
           console.log(message)
-        }
-        break;
+          break;
+        case "link":
+          switch (query) {
+            case "music":
+              config.musicID = message.channel.id;
+              message.channel.send(":link: Channel linked as music.");
+              break;
+            case "main":
+              config.mainId = message.channel.id;
+              message.channel.send(":link: Channel linked as main.");
+              break;
+            default:
+              fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
+          }
+          break;
+        case "prefix":
+          if (query.join(" ").length == 1) {
+            config.prefix = query;
+            fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
+            message.channel.send("Prefix changed to " + "```" + config.prefix + "```");
+          }
+          break;
+        case "swears":
+          entries = [];
+          for (let i = 0; i < Object.keys(config.counter).length; i++) {
+            entries.push([Object.entries(config.counter)[i]]);
+          }
+          message.channel.send(printMSG(entries, "swears"));
+          break;
+      }
+    }
+    switch (command) {
       case "lmgtfy":
         message.channel.send("http://lmgtfy.com/?q=" + message.content.substr(8).replace(/ /g, "%20"));
         break;
@@ -58,29 +94,6 @@ bot.on('message', message => {
         let thesSearchQuery = query;
         apiRequest(url, "thes", message, thesaurus, thesSearchQuery);
         // thesaurus
-        break;
-      case "link":
-        if (message.author.id == config.ownerId) {
-          switch (query) {
-            case "music":
-              config.musicID = message.channel.id;
-              message.channel.send(":link: Channel linked as music.");
-              break;
-            case "main":
-              config.mainId = message.channel.id;
-              message.channel.send(":link: Channel linked as main.");
-              break;
-            default:
-              fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
-          }
-        }
-        break;
-      case "prefix":
-        if (message.author.id == config.ownerId && query.join(" ").length == 1) {
-          config.prefix = query;
-          fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
-          message.channel.send("Prefix changed to " + "```" + config.prefix + "```");
-        }
         break;
       case "clean":
         // go up through bot messages and delete them until 1 day old
@@ -114,13 +127,6 @@ bot.on('message', message => {
         break;
       case "wiki":
         message.channel.send("https://en.wikipedia.org/wiki/" + query.split(" ").join("_"));
-        break;
-      case "swears":
-        entries = [];
-        for (let i = 0; i < Object.keys(config.counter).length; i++) {
-          entries.push([Object.entries(config.counter)[i]]);
-        }
-        message.channel.send(printMSG(entries, "swears"));
         break;
     }
   } else {
