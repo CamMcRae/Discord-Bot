@@ -140,8 +140,9 @@ bot.on('message', message => {
       case "roll":
         let rolls = [];
         let diceAmt = query.shift();
+        let max = query.shift() || 6;
         for (let i = 0; i < diceAmt; i++) {
-          rolls.push(Math.floor(Math.random() * Math.floor((query ? query.shift() : 6))));
+          rolls.push(Math.floor(Math.random() * Math.floor(max)));
         }
         message.channel.send("The dice landed on: " + rolls.join(", ") + " with a total sum of " + rolls.reduce((a, b) => a + b, 0));
     }
