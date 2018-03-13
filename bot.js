@@ -137,7 +137,7 @@ bot.on('message', message => {
         for (let i = 0; i < query; i++) {
           rolls.push(Math.floor(Math.random() * Math.floor(max)));
         }
-        message.channel.send("The dice landed on:" + rolls.join(", ") + "with a total sum of " rolls.reduce((a, b) => a + b, 0));
+        message.channel.send("The dice landed on:" + rolls.join(", ") + "with a total sum of " + rolls.reduce((a, b) => a + b, 0));
     }
   } else {
     switch (message.content.toLowerCase()) {
