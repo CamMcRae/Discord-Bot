@@ -102,11 +102,11 @@ bot.on('message', message => {
         apiRequest(url, "thes", message, thesaurus, thesSearchQuery);
         break;
       case "clean":
-        break; 
+        break;
         message.delete(3000);
         let purgeAmt = query.shift() || 100;
         let purgeOld = query.shift() || false;
-        message.channel.bulkDelete(purgeAmt, purgeOld).then(messages = > message.channel.send(`Removed ${messages.size} messages`)).catch(console.error);
+        message.channel.bulkDelete(purgeAmt, purgeOld).then(messages => message.channel.send(`Removed ${messages.size} messages`)).catch(console.error);
       case "spell":
         message.delete();
         let spellTemp = [];
