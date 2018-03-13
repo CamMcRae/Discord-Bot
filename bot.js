@@ -43,7 +43,7 @@ bot.on('message', message => {
   fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
   // cases
   if (message.content.startsWith(config.prefix)) {
-    if (config.ownerId.equals(message.author.id)) {
+    if (config.ownerId === message.author.id) {
       switch (command) {
         case "restrict":
           message.channel.send('wat');
