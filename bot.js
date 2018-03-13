@@ -129,9 +129,9 @@ bot.on('message', message => {
       case "wiki":
         message.channel.send("https://en.wikipedia.org/wiki/" + query.split(" ").join("_"));
         break;
-      case "flipacoin"{
+      case "flipacoin":
         message.channel.send("The coin landed on " + (Math.random() >= 0.5 ? "heads" : "tails"))
-      }
+        break;
     }
   } else {
     switch (message.content.toLowerCase()) {
