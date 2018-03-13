@@ -130,8 +130,14 @@ bot.on('message', message => {
         message.channel.send("https://en.wikipedia.org/wiki/" + query.split(" ").join("_"));
         break;
       case "flipacoin":
-        message.channel.send("The coin landed on " + (Math.random() >= 0.5 ? "heads" : "tails"))
+        message.channel.send("The coin landed on " + (Math.random() >= 0.5 ? "heads!" : "tails!"))
         break;
+      case "roll":
+        let rolls = [];
+        for (let i = 0; i < query; i++) {
+          rolls.push(Math.floor(Math.random() * Math.floor(max)));
+        }
+        message.channel.send("The dice landed on:" + rolls.join(", ") + "with a total sum of " rolls.reduce((a, b) => a + b, 0));
     }
   } else {
     switch (message.content.toLowerCase()) {
