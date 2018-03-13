@@ -11,7 +11,11 @@ const words = ["fak", "fuck", "shit"];
 
 bot.on('ready', () => {
   console.log('I am ready!');
-  bot.user.setActivity('a game', { type: 'PLAYING' });
+  bot.user.setPresence({
+    game: {
+      name: "a game"
+    }
+  });
   // bot.user.setUsername("Bot Dude");
 });
 
