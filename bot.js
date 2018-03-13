@@ -30,7 +30,7 @@ bot.on('message', message => {
 
   // converts query to lowercase;
   if (command != "wiki") {
-    for (let i = 0; i < query.length; i++){
+    for (let i = 0; i < query.length; i++) {
       query[i] = query[i].toLowerCase();
     }
   }
@@ -102,8 +102,11 @@ bot.on('message', message => {
         apiRequest(url, "thes", message, thesaurus, thesSearchQuery);
         break;
       case "clean":
-        // go up through bot messages and delete them until 1 day old
-        break;
+        break; 
+        message.delete(3000);
+        let purgeAmt = query.shift() || 100;
+        let purgeOld = query.shift() || false;
+        message.channel.bulkDelete(purgeAmt, purgeOld).then(messages = > message.channel.send(`Removed ${messages.size} messages`)).catch(console.error);
       case "spell":
         message.delete();
         let spellTemp = [];
@@ -139,12 +142,12 @@ bot.on('message', message => {
         break;
       case "roll":
         let rolls = [];
-        let diceAmt = query.shift();
-        let max = query.shift() || 6;
+        let diceAmt = parseInt(query.shift()).catch(message.channel.send("Invalid arguments"));
+        let max = parseInt(query.shift()) || 6;
         for (let i = 0; i < diceAmt; i++) {
           rolls.push(Math.floor(Math.random() * Math.floor(max)));
         }
-        message.channel.send("The dice landed on: " + rolls.join(", ") + " with a total sum of " + rolls.reduce((a, b) => a + b, 0));
+        message.channel.send("The dice landed on: " + rolls.join(", ") + " with a total sum of " + rolls.reduce((a, b) => a + b, 0)).catch("Ya dun did something and it no work.");
     }
   } else {
     switch (message.content.toLowerCase()) {
