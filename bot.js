@@ -146,8 +146,8 @@ bot.on('message', message => {
         try {
           diceAmt = parseInt(query.shift());
         } catch (e) {
-          diceAmt = 0;
           message.channel.send("Invalid arguments");
+          diceAmt = 0;
         }
         let max = parseInt(query.shift()) || 6;
         for (let i = 0; i < diceAmt; i++) {
