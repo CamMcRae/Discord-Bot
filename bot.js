@@ -37,7 +37,7 @@ bot.on('message', message => {
 
   // counter
   var counter = 0;
-  query.split(" ").every(word => {
+  query.every(word => {
     for (let i of words) {
       if (word.includes(i)) {
         counter++;
@@ -140,7 +140,7 @@ bot.on('message', message => {
       case "roll":
         let rolls = [];
         for (let i = 0; i < query.shift(); i++) {
-          rolls.push(Math.floor(Math.random() * Math.floor(query.shift())));
+          rolls.push(Math.floor(Math.random() * Math.floor((query ? query.shift() : 6))));
         }
         message.channel.send("The dice landed on: " + rolls.join(", ") + " with a total sum of " + rolls.reduce((a, b) => a + b, 0));
     }
