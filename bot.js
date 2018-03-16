@@ -11,7 +11,7 @@ const dictKey = process.env.DICT_TOKEN;
 const thesKey = process.env.THES_TOKEN;
 const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 const firstTen = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
-const words = ["fak", "fuck", "shit"];
+const words = ["fak", "fuck", "shit", "fuk"];
 
 bot.on('ready', () => {
   console.log('I am ready!');
@@ -99,9 +99,44 @@ bot.on('message', message => {
         let thesSearchQuery = query.join(" ");
         apiRequest(url, "thes", message, thesaurus, thesSearchQuery);
         break;
+      case "purge":
       case "clean":
         break;
-        message.delete(3000);
+        if (!query) { // Purges only bot messages
+          message.channel.fetchMessages().then((messages) => {
+            const messages = messages.filter(msg => bot.user.id).array().slice(0, 100);
+            message.channel.bulkDelete(messages).catch(error => {
+              console.log(error.stack);
+              message.channel.send("Error deleting messages!");
+            });
+          });
+          message.channel.send("`" + botMessages.length + "` were removed!").then(msg => {
+            msg.delete(3000)
+          });
+        } else {
+          const user = message.mentions.users.first();
+          let amount = !!parseInt(query[0]) ? parseInt(query[0]) : parseInt(query[1]);
+          if (!amount) amount = 100;
+          amount = 2;
+          if (user) { // if user is specified
+            message.channel.fetchMessages().then((messages) => {
+              messages = messages.filter(msg => user).array().slice(0, amount);
+              message.channel.bulkDelete(messages).catch(error => console.log(error.stack));
+            });
+          } else { // if no user is specified
+            message.channel.fetchMessages({
+              limit: amount
+            }).then((messages) => {
+              message.channel.bulkDelete().catch(error => console.log(error.stack));
+            });
+          }
+
+        }
+
+
+        // if number purge that many
+        // if user purge that amt
+
         let purgeAmt = query.shift() || 100;
         let purgeOld = query.shift() || false;
         message.channel.bulkDelete(purgeAmt, purgeOld).then(messages => message.channel.send(`Removed ${messages.size} messages`)).catch(console.error);
@@ -156,6 +191,7 @@ bot.on('message', message => {
           message.channel.send("The dice landed on: " + rolls.join(", ") + " with a total sum of " + rolls.reduce((a, b) => a + b, 0)).catch("Ya dun did something and it no work.");
         }
         break;
+      case "google":
       case "whatis":
         google(message, query);
         break;
