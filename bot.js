@@ -110,7 +110,7 @@ bot.on('message', message => {
               console.log(error.stack);
               message.channel.send("Error deleting messages!");
             });
-            message.channel.send("bot clean`" + botMessages.length + "` messages were removed!"); //.then(msg => {
+            message.channel.send("bot clean `" + botMessages.length + "` messages were removed!"); //.then(msg => {
             //   msg.delete(3000)
             // });
           });
@@ -138,11 +138,11 @@ bot.on('message', message => {
             message.channel.fetchMessages({
               limit: amount
             }).then((messages) => {
-              message.channel.bulkDelete().catch(error => {
+              message.channel.bulkDelete(messages).catch(error => {
                 console.log(error.stack);
                 message.channel.send("Error deleting messages!");
               });
-              message.channel.send("regular clean`" + amount + "` messages were removed!")//.then(msg => {
+              message.channel.send("regular clean `" + amount + "` messages were removed!")//.then(msg => {
               //   msg.delete(3000)
               // });
             });
