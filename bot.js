@@ -116,7 +116,6 @@ bot.on('message', message => {
         message.delete();
         // maybe get array of sent messages, filter by bot, shift 1 and get ones above?
         if (query.length == 0) { // Purges only bot messages
-          console.log("bot clean");
           message.channel.fetchMessages().then((messages) => {
             const botMessages = messages.filter(msg => msg.author.id === bot.user.id).array().slice(0, 100);
             message.channel.bulkDelete(botMessages).catch(error => {
@@ -135,7 +134,6 @@ bot.on('message', message => {
             break;
           }
           if (user) { // if user is specified
-            console.log("user clean");
             message.channel.fetchMessages().then((messages) => {
               messages = messages.filter(msg => msg.author.id === user.id).array().slice(0, amount);
               message.channel.bulkDelete(messages).catch(error => {
@@ -147,7 +145,6 @@ bot.on('message', message => {
               });
             });
           } else { // if no user is specified
-            console.log("regular clean");
             message.channel.fetchMessages({
               limit: amount
             }).then((messages) => {
@@ -395,7 +392,7 @@ function printMsg(entries, type, searchQuery, json) {
         let temp = "";
         temp += "**" + entries[i].shift() + "** ";
         obj.embed.fields[i].name = temp; // adds to embed
-        obj.embed.fields[i].value = "\t" + entries[i].join("\n\t");
+        obj.embed.fields[i].value = entries[i].join("\n");
       }
       break;
   }
