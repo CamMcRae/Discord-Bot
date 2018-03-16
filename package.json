@@ -13,5 +13,8 @@
     "cheerio.js": "0.22.0",
     "snekfetch": "3.6.4",
     "querystring": "9.8.0"
+  },
+  "engines": {
+    "node": "9.8.0"
   }
 }
