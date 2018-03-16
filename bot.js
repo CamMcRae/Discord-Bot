@@ -101,8 +101,8 @@ bot.on('message', message => {
         break;
       case "purge":
       case "clean":
-      console.log(query);
-        if (!query) { // Purges only bot messages
+        console.log(query);
+        if (query.length > 0) { // Purges only bot messages
           console.log("bot clean");
           message.channel.fetchMessages().then((messages) => {
             const botMessages = messages.filter(msg => bot.user.id).array().slice(0, 2);
@@ -117,7 +117,9 @@ bot.on('message', message => {
         } else if (config.ownerId === message.author.id) { // if its admin
           const user = message.mentions.users.first();
           let amount = !!parseInt(query[0]) ? parseInt(query[0]) : parseInt(query[1]);
-          if (!amount) amount = 100;
+          if (!amount) {
+            amount = 100;
+          }
           amount = 2;
           if (user) { // if user is specified
             console.log("user clean");
