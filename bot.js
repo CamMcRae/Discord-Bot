@@ -101,7 +101,6 @@ bot.on('message', message => {
         break;
       case "purge":
       case "clean":
-        break;
         if (!query) { // Purges only bot messages
           message.channel.fetchMessages().then((messages) => {
             const botMessages = messages.filter(msg => bot.user.id).array().slice(0, 2);
@@ -143,6 +142,7 @@ bot.on('message', message => {
             });
           }
         }
+        break;
       case "spell":
         message.delete();
         let spellTemp = [];
