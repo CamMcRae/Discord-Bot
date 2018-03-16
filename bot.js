@@ -15,13 +15,13 @@ const words = ["fak", "fuck", "shit", "fuk"];
 const commands = [
   ["Let Me Google That For You", config.prefix + "lmgtfy <query>"],
   ["Define", config.prefix + "define <query>"],
-  ["Clean bot messages", config.prefix + "clean", config.prefix + "purge"],
+  ["Clean Bot Messages", config.prefix + "clean", config.prefix + "purge"],
   ["Spell with Emotes", config.prefix + "spell <query>"],
   ["Wikipedia Page", config.prefix + "wiki <query>"],
   ["Coinflip", config.prefix + "coinflip", config.prefix + "flipacoin"],
   ["Dice Roll", config.prefix + "roll <number of dice> <amount of sides>"],
   ["Google Search", config.prefix + "google <query>", config.prefix + "whatis <query>"]
-]; //[[command,syntax1,syntax2,etc]]
+]; //[[Description, syntax1, syntax2, etc],...]
 
 
 bot.on('ready', () => {
@@ -303,7 +303,7 @@ function printMsg(entries, type, searchQuery, json) {
         url: "https://cdn.discordapp.com/embed/avatars/0.png"
       },
       author: {
-        name: bot.user.username,
+        name: bot.user.nickname,
         icon_url: bot.user.avatarURL
       },
       footer: {
@@ -382,8 +382,8 @@ function printMsg(entries, type, searchQuery, json) {
       obj.embed.color = 0xff00ff;
       break;
     case "commands":
-      obj.embed.title = "Commands";
-      obj.embed.description = "Commands for Bot Dude";
+      obj.embed.title = "Commands for" + bot.user.nickname;
+      obj.embed.description = "<Usage>";
       obj.embed.color = 0xff0909;
       obj.embed.footer.text = "Commands";
 
