@@ -39,7 +39,7 @@ bot.on('message', message => {
   }
 
   // counter
-  if (swearWords.some(word => message.content.includes(word))) {
+  if (words.some(word => message.content.includes(word))) {
     config.counter[message.author.id]++;
     fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
   }
