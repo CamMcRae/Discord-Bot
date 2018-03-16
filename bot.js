@@ -48,7 +48,7 @@ bot.on('message', message => {
 
   // cases
   if (message.content.startsWith(config.prefix)) {
-    if (config.ownerId === message.author.id) {
+    if (config.ownerId == message.author.id) {
       switch (command) {
         case "restrict":
           message.channel.send('wat');
@@ -114,7 +114,7 @@ bot.on('message', message => {
             //   msg.delete(3000)
             // });
           });
-        } else if (config.ownerId === message.author.id) { // if its admin
+        } else if (config.ownerId == message.author.id) { // if its admin
           const user = message.mentions.users.first();
           let amount = !!parseInt(query[0]) ? parseInt(query[0]) : parseInt(query[1]);
           if (!amount) {
