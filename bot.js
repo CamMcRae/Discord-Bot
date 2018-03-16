@@ -101,7 +101,7 @@ bot.on('message', message => {
         break;
       case "purge":
       case "clean":
-        message.delete(3000);
+        // message.delete(3000);
         if (query.length == 0) { // Purges only bot messages
           console.log("bot clean");
           message.channel.fetchMessages().then((messages) => {
@@ -110,7 +110,7 @@ bot.on('message', message => {
               console.log(error.stack);
               message.channel.send("Error deleting messages!");
             });
-            message.channel.send("`" + botMessages.length + "` were removed!").then(msg => {
+            message.channel.send("`" + botMessages.length + "` messages were removed!").then(msg => {
               msg.delete(3000)
             });
           });
@@ -129,7 +129,7 @@ bot.on('message', message => {
                 console.log(error.stack);
                 message.channel.send("Error deleting messages!");
               });
-              message.channel.send("`" + messages.length + "` were removed!").then(msg => {
+              message.channel.send("`" + messages.length + "` messages were removed!").then(msg => {
                 msg.delete(3000)
               });
             });
@@ -142,7 +142,7 @@ bot.on('message', message => {
                 console.log(error.stack);
                 message.channel.send("Error deleting messages!");
               });
-              message.channel.send("`" + amount + "` were removed!").then(msg => {
+              message.channel.send("`" + amount + "` messages were removed!").then(msg => {
                 msg.delete(3000)
               });
             });
