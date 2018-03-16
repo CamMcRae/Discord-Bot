@@ -101,8 +101,7 @@ bot.on('message', message => {
         break;
       case "purge":
       case "clean":
-        console.log(query);
-        if (query.length > 0) { // Purges only bot messages
+        if (query.length == 0) { // Purges only bot messages
           console.log("bot clean");
           message.channel.fetchMessages().then((messages) => {
             const botMessages = messages.filter(msg => bot.user.id).array().slice(0, 2);
