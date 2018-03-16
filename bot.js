@@ -101,11 +101,11 @@ bot.on('message', message => {
         break;
       case "purge":
       case "clean":
-        // message.delete(3000);
+        message.delete();
         if (query.length == 0) { // Purges only bot messages
           console.log("bot clean");
           message.channel.fetchMessages().then((messages) => {
-            const botMessages = messages.filter(msg => msg.author.id === bot.user.id).array().slice(0, 2);
+            const botMessages = messages.filter(msg => msg.author.id === bot.user.id).array().slice(0, 100);
             message.channel.bulkDelete(botMessages).catch(error => {
               console.log(error.stack);
               message.channel.send("Error deleting messages!");
@@ -118,7 +118,7 @@ bot.on('message', message => {
           const user = message.mentions.users.first();
           let amount = !!parseInt(query[0]) ? parseInt(query[0]) : parseInt(query[1]);
           if (!amount) {
-            message.channel.send("Specify and amount");
+            message.channel.send("Specify and amount of messages to delete");
             break;
           }
           if (user) { // if user is specified
