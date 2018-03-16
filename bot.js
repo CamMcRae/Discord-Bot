@@ -2,6 +2,9 @@ const Discord = require("discord.js");
 const xml2js = require("xml2js");
 const https = require("https");
 const fs = require("fs");
+const cheerio = require('cheerio');
+const snekfetch = require('snekfetch');
+const querystring = require('querystring');
 const bot = new Discord.Client();
 const config = require("./config.json");
 const dictKey = process.env.DICT_TOKEN;
@@ -36,17 +39,12 @@ bot.on('message', message => {
   }
 
   // counter
-  var counter = 0;
-  query.every(word => {
-    for (let i of words) {
-      if (word.includes(i)) {
-        counter++;
-      }
-    }
-    return true;
-  });
-  config.counter[message.author.id] += counter;
-  fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
+  if (swearWords.some(word => message.content.includes(word))) {
+    config.counter[message.author.id]++;
+    fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
+  }
+
+
 
   // cases
   if (message.content.startsWith(config.prefix)) {
@@ -137,6 +135,7 @@ bot.on('message', message => {
       case "wiki":
         message.channel.send("https://en.wikipedia.org/wiki/" + query.split(" ").join("_"));
         break;
+      case "coinflip":
       case "flipacoin":
         message.channel.send("The coin landed on " + (Math.random() >= 0.5 ? "heads!" : "tails!"))
         break;
@@ -151,11 +150,25 @@ bot.on('message', message => {
         }
         let max = parseInt(query.shift()) || 6;
         for (let i = 0; i < diceAmt; i++) {
-          rolls.push(Math.floor(Math.random() * Math.floor(max)+1));
+          rolls.push(Math.floor(Math.random() * Math.floor(max) + 1));
         }
-        if (rolls.length > 0){
+        if (rolls.length > 0) {
           message.channel.send("The dice landed on: " + rolls.join(", ") + " with a total sum of " + rolls.reduce((a, b) => a + b, 0)).catch("Ya dun did something and it no work.");
         }
+        break;
+      case "whatis":
+        async function google() {
+          let googleUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+          return snekfetch.get(googleUrl).then((result) => {
+            let $ = cheerio.load(result.text); // Parse HTML
+            let googleData = $('.r').first().find('a').first().attr('href');
+            googleData = querystring.parse(googleData.replace('/url?', ''));
+            message.channel.send(`Result found!\n${googleData.q}`);
+          }).catch((err) => { // No results
+            message.channel.send('No results found!');
+          });
+        }
+        break;
     }
   } else {
     switch (message.content.toLowerCase()) {
