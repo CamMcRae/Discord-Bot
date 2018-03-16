@@ -157,17 +157,7 @@ bot.on('message', message => {
         }
         break;
       case "whatis":
-        async function google() {
-          let googleUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
-          return snekfetch.get(googleUrl).then((result) => {
-            let $ = cheerio.load(result.text); // Parse HTML
-            let googleData = $('.r').first().find('a').first().attr('href');
-            googleData = querystring.parse(googleData.replace('/url?', ''));
-            message.channel.send(`Result found!\n${googleData.q}`);
-          }).catch((err) => { // No results
-            message.channel.send('No results found!');
-          });
-        }
+        google(message, query);
         break;
     }
   } else {
@@ -186,6 +176,18 @@ bot.on('message', message => {
     }
   }
 });
+
+async function google(message, query) {
+  let googleUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+  return snekfetch.get(googleUrl).then((result) => {
+    let $ = cheerio.load(result.text); // Parse HTML
+    let googleData = $('.r').first().find('a').first().attr('href');
+    googleData = querystring.parse(googleData.replace('/url?', ''));
+    message.channel.send(`Result found!\n${googleData.q}`);
+  }).catch((err) => { // No results
+    message.channel.send('No results found!');
+  });
+}
 
 function apiRequest(url, type, message, callback, searchQuery) {
   https.get(url, res => { // calls api
