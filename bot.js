@@ -102,6 +102,7 @@ bot.on('message', message => {
       case "purge":
       case "clean":
         if (!query) { // Purges only bot messages
+          console.log("bot clean");
           message.channel.fetchMessages().then((messages) => {
             const botMessages = messages.filter(msg => bot.user.id).array().slice(0, 2);
             message.channel.bulkDelete(botMessages).catch(error => {
@@ -118,6 +119,7 @@ bot.on('message', message => {
           if (!amount) amount = 100;
           amount = 2;
           if (user) { // if user is specified
+            console.log("user clean");
             message.channel.fetchMessages().then((messages) => {
               messages = messages.filter(msg => user).array().slice(0, amount);
               message.channel.bulkDelete(messages).catch(error => {
@@ -129,6 +131,7 @@ bot.on('message', message => {
               });
             });
           } else { // if no user is specified
+            console.log("regular clean");
             message.channel.fetchMessages({
               limit: amount
             }).then((messages) => {
