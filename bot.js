@@ -12,6 +12,17 @@ const thesKey = process.env.THES_TOKEN;
 const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 const firstTen = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
 const words = ["fak", "fuck", "shit", "fuk"];
+const commands = [
+  ["Let Me Google That For You", config.prefix + "lmgtfy <query>"],
+  ["Define", config.prefix + "define <query>"],
+  ["Clean bot messages", config.prefix + "clean", config.prefix + "purge"],
+  ["Spell with Emotes", config.prefix + "spell <query>"],
+  ["Wikipedia Page", config.prefix + "wiki <query>"],
+  ["Coinflip", config.prefix + "coinflip", config.prefix + "flipacoin"],
+  ["Dice Roll", config.prefix + "roll <number of dice> <amount of sides>"],
+  ["Google Search", config.prefix + "google <query>", config.prefix + "whatis <query>"]
+]; //[[command,syntax1,syntax2,etc]]
+
 
 bot.on('ready', () => {
   console.log('I am ready!');
@@ -43,8 +54,6 @@ bot.on('message', message => {
     config.counter[message.author.id]++;
     fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
   }
-
-
 
   // cases
   if (message.content.startsWith(config.prefix)) {
@@ -85,6 +94,9 @@ bot.on('message', message => {
       }
     }
     switch (command) {
+      case "commands":
+        message.channel.send(printMSG(commands, "commands"));
+        break;
       case "lmgtfy":
         message.channel.send("http://lmgtfy.com/?q=" + message.content.substr(8).replace(/ /g, "%20"));
         break;
@@ -102,6 +114,7 @@ bot.on('message', message => {
       case "purge":
       case "clean":
         message.delete();
+        // maybe get array of sent messages, filter by bot, shift 1 and get ones above?
         if (query.length == 0) { // Purges only bot messages
           console.log("bot clean");
           message.channel.fetchMessages().then((messages) => {
@@ -370,6 +383,20 @@ function printMsg(entries, type, searchQuery, json) {
       obj.embed.fields[0].value = temp;
       obj.embed.footer.text = "\u200b";
       obj.embed.color = 0xff00ff;
+      break;
+    case "commands":
+      obj.embed.title = "Commands";
+      obj.embed.description = "Commands for Bot Dude";
+      obj.embed.color = 0xff0909;
+      obj.embed.footer.text = "Commands";
+
+      for (let i = 0; i < entries.length; i++) { // first list element with name and date
+        obj.embed.fields.push({});
+        let temp = "";
+        temp += "**" + entries[i].shift() + "** ";
+        obj.embed.fields[i].name = temp; // adds to embed
+        obj.embed.fields[i].value = entries[i].join("\n\t");
+      }
       break;
   }
   return obj;
