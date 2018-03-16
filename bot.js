@@ -124,7 +124,7 @@ bot.on('message', message => {
           if (user) { // if user is specified
             console.log("user clean");
             message.channel.fetchMessages().then((messages) => {
-              messages = messages.filter(msg => user).array().slice(0, amount);
+              messages = messages.filter(msg => msg.author.id == user.id).array().slice(0, amount);
               message.channel.bulkDelete(messages).catch(error => {
                 console.log(error.stack);
                 message.channel.send("Error deleting messages!");
