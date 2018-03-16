@@ -192,6 +192,7 @@ bot.on('message', message => {
       case "coinflip":
       case "flipacoin":
         message.channel.send("The coin landed on " + (Math.random() >= 0.5 ? "heads!" : "tails!")) break;
+        break;
       case "roll":
         let rolls = [];
         let diceAmt;
