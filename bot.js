@@ -110,10 +110,10 @@ bot.on('message', message => {
               message.channel.send("Error deleting messages!");
             });
           });
-          message.channel.send("`" + botMessages.length + "` were removed!").then(msg => {
+          message.channel.send("`" + messages.length + "` were removed!").then(msg => {
             msg.delete(3000)
           });
-        } else {
+        } else if (config.ownerId === message.author.id) { // if its admin
           const user = message.mentions.users.first();
           let amount = !!parseInt(query[0]) ? parseInt(query[0]) : parseInt(query[1]);
           if (!amount) amount = 100;
@@ -121,25 +121,28 @@ bot.on('message', message => {
           if (user) { // if user is specified
             message.channel.fetchMessages().then((messages) => {
               messages = messages.filter(msg => user).array().slice(0, amount);
-              message.channel.bulkDelete(messages).catch(error => console.log(error.stack));
+              message.channel.bulkDelete(messages).catch(error => {
+                console.log(error.stack);
+                message.channel.send("Error deleting messages!");
+              });
+              message.channel.send("`" + messages.length + "` were removed!").then(msg => {
+                msg.delete(3000)
+              });
             });
           } else { // if no user is specified
             message.channel.fetchMessages({
               limit: amount
             }).then((messages) => {
-              message.channel.bulkDelete().catch(error => console.log(error.stack));
+              message.channel.bulkDelete().catch(error => {
+                console.log(error.stack);
+                message.channel.send("Error deleting messages!");
+              });
+              message.channel.send("`" + amount + "` were removed!").then(msg => {
+                msg.delete(3000)
+              });
             });
           }
-
         }
-
-
-        // if number purge that many
-        // if user purge that amt
-
-        let purgeAmt = query.shift() || 100;
-        let purgeOld = query.shift() || false;
-        message.channel.bulkDelete(purgeAmt, purgeOld).then(messages => message.channel.send(`Removed ${messages.size} messages`)).catch(console.error);
       case "spell":
         message.delete();
         let spellTemp = [];
