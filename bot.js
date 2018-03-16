@@ -95,7 +95,7 @@ bot.on('message', message => {
     }
     switch (command) {
       case "commands":
-        message.channel.send(printMSG(commands, "commands"));
+        message.channel.send(printMsg(commands, "commands"));
         break;
       case "lmgtfy":
         message.channel.send("http://lmgtfy.com/?q=" + message.content.substr(8).replace(/ /g, "%20"));
