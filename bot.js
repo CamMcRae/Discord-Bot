@@ -395,7 +395,7 @@ function printMsg(entries, type, searchQuery, json) {
         let temp = "";
         temp += "**" + entries[i].shift() + "** ";
         obj.embed.fields[i].name = temp; // adds to embed
-        obj.embed.fields[i].value = entries[i].join("\n\t");
+        obj.embed.fields[i].value = "\t" + entries[i].join("\n\t");
       }
       break;
   }
