@@ -95,7 +95,7 @@ bot.on('message', message => {
     }
     switch (command) {
       case "commands":
-        message.channel.send(printMsg(commands.slice(), "commands"));
+        message.channel.send(printMsg(JSON.parse(JSON.stringify(commands)), "commands"));
         break;
       case "lmgtfy":
         message.channel.send("http://lmgtfy.com/?q=" + message.content.substr(8).replace(/ /g, "%20"));
@@ -191,8 +191,7 @@ bot.on('message', message => {
         break;
       case "coinflip":
       case "flipacoin":
-        message.channel.send("The coin landed on " + (Math.random() >= 0.5 ? "heads!" : "tails!"))
-        break;
+        message.channel.send("The coin landed on " + (Math.random() >= 0.5 ? "heads!" : "tails!")) break;
       case "roll":
         let rolls = [];
         let diceAmt;
