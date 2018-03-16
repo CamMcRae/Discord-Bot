@@ -123,7 +123,7 @@ bot.on('message', message => {
               console.log(error.stack);
               message.channel.send("Error deleting messages!");
             });
-            message.channel.send("`" + botMessages.length + "` messages were removed!").then(msg => {
+            message.channel.send("`" + botMessages.length + ":recycle: ` messages were removed!").then(msg => {
               msg.delete(5000)
             });
           });
@@ -142,7 +142,7 @@ bot.on('message', message => {
                 console.log(error.stack);
                 message.channel.send("Error deleting messages!");
               });
-              message.channel.send("`" + messages.length + "` messages were removed!").then(msg => {
+              message.channel.send("`" + messages.length + ":recycle: ` messages were removed!").then(msg => {
                 msg.delete(5000)
               });
             });
@@ -155,7 +155,7 @@ bot.on('message', message => {
                 console.log(error.stack);
                 message.channel.send("Error deleting messages!");
               });
-              message.channel.send("`" + amount + "` messages were removed!").then(msg => {
+              message.channel.send(":recycle: `" + amount + "` messages were removed!").then(msg => {
                 msg.delete(5000)
               });
             });
