@@ -60,7 +60,7 @@ bot.on('message', message => {
     if (config.ownerId == message.author.id) {
       switch (command) {
         case "restrict":
-          message.member.voiceChannel.setUserLimit(parseInt(query[0])).then(vc => message.channel.send(`Set user limit to ${vc.userLimit} for ${vc.name}`)).catch(error => {
+          message.member.voiceChannel.setUserLimit(parseInt(query[0])).catch(err => message.channel.send("Could not find voice channel!")).then(vc => message.channel.send(`Set user limit to ${vc.userLimit} for ${vc.name}`)).catch(error => {
             console.log(error);
             message.channel.send("Could not restrict channel!");
           });
