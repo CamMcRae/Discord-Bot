@@ -303,7 +303,7 @@ function printMsg(entries, type, searchQuery, json) {
         url: "https://cdn.discordapp.com/embed/avatars/0.png"
       },
       author: {
-        name: bot.user.nickname,
+        name: bot.user.username,
         icon_url: bot.user.avatarURL
       },
       footer: {
@@ -382,7 +382,7 @@ function printMsg(entries, type, searchQuery, json) {
       obj.embed.color = 0xff00ff;
       break;
     case "commands":
-      obj.embed.title = "Commands for" + bot.user.nickname;
+      obj.embed.title = "Commands for " + bot.user.username;
       obj.embed.description = "<Usage>";
       obj.embed.color = 0xff0909;
       obj.embed.footer.text = "Commands";
