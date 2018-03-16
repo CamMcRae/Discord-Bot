@@ -110,17 +110,17 @@ bot.on('message', message => {
               console.log(error.stack);
               message.channel.send("Error deleting messages!");
             });
-            message.channel.send("bot clean `" + botMessages.length + "` messages were removed!"); //.then(msg => {
-            //   msg.delete(3000)
-            // });
+            message.channel.send("`" + botMessages.length + "` messages were removed!").then(msg => {
+              msg.delete(5000)
+            });
           });
         } else if (config.ownerId == message.author.id) { // if its admin
           const user = message.mentions.users.first();
           let amount = !!parseInt(query[0]) ? parseInt(query[0]) : parseInt(query[1]);
           if (!amount) {
-            amount = 100;
+            message.channel.send("Specify and amount");
+            break;
           }
-          amount = 2;
           if (user) { // if user is specified
             console.log("user clean");
             message.channel.fetchMessages().then((messages) => {
@@ -129,9 +129,9 @@ bot.on('message', message => {
                 console.log(error.stack);
                 message.channel.send("Error deleting messages!");
               });
-              message.channel.send("user clean `" + messages.length + "` messages were removed!"); //.then(msg => {
-              //   msg.delete(3000)
-              // });
+              message.channel.send("`" + messages.length + "` messages were removed!").then(msg => {
+                msg.delete(5000)
+              });
             });
           } else { // if no user is specified
             console.log("regular clean");
@@ -142,9 +142,9 @@ bot.on('message', message => {
                 console.log(error.stack);
                 message.channel.send("Error deleting messages!");
               });
-              message.channel.send("regular clean `" + amount + "` messages were removed!")//.then(msg => {
-              //   msg.delete(3000)
-              // });
+              message.channel.send("`" + amount + "` messages were removed!").then(msg => {
+                msg.delete(5000)
+              });
             });
           }
         }
