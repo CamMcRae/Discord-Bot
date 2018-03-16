@@ -129,7 +129,7 @@ bot.on('message', message => {
               message.channel.send("Error deleting messages!");
             });
             message.channel.send("`" + botMessages.length + ":recycle: ` messages were removed!").then(msg => {
-              msg.delete(5000)
+              msg.delete(3000)
             });
           });
         } else if (config.ownerId == message.author.id) { // if its admin
@@ -147,7 +147,7 @@ bot.on('message', message => {
                 message.channel.send("Error deleting messages!");
               });
               message.channel.send("`" + messages.length + ":recycle: ` messages were removed!").then(msg => {
-                msg.delete(5000)
+                msg.delete(3000)
               });
             });
           } else { // if no user is specified
@@ -159,7 +159,7 @@ bot.on('message', message => {
                 message.channel.send("Error deleting messages!");
               });
               message.channel.send(":recycle: `" + amount + "` messages were removed!").then(msg => {
-                msg.delete(5000)
+                msg.delete(3000)
               });
             });
           }
