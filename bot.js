@@ -60,8 +60,7 @@ bot.on('message', message => {
     if (config.ownerId == message.author.id) {
       switch (command) {
         case "restrict":
-          message.channel.send('wat');
-          console.log(message)
+          message.author.voiceChannel.setUserLimit(query).then(message.channel.send("Channel Limited to " + message.author.voiceChannel.userLimit)).catch(message.channel.send("Enter a number!"));
           break;
         case "link":
           switch (query.shift()) {
