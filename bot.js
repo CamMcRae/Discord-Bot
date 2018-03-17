@@ -243,7 +243,7 @@ bot.on('message', message => {
               break;
             default:
               try {
-                td = new Date(query[2], query[1], query[0]);
+                td = new Date(query[2], query[1]-1, query[0]);
               } catch (e) {
                 message.channel.send("Invalid Arguments provided");
               }
