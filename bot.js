@@ -318,7 +318,7 @@ function lunch(date, type, message) {
         }
       }
     }
-    if (entries.length > 0){
+    if (menu.length > 0){
       message.channel.send(printMsg(menu, "lunch", (type ? "Daily" : "Weekly")));
     } else{
       message.channel.send("No Lunch for " + date);
