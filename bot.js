@@ -22,7 +22,8 @@ const commands = [
   ["Wikipedia Page", config.prefix + "wiki <query>"],
   ["Coinflip", config.prefix + "coinflip", config.prefix + "flipacoin"],
   ["Dice Roll", config.prefix + "roll <number of dice> <amount of sides>"],
-  ["Google Search", config.prefix + "google <query>", config.prefix + "whatis <query>"]
+  ["Google Search", config.prefix + "google <query>", config.prefix + "whatis <query>"],
+  ["Lunch Menu", config.prefix + "lunch", config.prefix + "lunch <yesterday/today/tomorrow>", config.prefix + "lunch <day> <month> <year>"]
 ]; //[[Description, syntax1, syntax2, etc],...]
 
 
