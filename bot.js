@@ -487,8 +487,9 @@ function printMsg(entries, type, searchQuery, json) {
         obj.embed.fields[i].name = temp;
 
         temp = "";
+        console.log("Entries1: " + entries[i]);
         temp = entries[i].shift();
-        console.log("Entries: " + entries[i]);
+        console.log("Entries2: " + entries[i]);
         for (let j of entries[i]) {
           temp += "\n_" + j + "_";
         }
