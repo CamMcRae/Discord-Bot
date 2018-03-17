@@ -169,7 +169,6 @@ bot.on('message', message => {
         }
         break;
       case "spell":
-        message.delete();
         let spellTemp = [];
         for (let i = 0; i < query.join(" ").length; i++) {
           if (query[i] != " ") {
@@ -188,6 +187,7 @@ bot.on('message', message => {
           }
         }
         message.channel.send(spellTemp.join(" "));
+        message.delete();
         break;
       case "lenny":
         message.delete();
