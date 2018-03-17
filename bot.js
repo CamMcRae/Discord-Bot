@@ -483,7 +483,7 @@ function printMsg(entries, type, searchQuery, json) {
       obj.embed.description = searchQuery;
       obj.embed.color = 0xff0909;
       obj.embed.footer.text = "Lunch Menu";
-      obj.embed.thumbnail: {
+      obj.embed.thumbnail = {
         url: "./assets/Food.png"
       },
 
