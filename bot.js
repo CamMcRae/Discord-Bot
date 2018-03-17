@@ -3,6 +3,7 @@ const xml2js = require("xml2js");
 const https = require("https");
 const fs = require("fs");
 const cheerio = require('cheerio');
+const jsonframe = require('jsonframe-cheerio');
 const snekfetch = require('snekfetch');
 const querystring = require('querystring');
 const bot = new Discord.Client();
@@ -220,6 +221,39 @@ bot.on('message', message => {
       case "whatis":
         google(message, query);
         break;
+      case "lunch":
+        // break;
+        let td = new Date()
+        let date;
+        if (query.length == 0 || query[0] == "today") { // no query or "today"
+          date = `${td.getMonth()+1}/${td.getDate()}/${td.getFullYear()}`
+        } else {
+          switch (query[0]) {
+            case "tomorrow":
+              td.setDate(td.getDate() + 1);
+              date = `${td.getMonth()+1}/${td.getDate()}/${td.getFullYear()}`
+              break;
+            case "yesterday":
+              td.setDate(td.getDate() - 1);
+              date = `${td.getMonth()+1}/${td.getDate()}/${td.getFullYear()}`
+              break;
+            case "week":
+              break;
+            default:
+              try {
+                td = new Date(query[2], query[1], query[0]);
+              } catch (e) {
+                message.channel.send("Invalid Arguments provided");
+              }
+              date = `${td.getMonth()+1}/${td.getDate()}/${td.getFullYear()}`
+              break;
+          }
+        }
+        if (date) {
+          let url = `https://menu2.danahospitality.ca/hsc/menu.asp?r=1&ShowDate=${date}`;
+          lunch(url, true);
+        }
+        // link: https://menu2.danahospitality.ca/hsc/menu.asp?r=1&ShowDate=1/26/2018
     }
   } else {
     switch (message.content.toLowerCase()) {
@@ -247,6 +281,40 @@ async function google(message, query) {
     message.channel.send(`Result found!\n${googleData.q}`);
   }).catch((err) => { // No results
     message.channel.send('No results found!');
+  });
+}
+
+// url, t/f, t = day;
+function lunch(url, type) {
+  request(url, function(error, response, body) {
+    let $ = cheerio.load(body); // load html
+    let frame = {
+      "menu": {
+        _s: "tr",
+        _d: [{
+          "type": ".MenuSection",
+          "name": ".ItemName",
+          "desc": ".ItemDescription"
+        }]
+      }
+    }
+    jsonframe($); // parse and scrape html
+    var res = $('tbody').scrape(frame);
+    let menu = [];
+    for (let i = 0; i < res.menu.length; i++) {
+      if (i > 1 && i < res.menu.length - 2) { // not junior meal
+        if (res.menu[i].type) {
+          menu.push([res.menu[i].type]);
+        } else {
+          // console.log(i);
+          menu[((i + 1) / 2) - 2].push(res.menu[i].name);
+          if (res.menu[i].desc) {
+            menu[((i + 1) / 2) - 2].push(res.menu[i].desc);
+          }
+        }
+      }
+    }
+    printMsg(menu, "lunch", (type ? "Daily" : "Weekly"));
   });
 }
 
@@ -399,6 +467,29 @@ function printMsg(entries, type, searchQuery, json) {
         temp += "**" + entries[i].shift() + "** ";
         obj.embed.fields[i].name = temp; // adds to embed
         obj.embed.fields[i].value = entries[i].join("\n");
+      }
+      break;
+    case "lunch":
+      obj.embed.title = "Lunch Menu"
+      obj.embed.description = searchQuery;
+      obj.embed.color = 0xff0909;
+      obj.embed.footer.text = "Lunch Menu";
+
+      for (let i = 0; i < entries.length; i++) {
+        obj.embed.fields.push({});
+        let temp = "";
+        temp += "**" + entries[i].shift() + "** ";
+        obj.embed.fields[i].name = temp;
+        if (entries[i].length > 1) {
+          temp = "";
+          temp = entries[i].shift();
+          for (let j of entries[i]) {
+            temp += "\n_" + j + "_";
+          }
+          obj.embed.fields[i].value = temp;
+        } else {
+          obj.embed.fields[i].value = entries[i].shift();
+        }
       }
       break;
   }
