@@ -486,12 +486,11 @@ function printMsg(entries, type, searchQuery, json) {
         obj.embed.fields[i].name = temp;
         if (entries[i].length > 1) {
           temp = "";
-          console.log(entries[i]);
           temp = entries[i].shift();
-          console.log(entries[i]);
           for (let j of entries[i]) {
             temp += "\n_" + j + "_";
           }
+          console.log(temp);
           obj.embed.fields[i].value = temp;
         } else {
           obj.embed.fields[i].value = entries[i].shift();
