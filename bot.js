@@ -314,6 +314,7 @@ function lunch(url, type, message) {
           menu[((i + 1) / 2) - 2].push(res.menu[i].name);
           if (res.menu[i].desc) {
             menu[((i + 1) / 2) - 2].push(res.menu[i].desc);
+            i++
           }
         }
       }
