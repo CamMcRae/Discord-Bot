@@ -169,8 +169,10 @@ bot.on('message', message => {
         }
         break;
       case "spell":
+        message.delete();
         let spellTemp = [];
-        for (let i = 0; i < query.join(" ").length; i++) {
+        query = query.join(" ");
+        for (let i = 0; i < query.length; i++) {
           if (query[i] != " ") {
             if (alphabet.includes(query[i])) {
               spellTemp.push(":regional_indicator_" + query[i] + ":");
@@ -187,7 +189,6 @@ bot.on('message', message => {
           }
         }
         message.channel.send(spellTemp.join(" "));
-        message.delete();
         break;
       case "lenny":
         message.delete();
@@ -312,7 +313,7 @@ function lunch(date, type, message) {
         if (res.menu[i].type) {
           menu.push([res.menu[i].type]);
         } else {
-          menu[((i + 1) / 2) - 2].push(res.menu[i].name.substring(0,res.menu[i].name.length-res.menu[i].desc.length));
+          menu[((i + 1) / 2) - 2].push(res.menu[i].name.substring(0, res.menu[i].name.length - res.menu[i].desc.length));
           if (res.menu[i].desc) {
             menu[((i + 1) / 2) - 2].push(res.menu[i].desc);
           }
