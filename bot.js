@@ -485,7 +485,7 @@ function printMsg(entries, type, searchQuery, json) {
       obj.embed.footer.text = "Lunch Menu";
       obj.embed.thumbnail = {
         url: "./assets/Food.png"
-      },
+      }
 
       for (let i = 0; i < entries.length; i++) {
         obj.embed.fields.push({});
