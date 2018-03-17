@@ -254,7 +254,7 @@ bot.on('message', message => {
         console.log(date);
         if (date) {
           let url = `https://menu2.danahospitality.ca/hsc/menu.asp?r=1&ShowDate=${date}`;
-          lunch(url, true);
+          lunch(url, true, message);
         }
         // link: https://menu2.danahospitality.ca/hsc/menu.asp?r=1&ShowDate=1/26/2018
         break;
@@ -289,7 +289,7 @@ async function google(message, query) {
 }
 
 // url, t/f, t = day;
-function lunch(url, type) {
+function lunch(url, type, message) {
   request(url, function(error, response, body) {
     let $ = cheerio.load(body); // load html
     let frame = {
@@ -318,7 +318,7 @@ function lunch(url, type) {
         }
       }
     }
-    printMsg(menu, "lunch", (type ? "Daily" : "Weekly"));
+    message.channel.send(printMsg(menu, "lunch", (type ? "Daily" : "Weekly")));
   });
 }
 
