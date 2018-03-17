@@ -314,7 +314,6 @@ function lunch(url, type, message) {
           menu[((i + 1) / 2) - 2].push(res.menu[i].name);
           if (res.menu[i].desc) {
             menu[((i + 1) / 2) - 2].push(res.menu[i].desc);
-            i++
           }
         }
       }
@@ -487,7 +486,9 @@ function printMsg(entries, type, searchQuery, json) {
         obj.embed.fields[i].name = temp;
         if (entries[i].length > 1) {
           temp = "";
+          console.log(entries[i]);
           temp = entries[i].shift();
+          console.log(entries[i]);
           for (let j of entries[i]) {
             temp += "\n_" + j + "_";
           }
