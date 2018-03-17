@@ -12,7 +12,8 @@
     "xmlbuilder": "~9.0.1",
     "snekfetch": "3.6.4",
     "cheerio": "0.22.0",
-    "jsonframe-cheerio": "2.0.52"
+    "jsonframe-cheerio": "2.0.52",
+    "request": "2.85.1"
   },
   "engines": {
     "node": "9.8.0"
