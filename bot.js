@@ -131,7 +131,7 @@ bot.on('message', message => {
               console.log(error.stack);
               message.channel.send("Error deleting messages!");
             });
-            message.channel.send("`" + botMessages.length + ":recycle: ` messages were removed!").then(msg => {
+            message.channel.send(":recycle: `" + botMessages.length + " ` messages were removed!").then(msg => {
               msg.delete(3000)
             });
           });
@@ -149,7 +149,7 @@ bot.on('message', message => {
                 console.log(error.stack);
                 message.channel.send("Error deleting messages!");
               });
-              message.channel.send("`" + messages.length + ":recycle: ` messages were removed!").then(msg => {
+              message.channel.send(":recycle: `" + messages.length + " ` messages were removed!").then(msg => {
                 msg.delete(3000)
               });
             });
