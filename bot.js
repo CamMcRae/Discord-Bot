@@ -226,6 +226,7 @@ bot.on('message', message => {
         // break;
         let td = new Date()
         let date;
+        console.log(query);
         if (query.length == 0 || query[0] == "today") { // no query or "today"
           date = `${td.getMonth()+1}/${td.getDate()}/${td.getFullYear()}`
         } else {
@@ -250,11 +251,13 @@ bot.on('message', message => {
               break;
           }
         }
+        console.log(date);
         if (date) {
           let url = `https://menu2.danahospitality.ca/hsc/menu.asp?r=1&ShowDate=${date}`;
           lunch(url, true);
         }
         // link: https://menu2.danahospitality.ca/hsc/menu.asp?r=1&ShowDate=1/26/2018
+        break;
     }
   } else {
     switch (message.content.toLowerCase()) {
