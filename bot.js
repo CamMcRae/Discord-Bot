@@ -311,7 +311,7 @@ function lunch(date, type, message) {
         if (res.menu[i].type) {
           menu.push([res.menu[i].type]);
         } else {
-          menu[((i + 1) / 2) - 2].push(res.menu[i].name.substring(0,res.menu[i].name.length-res.menu[i].desc.length);
+          menu[((i + 1) / 2) - 2].push(res.menu[i].name.substring(0,res.menu[i].name.length-res.menu[i].desc.length));
           if (res.menu[i].desc) {
             menu[((i + 1) / 2) - 2].push(res.menu[i].desc);
           }
