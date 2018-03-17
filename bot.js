@@ -304,13 +304,13 @@ function lunch(date, type, message) {
     }
     jsonframe($); // parse and scrape html
     var res = $('tbody').scrape(frame);
+    console.log(res);
     let menu = [];
     for (let i = 0; i < res.menu.length; i++) {
       if (i > 1 && i < res.menu.length - 2) { // not junior meal
         if (res.menu[i].type) {
           menu.push([res.menu[i].type]);
         } else {
-          // console.log(i);
           menu[((i + 1) / 2) - 2].push(res.menu[i].name);
           if (res.menu[i].desc) {
             menu[((i + 1) / 2) - 2].push(res.menu[i].desc);
@@ -318,9 +318,9 @@ function lunch(date, type, message) {
         }
       }
     }
-    if (menu.length > 0){
+    if (menu.length > 0) {
       message.channel.send(printMsg(menu, "lunch", (type ? "Daily" : "Weekly")));
-    } else{
+    } else {
       message.channel.send("No Lunch for " + date);
     }
   });
