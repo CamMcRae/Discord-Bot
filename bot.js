@@ -243,7 +243,7 @@ bot.on('message', message => {
               break;
             default:
               try {
-                td = new Date(query[2], query[1]-1, query[0]);
+                td = new Date(query[2], query[1] - 1, query[0]);
               } catch (e) {
                 message.channel.send("Invalid Arguments provided");
               }
@@ -484,17 +484,13 @@ function printMsg(entries, type, searchQuery, json) {
         let temp = "";
         temp += "**" + entries[i].shift() + "** ";
         obj.embed.fields[i].name = temp;
-        if (entries[i].length > 1) {
-          temp = "";
-          temp = entries[i].shift();
-          for (let j of entries[i]) {
-            temp += "\n_" + j + "_";
-          }
-          console.log(temp);
-          obj.embed.fields[i].value = temp;
-        } else {
-          obj.embed.fields[i].value = entries[i].shift();
+        temp = "";
+        temp = entries[i].shift();
+        for (let j of entries[i]) {
+          temp += "\n_" + j + "_";
         }
+        console.log(temp);
+        obj.embed.fields[i].value = temp;
       }
       break;
   }
