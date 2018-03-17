@@ -304,7 +304,7 @@ function lunch(date, type, message) {
     }
     jsonframe($); // parse and scrape html
     var res = $('tbody').scrape(frame);
-    console.log(res);
+    // console.log(res);
     let menu = [];
     for (let i = 0; i < res.menu.length; i++) {
       if (i > 1 && i < res.menu.length - 2) { // not junior meal
@@ -491,14 +491,10 @@ function printMsg(entries, type, searchQuery, json) {
         obj.embed.fields[i].name = temp;
 
         temp = "";
-        console.log("Entries1: " + entries[i]);
         temp = entries[i].shift();
-        console.log("Temp: " + temp);
-        console.log("Entries2: " + entries[i]);
         for (let j of entries[i]) {
           temp += "\n_" + j + "_";
         }
-        console.log("Temp: " + temp);
         obj.embed.fields[i].value = temp;
       }
       break;
