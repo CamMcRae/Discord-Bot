@@ -253,8 +253,7 @@ bot.on('message', message => {
         }
         console.log(date);
         if (date) {
-          let url = `https://menu2.danahospitality.ca/hsc/menu.asp?r=1&ShowDate=${date}`;
-          lunch(url, true, message);
+          lunch(date, true, message);
         }
         // link: https://menu2.danahospitality.ca/hsc/menu.asp?r=1&ShowDate=1/26/2018
         break;
@@ -289,7 +288,8 @@ async function google(message, query) {
 }
 
 // url, t/f, t = day;
-function lunch(url, type, message) {
+function lunch(date, type, message) {
+  let url = `https://menu2.danahospitality.ca/hsc/menu.asp?r=1&ShowDate=${date}`;
   request(url, function(error, response, body) {
     let $ = cheerio.load(body); // load html
     let frame = {
@@ -318,7 +318,11 @@ function lunch(url, type, message) {
         }
       }
     }
-    message.channel.send(printMsg(menu, "lunch", (type ? "Daily" : "Weekly")));
+    if (entries.length > 0){
+      message.channel.send(printMsg(menu, "lunch", (type ? "Daily" : "Weekly")));
+    } else{
+      message.channel.send("No Lunch for " + date);
+    }
   });
 }
 
@@ -489,6 +493,7 @@ function printMsg(entries, type, searchQuery, json) {
         temp = "";
         console.log("Entries1: " + entries[i]);
         temp = entries[i].shift();
+        console.log("Temp: " + temp);
         console.log("Entries2: " + entries[i]);
         for (let j of entries[i]) {
           temp += "\n_" + j + "_";
