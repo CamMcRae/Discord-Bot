@@ -261,6 +261,9 @@ bot.on('message', message => {
         break;
     }
   } else {
+    if (query.startsWith("r/")){
+      message.channel.send("https://www.reddit.com/" + query);
+    }
     switch (message.content.toLowerCase()) {
       case "ping":
         message.channel.send('pong');
