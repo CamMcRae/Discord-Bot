@@ -262,7 +262,7 @@ bot.on('message', message => {
     }
   } else {
     if (message.content.startsWith("r/")){
-      message.channel.send("https://www.reddit.com/" + query);
+      message.channel.send("https://www.reddit.com/" + message.content.trim());
     }
     switch (message.content.toLowerCase()) {
       case "ping":
