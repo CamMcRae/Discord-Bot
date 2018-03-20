@@ -261,7 +261,7 @@ bot.on('message', message => {
         break;
     }
   } else {
-    if (query.startsWith("r/")){
+    if (query[0].startsWith("r/")){
       message.channel.send("https://www.reddit.com/" + query);
     }
     switch (message.content.toLowerCase()) {
