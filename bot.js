@@ -262,6 +262,7 @@ bot.on('message', message => {
     }
   } else {
     if (message.content.startsWith("r/")){
+      message.delete();
       message.channel.send("https://www.reddit.com/" + message.content.trim());
     }
     switch (message.content.toLowerCase()) {
