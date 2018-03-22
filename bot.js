@@ -202,7 +202,7 @@ bot.on('message', message => {
       case "coinflip":
       case "flipacoin":
         if (query.length > 0) {
-          message.channel.send("The coin landed on " + (Math.random() >= 0.5 ? query[0] : query[1])).catch((err) => {
+          message.channel.send("The coin landed on " + (Math.random() >= 0.5 ? query[0] : query[1]) + "!").catch((err) => {
             message.channel.send("Invalid Arguments!")
           });
         } else {
