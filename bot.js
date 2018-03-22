@@ -201,7 +201,11 @@ bot.on('message', message => {
         break;
       case "coinflip":
       case "flipacoin":
-        message.channel.send("The coin landed on " + (Math.random() >= 0.5 ? "heads!" : "tails!"));
+        if (query.length > 0) {
+          message.channel.send("The coin landed on " + (Math.random() >= 0.5 ? "heads!" : "tails!"));
+        } else {
+          message.channel.send("The coin landed on " + (Math.random() >= 0.5 ? query[0] : query[1])).catch(message.channel.send("Invalid Arguments!"));
+        }
         break;
       case "roll":
         let rolls = [];
@@ -261,7 +265,7 @@ bot.on('message', message => {
         break;
     }
   } else {
-    if (message.content.startsWith("r/")){
+    if (message.content.startsWith("r/")) {
       message.delete();
       message.channel.send("https://www.reddit.com/" + message.content.trim());
     }
