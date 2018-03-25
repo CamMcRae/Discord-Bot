@@ -9,6 +9,7 @@ const snekfetch = require('snekfetch');
 const querystring = require('querystring');
 const bot = new Discord.Client();
 const config = require("./config.json");
+const points = JSON.parse(fs.readFileSync("./points.json", "utf8"));
 const dictKey = process.env.DICT_TOKEN;
 const thesKey = process.env.THES_TOKEN;
 const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
@@ -52,11 +53,18 @@ bot.on('message', message => {
     }
   }
 
-  // counter
-  if (words.some(word => message.content.includes(word))) {
-    config.counter[message.author.id]++;
-    fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
+  // point system
+  if (!points[message.author.id]) {
+    points[message.author.id] = {
+      words: 0,
+      messages: 0
+    };
   }
+  points[message.author.id].messages++;
+  if (words.some(word => message.content.includes(word))) {
+    points[message.author.id].words++;
+  }
+  fs.writeFile("./points.json", JSON.stringify(config), (err) => console.error);
 
   // cases
   if (message.content.startsWith(config.prefix)) {
