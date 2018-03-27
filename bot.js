@@ -15,7 +15,7 @@ const config = require("./config.json");
 const points = JSON.parse(fs.readFileSync("./points.json", "utf8"));
 const utils = require("./utils.js");
 const lookup = require("./lookup.js");
-const lookup = require("./other.js");
+const other = require("./other.js");
 
 // keys from heroku
 const dictKey = process.env.DICT_TOKEN;
