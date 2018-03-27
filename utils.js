@@ -6,11 +6,11 @@ const fs = require("fs");
 // }
 
 
-module.exports.test(message) {
+module.exports.test = (message) => {
   this.test2(message);
 }
 
-module.exports.test2 = (msg) =>{
+module.exports.test2 = (msg) => {
   message.channel.send("!@314" + msg);
 }
 
