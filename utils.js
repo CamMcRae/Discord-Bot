@@ -16,16 +16,26 @@ module.exports.restrict = (message, query) => {
 }
 
 module.exports.link = (message, query, config) => {
-  switch (query.shift()) {
-    case "music":
-      config.musicID = message.channel.id;
-      message.channel.send(":link: Channel linked as music.");
-      break;
-    case "main":
-      config.mainId = message.channel.id;
-      message.channel.send(":link: Channel linked as main.");
-      break;
-    default:
-      fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
+  if (query.length >= 1) {
+    switch (query.shift()) {
+      case "music":
+        if (config.musicID == message.channel.id) {
+          message.channel.send(":link: Channel already linked as music.");
+        } else {
+          config.musicID = message.channel.id;
+          message.channel.send(":link: Channel linked as music.");
+        }
+        break;
+      case "main":
+        if (config.mainID == message.channel.id) {
+          message.channel.send(":link: Channel already linked as main.");
+        } else {
+          config.mainId = message.channel.id;
+          message.channel.send(":link: Channel linked as main.");
+        }
+        break;
+      default:
+    }
+    fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
   }
 }
