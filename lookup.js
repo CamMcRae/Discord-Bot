@@ -5,6 +5,7 @@ const fs = require("fs");
 
 // files
 const utils = require("./utils.js");
+const bot;
 
 module.exports.apiRequest = (url, type, message, callback, searchQuery) => {
   https.get(url, res => { // calls api
