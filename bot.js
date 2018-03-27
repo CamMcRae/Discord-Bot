@@ -70,6 +70,9 @@ bot.on('message', message => {
   if (message.content.startsWith(config.prefix)) {
     if (config.ownerId == message.author.id) {
       switch (command) {
+        case "test":
+          message.channel.send(test(message));
+          break;
         case "restrict":
           if (message.member.voiceChannel) {
             message.member.voiceChannel.setUserLimit(parseInt(query[0])).then(vc => message.channel.send(`Set user limit to ${vc.userLimit} for ${vc.name}`)).catch(error => {
