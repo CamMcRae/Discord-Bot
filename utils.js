@@ -65,7 +65,7 @@ module.exports.prefix = (message, query, config) => {
   }
 }
 
-module.exports.clean = (query, message) => {
+module.exports.clean = (query, message, config) => {
   message.delete();
   // maybe get array of sent messages, filter by bot, shift 1 and get ones above?
   if (query.length == 0) { // Purges only bot messages
