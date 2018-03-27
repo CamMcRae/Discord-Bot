@@ -10,6 +10,7 @@ const querystring = require('querystring');
 const bot = new Discord.Client();
 const config = require("./config.json");
 const points = JSON.parse(fs.readFileSync("./points.json", "utf8"));
+const utils = require("./utils.js");
 const dictKey = process.env.DICT_TOKEN;
 const thesKey = process.env.THES_TOKEN;
 const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
@@ -71,7 +72,7 @@ bot.on('message', message => {
     if (config.ownerId == message.author.id) {
       switch (command) {
         case "test":
-          message.channel.send(test(message));
+          message.channel.send(utils.test(message));
           break;
         case "restrict":
           if (message.member.voiceChannel) {
