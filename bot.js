@@ -11,6 +11,7 @@ const querystring = require('querystring');
 
 // files
 const bot = new Discord.Client();
+const lookup.bot = bot;
 const config = require("./config.json");
 const points = JSON.parse(fs.readFileSync("./points.json", "utf8"));
 const utils = require("./utils.js");
