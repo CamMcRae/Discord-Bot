@@ -18,6 +18,8 @@ module.exports.restrict = (message, query) => {
   }
 }
 
+// pre: takes in a channel argument
+// post: channel link will be updated in config
 module.exports.link = (message, query, config) => {
   if (query.length >= 1) {
     switch (query.shift()) {
@@ -43,6 +45,8 @@ module.exports.link = (message, query, config) => {
   }
 }
 
+// pre:
+// post: changes prefix for the bot
 module.exports.prefix = (message, query, config) => {
   if (query.join(" ").length == 1) {
     config.prefix = query;
@@ -53,7 +57,9 @@ module.exports.prefix = (message, query, config) => {
   }
 }
 
-module.exports.printMsg = (entries, type, searchQuery, json) => {
+// pre: takes in a entry list and various other arguments for printing
+// post: embed object created for discord to send
+module.exports.printMsg = (entries, type, bot, searchQuery, json) => {
   // default object creation
   let obj = {
     embed: {

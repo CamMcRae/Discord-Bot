@@ -92,13 +92,13 @@ bot.on('message', message => {
           for (let i = 0; i < Object.keys(config.counter).length; i++) {
             entries.push([Object.entries(config.counter)[i]]);
           }
-          message.channel.send(printMSG(entries, "swears"));
+          message.channel.send(printMSG(entries, "swears", bot));
           break;
       }
     }
     switch (command) {
       case "commands":
-        message.channel.send(utils.printMsg(JSON.parse(JSON.stringify(commands)), "commands"));
+        message.channel.send(utils.printMsg(JSON.parse(JSON.stringify(commands)), "commands", bot));
         break;
       case "lmgtfy":
         message.channel.send("http://lmgtfy.com/?q=" + message.content.substr(8).replace(/ /g, "%20"));
@@ -333,7 +333,7 @@ function lunch(date, type, message) {
 
     // sends to embed maker
     if (menu.length > 0) {
-      message.channel.send(printMsg(menu, "lunch", (type ? "Daily" : "Weekly")));
+      message.channel.send(printMsg(menu, "lunch", bot, (type ? "Daily" : "Weekly")));
     } else {
       message.channel.send("No Lunch for " + date);
     }
@@ -388,7 +388,7 @@ function dictionary(json, type, message) {
     }
     entries.push(entry); // adds one entry to master list
   }
-  message.channel.send(printMsg(entries, type, null, json));
+  message.channel.send(printMsg(entries, type, bot, null, json));
 }
 
 function getJSON(xml, type, message, callback, searchQuery) {
@@ -398,7 +398,7 @@ function getJSON(xml, type, message, callback, searchQuery) {
     if (json.entry) { // if there are valid entries
       callback(json, type, message);
     } else { // if no valid entries
-      message.channel.send(printMsg([], type, searchQuery, json));
+      message.channel.send(printMsg([], type, bot, searchQuery, json));
     }
   });
 }
