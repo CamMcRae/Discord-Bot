@@ -1,6 +1,9 @@
 // libs
 const fs = require("fs");
 
+// files
+let bot;
+
 // module.exports.<function name> = (arguments) => {
 //   return whatever;
 // }

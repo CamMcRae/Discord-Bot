@@ -16,6 +16,7 @@ const points = JSON.parse(fs.readFileSync("./points.json", "utf8"));
 const utils = require("./utils.js");
 const lookup = require("./lookup.js");
 lookup.bot = bot;
+utils.bot = bot
 
 // keys from heroku
 const dictKey = process.env.DICT_TOKEN;
