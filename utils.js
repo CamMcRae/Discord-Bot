@@ -42,3 +42,13 @@ module.exports.link = (message, query, config) => {
     fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
   }
 }
+
+module.exports.prefix = (message, query, config) => {
+  if (query.join(" ").length == 1) {
+    config.prefix = query;
+    fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
+    message.channel.send("Prefix changed to " + "`" + config.prefix + "`");
+  } else {
+    message.channel.send("Prefix: " + config.prefix);
+  }
+}

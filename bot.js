@@ -85,11 +85,7 @@ bot.on('message', message => {
           utils.link(message, query, config);
           break;
         case "prefix":
-          if (query.join(" ").length == 1) {
-            config.prefix = query;
-            fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
-            message.channel.send("Prefix changed to " + "```" + config.prefix + "```");
-          }
+          utils.prefix(message, query, config);
           break;
         case "swears":
           entries = [];
