@@ -111,12 +111,12 @@ bot.on('message', message => {
         let dictSearchQuery = query.join(" ");
         if (dictSearchQuery) {
           let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${dictSearchQuery.split(" ").join("%20")}?key=${dictKey}`;
-          lookup.apiRequest(url, "dict", message, lookup.dictionary, dictSearchQuery);
+          lookup.apiRequest(url, "dict", message, dictionary, dictSearchQuery);
         }
         break;
       case "thesaurus":
         let thesSearchQuery = query.join(" ");
-        lookup.apiRequest(url, "thes", message, lookup.thesaurus, thesSearchQuery);
+        lookup.apiRequest(url, "thes", message, thesaurus, thesSearchQuery);
         break;
       case "purge":
       case "clean":
