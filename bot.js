@@ -111,8 +111,7 @@ bot.on('message', message => {
         let dictSearchQuery = query.join(" ");
         if (dictSearchQuery) {
           let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${dictSearchQuery.split(" ").join("%20")}?key=${dictKey}`;
-          lookup._callback(lookup.dictionary);
-          lookup.apiRequest(url, "dict", message, dictSearchQuery);
+          lookup.apiRequest(url, "dict", message, lookup.dictionary, dictSearchQuery);
         }
         break;
       case "thesaurus":
@@ -225,10 +224,10 @@ bot.on('message', message => {
           message.channel.send("The dice landed on: " + rolls.join(", ") + " with a total sum of " + rolls.reduce((a, b) => a + b, 0)).catch("Ya dun did something and it no work.");
         }
         break;
-      // case "google":
-      // case "whatis":
-      //   google(message, query);
-      //   break;
+        // case "google":
+        // case "whatis":
+        //   google(message, query);
+        //   break;
       case "lunch":
         let td = new Date()
         let date;

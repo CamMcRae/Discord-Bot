@@ -19,7 +19,7 @@ module.exports.apiRequest = (url, type, message, callback, searchQuery) => {
 
 // pre: input xml
 // post: returns json from xml
-function getJSON(xml, type, message, searchQuery) {
+function getJSON(xml, type, message, callback, searchQuery) {
   let parser = new xml2js.Parser();
   parser.parseString(xml, function(err, result) { // converts xml to json
     let json = result.entry_list;
@@ -31,13 +31,7 @@ function getJSON(xml, type, message, searchQuery) {
   });
 }
 
-let callback;
-
-module.exports._callback = (func) =>{
-  callback = func;
-}
-
-function dictionary(json, type, message) {
+module.exports.dictionary = (json, type, message) => {
   //goes through json for dictionary entries
   let entries = [];
   for (let i of json.entry) { // main entry loop
