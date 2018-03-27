@@ -11,11 +11,11 @@ const querystring = require('querystring');
 
 // files
 const bot = new Discord.Client();
-const lookup.bot = bot;
 const config = require("./config.json");
 const points = JSON.parse(fs.readFileSync("./points.json", "utf8"));
 const utils = require("./utils.js");
 const lookup = require("./lookup.js");
+const lookup.bot = bot;
 
 // keys from heroku
 const dictKey = process.env.DICT_TOKEN;
