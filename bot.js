@@ -80,7 +80,7 @@ bot.on('message', message => {
     if (config.ownerId == message.author.id) {
       switch (command) {
         case "test":
-          utils.test();
+          utils.test(message);
           break;
         case "restrict":
           utils.restrict(message, query);
