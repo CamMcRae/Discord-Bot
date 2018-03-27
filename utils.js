@@ -84,7 +84,7 @@ modules.exports.clean = (query, message) => {
     let amount = !!parseInt(query[0]) ? parseInt(query[0]) : parseInt(query[1]);
     if (!amount) {
       message.channel.send("Specify and amount of messages to delete");
-      break;
+      return;
     }
     if (user) { // if user is specified
       message.channel.fetchMessages().then((messages) => {
