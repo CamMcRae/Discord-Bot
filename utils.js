@@ -7,11 +7,11 @@ const fs = require("fs");
 
 
 module.exports.test = (message) => {
-  this.test2(message);
+  test2(message);
 }
 
-module.exports.test2 = (msg) => {
-  msg.channel.send("!@314" + msg.content);
+exports.test2 = (message) => {
+  message.channel.send("!@314" + message.content);
 }
 
 // pre: takes in a query for how many to limit a voice channel
