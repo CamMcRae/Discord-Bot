@@ -118,77 +118,17 @@ bot.on('message', message => {
         break;
       case "thesaurus":
         let thesSearchQuery = query.join(" ");
+        if (thesSearchQuery){
+          let url;
+        }
         lookup.apiRequest(url, "thes", message, thesaurus, thesSearchQuery);
         break;
       case "purge":
       case "clean":
-        message.delete();
-        // maybe get array of sent messages, filter by bot, shift 1 and get ones above?
-        if (query.length == 0) { // Purges only bot messages
-          message.channel.fetchMessages().then((messages) => {
-            const botMessages = messages.filter(msg => msg.author.id === bot.user.id).array().slice(0, 100);
-            message.channel.bulkDelete(botMessages).catch(error => {
-              console.log(error.stack);
-              message.channel.send("Error deleting messages!");
-            });
-            message.channel.send(":recycle: `" + botMessages.length + " ` messages were removed!").then(msg => {
-              msg.delete(3000)
-            });
-          });
-        } else if (config.ownerId == message.author.id) { // if its admin
-          const user = message.mentions.users.first();
-          let amount = !!parseInt(query[0]) ? parseInt(query[0]) : parseInt(query[1]);
-          if (!amount) {
-            message.channel.send("Specify and amount of messages to delete");
-            break;
-          }
-          if (user) { // if user is specified
-            message.channel.fetchMessages().then((messages) => {
-              messages = messages.filter(msg => msg.author.id === user.id).array().slice(0, amount);
-              message.channel.bulkDelete(messages).catch(error => {
-                console.log(error.stack);
-                message.channel.send("Error deleting messages!");
-              });
-              message.channel.send(":recycle: `" + messages.length + " ` messages were removed!").then(msg => {
-                msg.delete(3000)
-              });
-            });
-          } else { // if no user is specified
-            message.channel.fetchMessages({
-              limit: amount
-            }).then((messages) => {
-              message.channel.bulkDelete(messages).catch(error => {
-                console.log(error.stack);
-                message.channel.send("Error deleting messages!");
-              });
-              message.channel.send(":recycle: `" + amount + "` messages were removed!").then(msg => {
-                msg.delete(3000)
-              });
-            });
-          }
-        }
+        utils.clean(query, message);
         break;
       case "spell":
-        message.delete();
-        let spellTemp = [];
-        query = query.join(" ");
-        for (let i = 0; i < query.length; i++) {
-          if (query[i] != " ") {
-            if (alphabet.includes(query[i])) {
-              spellTemp.push(":regional_indicator_" + query[i] + ":");
-            } else {
-              try {
-                if (parseInt(query[i]) >= 0 && parseInt(query[i]) < 10) {
-                  spellTemp.push(":" + firstTen[parseInt(query[i])] + ":");
-                }
-              } catch (e) {}
-
-            }
-          } else {
-            spellTemp.push("     ");
-          }
-        }
-        message.channel.send(spellTemp.join(" "));
+        other.spell(query, message);
         break;
       case "lenny":
         message.delete();

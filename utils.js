@@ -65,6 +65,55 @@ module.exports.prefix = (message, query, config) => {
   }
 }
 
+modules.exports.clean = (query, message) => {
+  message.delete();
+  // maybe get array of sent messages, filter by bot, shift 1 and get ones above?
+  if (query.length == 0) { // Purges only bot messages
+    message.channel.fetchMessages().then((messages) => {
+      const botMessages = messages.filter(msg => msg.author.id === bot.user.id).array().slice(0, 100);
+      message.channel.bulkDelete(botMessages).catch(error => {
+        console.log(error.stack);
+        message.channel.send("Error deleting messages!");
+      });
+      message.channel.send(":recycle: `" + botMessages.length + " ` messages were removed!").then(msg => {
+        msg.delete(3000)
+      });
+    });
+  } else if (config.ownerId == message.author.id) { // if its admin
+    const user = message.mentions.users.first();
+    let amount = !!parseInt(query[0]) ? parseInt(query[0]) : parseInt(query[1]);
+    if (!amount) {
+      message.channel.send("Specify and amount of messages to delete");
+      break;
+    }
+    if (user) { // if user is specified
+      message.channel.fetchMessages().then((messages) => {
+        messages = messages.filter(msg => msg.author.id === user.id).array().slice(0, amount);
+        message.channel.bulkDelete(messages).catch(error => {
+          console.log(error.stack);
+          message.channel.send("Error deleting messages!");
+        });
+        message.channel.send(":recycle: `" + messages.length + " ` messages were removed!").then(msg => {
+          msg.delete(3000)
+        });
+      });
+    } else { // if no user is specified
+      message.channel.fetchMessages({
+        limit: amount
+      }).then((messages) => {
+        message.channel.bulkDelete(messages).catch(error => {
+          console.log(error.stack);
+          message.channel.send("Error deleting messages!");
+        });
+        message.channel.send(":recycle: `" + amount + "` messages were removed!").then(msg => {
+          msg.delete(3000)
+        });
+      });
+    }
+  }
+}
+
+
 // pre: takes in a entry list and various other arguments for printing
 // post: embed object created for discord to send
 module.exports.printMsg = (entries, type, searchQuery, json) => {

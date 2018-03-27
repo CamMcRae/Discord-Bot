@@ -28,3 +28,26 @@ module.exports.rollDice = (query, message) => {
     message.channel.send("The dice landed on: " + rolls.join(", ") + " with a total sum of " + rolls.reduce((a, b) => a + b, 0)).catch("Ya dun did something and it no work.");
   }
 }
+
+module.exports.spell = (query, message) => {
+  message.delete();
+  let spellTemp = [];
+  query = query.join(" ");
+  for (let i = 0; i < query.length; i++) {
+    if (query[i] != " ") {
+      if (alphabet.includes(query[i])) {
+        spellTemp.push(":regional_indicator_" + query[i] + ":");
+      } else {
+        try {
+          if (parseInt(query[i]) >= 0 && parseInt(query[i]) < 10) {
+            spellTemp.push(":" + firstTen[parseInt(query[i])] + ":");
+          }
+        } catch (e) {}
+
+      }
+    } else {
+      spellTemp.push("     ");
+    }
+  }
+  message.channel.send(spellTemp.join(" "));
+}
