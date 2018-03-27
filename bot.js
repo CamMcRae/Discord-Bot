@@ -1,3 +1,4 @@
+// libs
 const Discord = require("discord.js");
 const xml2js = require("xml2js");
 const https = require("https");
@@ -7,12 +8,18 @@ const cheerio = require('cheerio');
 const jsonframe = require('jsonframe-cheerio');
 const snekfetch = require('snekfetch');
 const querystring = require('querystring');
+
+// files
 const bot = new Discord.Client();
 const config = require("./config.json");
 const points = JSON.parse(fs.readFileSync("./points.json", "utf8"));
 const utils = require("./utils.js");
+
+// keys from heroku
 const dictKey = process.env.DICT_TOKEN;
 const thesKey = process.env.THES_TOKEN;
+
+// other setup items
 const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 const firstTen = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
 const words = ["fak", "fuck", "shit", "fuk"];
@@ -71,32 +78,11 @@ bot.on('message', message => {
   if (message.content.startsWith(config.prefix)) {
     if (config.ownerId == message.author.id) {
       switch (command) {
-        case "test":
-          message.channel.send(utils.test(message));
-          break;
         case "restrict":
-          if (message.member.voiceChannel) {
-            message.member.voiceChannel.setUserLimit(parseInt(query[0])).then(vc => message.channel.send(`Set user limit to ${vc.userLimit} for ${vc.name}`)).catch(error => {
-              console.log(error);
-              message.channel.send(":x: Could not restrict channel!");
-            });
-          } else {
-            message.channel.send(":x: Not Connected to Voice");
-          }
+          utils.restrict(message, query);
           break;
         case "link":
-          switch (query.shift()) {
-            case "music":
-              config.musicID = message.channel.id;
-              message.channel.send(":link: Channel linked as music.");
-              break;
-            case "main":
-              config.mainId = message.channel.id;
-              message.channel.send(":link: Channel linked as main.");
-              break;
-            default:
-              fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
-          }
+          utils.link(message, query, config);
           break;
         case "prefix":
           if (query.join(" ").length == 1) {
