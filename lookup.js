@@ -1,6 +1,7 @@
 // libs
 const https = require("https");
 const xml2js = require("xml2js");
+const fs = require("fs");
 
 // files
 const utils = require("./utils.js");
