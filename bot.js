@@ -245,7 +245,7 @@ function lunch(date, type, message) {
 
     // sends to embed maker
     if (menu.length > 0) {
-      message.channel.send(printMsg(menu, "lunch", (type ? "Daily" : "Weekly")));
+      message.channel.send(utils.printMsg(menu, "lunch", (type ? "Daily" : "Weekly")));
     } else {
       message.channel.send("No Lunch for " + date);
     }
