@@ -111,7 +111,7 @@ bot.on('message', message => {
         let dictSearchQuery = query.join(" ");
         if (dictSearchQuery) {
           let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${dictSearchQuery.split(" ").join("%20")}?key=${dictKey}`;
-          lookup._callback(dictionary);
+          lookup._callback(lookup.dictionary);
           lookup.apiRequest(url, "dict", message, dictSearchQuery);
         }
         break;
