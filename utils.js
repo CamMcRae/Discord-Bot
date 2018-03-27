@@ -5,6 +5,11 @@ const fs = require("fs");
 //   return whatever;
 // }
 
+
+function test(message){
+  message.channel.send("!@314");
+}
+
 // pre: takes in a query for how many to limit a voice channel
 // post: voice channel is restricted or no voice channel found
 module.exports.restrict = (message, query) => {
@@ -186,3 +191,16 @@ module.exports.printMsg = (entries, type, bot, searchQuery, json) => {
   }
   return obj;
 }
+
+
+// async function google(message, query) {
+//   let googleUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+//   return snekfetch.get(googleUrl).then((result) => {
+//     let $ = cheerio.load(result.text); // Parse HTML
+//     let googleData = $('.r').first().find('a').first().attr('href');
+//     googleData = querystring.parse(googleData.replace('/url?', ''));
+//     message.channel.send(`Result found!\n${googleData.q}`);
+//   }).catch((err) => { // No results
+//     message.channel.send('No results found!');
+//   });
+// }

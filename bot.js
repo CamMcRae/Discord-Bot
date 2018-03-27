@@ -14,6 +14,7 @@ const bot = new Discord.Client();
 const config = require("./config.json");
 const points = JSON.parse(fs.readFileSync("./points.json", "utf8"));
 const utils = require("./utils.js");
+const lookup = require("./lookup.js");
 
 // keys from heroku
 const dictKey = process.env.DICT_TOKEN;
@@ -78,6 +79,9 @@ bot.on('message', message => {
   if (message.content.startsWith(config.prefix)) {
     if (config.ownerId == message.author.id) {
       switch (command) {
+        case "test":
+          utils.test();
+          break;
         case "restrict":
           utils.restrict(message, query);
           break;
@@ -112,7 +116,7 @@ bot.on('message', message => {
         break;
       case "thesaurus":
         let thesSearchQuery = query.join(" ");
-        apiRequest(url, "thes", message, thesaurus, thesSearchQuery);
+        lookup.apiRequest(url, "thes", message, thesaurus, thesSearchQuery);
         break;
       case "purge":
       case "clean":
@@ -220,15 +224,13 @@ bot.on('message', message => {
           message.channel.send("The dice landed on: " + rolls.join(", ") + " with a total sum of " + rolls.reduce((a, b) => a + b, 0)).catch("Ya dun did something and it no work.");
         }
         break;
-      case "google":
-      case "whatis":
-        google(message, query);
-        break;
+      // case "google":
+      // case "whatis":
+      //   google(message, query);
+      //   break;
       case "lunch":
-        // break;
         let td = new Date()
         let date;
-        console.log(query);
         if (query.length == 0 || query[0] == "today") { // no query or "today"
           date = `${td.getMonth()+1}/${td.getDate()}/${td.getFullYear()}`
         } else {
@@ -281,18 +283,6 @@ bot.on('message', message => {
   }
 });
 
-async function google(message, query) {
-  let googleUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
-  return snekfetch.get(googleUrl).then((result) => {
-    let $ = cheerio.load(result.text); // Parse HTML
-    let googleData = $('.r').first().find('a').first().attr('href');
-    googleData = querystring.parse(googleData.replace('/url?', ''));
-    message.channel.send(`Result found!\n${googleData.q}`);
-  }).catch((err) => { // No results
-    message.channel.send('No results found!');
-  });
-}
-
 // url, t/f, t = day;
 function lunch(date, type, message) {
   let url = `https://menu2.danahospitality.ca/hsc/menu.asp?r=1&ShowDate=${date}`;
@@ -340,18 +330,6 @@ function lunch(date, type, message) {
   });
 }
 
-function apiRequest(url, type, message, callback, searchQuery) {
-  https.get(url, res => { // calls api
-    let data = '';
-    res.on('data', chunk => { // when data is recieved
-      data += chunk;
-    });
-    res.on("end", () => { // when call if finished
-      let json = getJSON(data, type, message, callback, searchQuery);
-    });
-  });
-}
-
 function dictionary(json, type, message) {
   //goes through json for dictionary entries
   let entries = [];
@@ -389,16 +367,4 @@ function dictionary(json, type, message) {
     entries.push(entry); // adds one entry to master list
   }
   message.channel.send(printMsg(entries, type, bot, null, json));
-}
-
-function getJSON(xml, type, message, callback, searchQuery) {
-  let parser = new xml2js.Parser();
-  parser.parseString(xml, function(err, result) { // converts xml to json
-    let json = result.entry_list;
-    if (json.entry) { // if there are valid entries
-      callback(json, type, message);
-    } else { // if no valid entries
-      message.channel.send(printMsg([], type, bot, searchQuery, json));
-    }
-  });
 }
