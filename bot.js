@@ -15,6 +15,7 @@ const config = require("./config.json");
 const points = JSON.parse(fs.readFileSync("./points.json", "utf8"));
 const utils = require("./utils.js");
 const lookup = require("./lookup.js");
+const lookup = require("./other.js");
 
 // keys from heroku
 const dictKey = process.env.DICT_TOKEN;
@@ -200,13 +201,7 @@ bot.on('message', message => {
         break;
       case "coinflip":
       case "flipacoin":
-        if (query.length > 0) {
-          message.channel.send("The coin landed on " + (Math.random() >= 0.5 ? query[0] : query[1]) + "!").catch((err) => {
-            message.channel.send("Invalid Arguments!")
-          });
-        } else {
-          message.channel.send("The coin landed on " + (Math.random() >= 0.5 ? "heads!" : "tails!"));
-        }
+        message.channel.send(other.coinflip(query));
         break;
       case "roll":
         let rolls = [];
