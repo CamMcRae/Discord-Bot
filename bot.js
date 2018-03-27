@@ -317,7 +317,7 @@ function lunch(date, type, message) {
         _s: "tr",
         _d: [{
           "type": ".MenuSection",
-          "name": ".ItemName",
+          "name": ".ItemName .ItemName",
           "desc": ".ItemDescription"
         }]
       }
