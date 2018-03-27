@@ -8,6 +8,11 @@ let bot;
 //   return whatever;
 // }
 
+module.exports.setClient = (client) => {
+  bot = client
+}
+
+
 // pre: takes in a query for how many to limit a voice channel
 // post: voice channel is restricted or no voice channel found
 module.exports.restrict = (message, query) => {
@@ -62,7 +67,7 @@ module.exports.prefix = (message, query, config) => {
 
 // pre: takes in a entry list and various other arguments for printing
 // post: embed object created for discord to send
-module.exports.printMsg = (entries, type, bot, searchQuery, json) => {
+module.exports.printMsg = (entries, type, searchQuery, json) => {
   // default object creation
   let obj = {
     embed: {

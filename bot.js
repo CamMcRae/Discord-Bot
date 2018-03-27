@@ -15,8 +15,6 @@ const config = require("./config.json");
 const points = JSON.parse(fs.readFileSync("./points.json", "utf8"));
 const utils = require("./utils.js");
 const lookup = require("./lookup.js");
-lookup.bot = bot;
-utils.bot = bot
 
 // keys from heroku
 const dictKey = process.env.DICT_TOKEN;
@@ -46,6 +44,7 @@ bot.on('ready', () => {
       name: "a game"
     }
   });
+  utils.setClient(bot);
   // bot.user.setUsername("Bot Dude");
 });
 
@@ -98,13 +97,13 @@ bot.on('message', message => {
           for (let i = 0; i < Object.keys(config.counter).length; i++) {
             entries.push([Object.entries(config.counter)[i]]);
           }
-          message.channel.send(printMSG(entries, "swears", bot));
+          message.channel.send(printMSG(entries, "swears"));
           break;
       }
     }
     switch (command) {
       case "commands":
-        message.channel.send(utils.printMsg(JSON.parse(JSON.stringify(commands)), "commands", bot));
+        message.channel.send(utils.printMsg(JSON.parse(JSON.stringify(commands)), "commands"));
         break;
       case "lmgtfy":
         message.channel.send("http://lmgtfy.com/?q=" + message.content.substr(8).replace(/ /g, "%20"));
@@ -325,7 +324,7 @@ function lunch(date, type, message) {
 
     // sends to embed maker
     if (menu.length > 0) {
-      message.channel.send(printMsg(menu, "lunch", bot, (type ? "Daily" : "Weekly")));
+      message.channel.send(printMsg(menu, "lunch", (type ? "Daily" : "Weekly")));
     } else {
       message.channel.send("No Lunch for " + date);
     }

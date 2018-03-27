@@ -5,7 +5,6 @@ const fs = require("fs");
 
 // files
 const utils = require("./utils.js");
-let bot;
 
 module.exports.apiRequest = (url, type, message, callback, searchQuery) => {
   https.get(url, res => { // calls api
@@ -28,7 +27,7 @@ function getJSON(xml, type, message, callback, searchQuery) {
     if (json.entry) { // if there are valid entries
       callback(json, type, message);
     } else { // if no valid entries
-      message.channel.send(utils.printMsg([], type, bot, searchQuery, json));
+      message.channel.send(utils.printMsg([], type, searchQuery, json));
     }
   });
 }
@@ -69,5 +68,5 @@ module.exports.dictionary = (json, type, message) => {
     }
     entries.push(entry); // adds one entry to master list
   }
-  message.channel.send(utils.printMsg(entries, type, bot, null, json));
+  message.channel.send(utils.printMsg(entries, type, null, json));
 }
