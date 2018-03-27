@@ -508,7 +508,7 @@ function printMsg(entries, type, searchQuery, json) {
     case "lunch":
       obj.embed.title = "Lunch Menu"
       obj.embed.description = searchQuery;
-      obj.embed.color = 0xff0909;
+      obj.embed.color = 0x1FFF00;
       obj.embed.footer.text = "Lunch Menu";
       // obj.embed.thumbnail = {
       //   url: "./assets/Food.png"
