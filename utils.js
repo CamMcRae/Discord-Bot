@@ -11,7 +11,7 @@ module.exports.test = (message) => {
 }
 
 module.exports.test2 = (msg) => {
-  message.channel.send("!@314" + msg);
+  msg.channel.send("!@314" + msg.content);
 }
 
 // pre: takes in a query for how many to limit a voice channel
