@@ -325,19 +325,27 @@ function lunch(date, type, message) {
     jsonframe($); // parse and scrape html
     var res = $('tbody').scrape(frame);
     // console.log(res);
+
+    // creates entries for embed
     let menu = [];
-    for (let i = 0; i < res.menu.length; i++) {
-      if (i > 1 && i < res.menu.length - 2) { // not junior meal
-        if (res.menu[i].type) {
-          menu.push([res.menu[i].type]);
-        } else {
-          menu[((i + 1) / 2) - 2].push(res.menu[i].name.substring(0, res.menu[i].name.length - res.menu[i].desc.length));
-          if (res.menu[i].desc) {
-            menu[((i + 1) / 2) - 2].push(res.menu[i].desc);
-          }
+    let menuTemp = [];
+    for (let i of res.menu) { // each item of list
+      if (menuTemp.length > 1) {
+        menuTemp = [];
+      }
+      if (Object.keys(i) == "type") {
+        menuTemp.push(i.type) // header
+      } else {
+        for (let j of Object.keys(i)) {
+          menuTemp.push(i[j]); // name and description
         }
       }
+      if (menuTemp.length != 1) { // only pushes if there is more than just a name
+        menu.push(menuTemp);
+      }
     }
+
+    // sends to embed maker
     if (menu.length > 0) {
       message.channel.send(printMsg(menu, "lunch", (type ? "Daily" : "Weekly")));
     } else {
