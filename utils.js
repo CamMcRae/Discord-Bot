@@ -5,15 +5,6 @@ const fs = require("fs");
 //   return whatever;
 // }
 
-
-function test(message) {
-  test2(message);
-}
-
-function test2(msg) {
-  msg.channel.send("!@314" + msg.content);
-}
-
 // pre: takes in a query for how many to limit a voice channel
 // post: voice channel is restricted or no voice channel found
 module.exports.restrict = (message, query) => {
