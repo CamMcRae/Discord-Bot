@@ -3,16 +3,20 @@ const Discord = require("discord.js");
 const xml2js = require("xml2js");
 const https = require("https");
 const request = require("request");
-const fs = require("fs");
 const cheerio = require('cheerio');
 const jsonframe = require('jsonframe-cheerio');
 const snekfetch = require('snekfetch');
 const querystring = require('querystring');
+const Enmap = require('enmap');
+const EnmapLevel = require('enmap-level');
 
 // files
 const bot = new Discord.Client();
-const config = require("./config.json");
-const points = JSON.parse(fs.readFileSync("./points.json", "utf8"));
+const settings = new Enmap({
+  provider: new EnmapLevel({
+    name: "settings"
+  })
+});
 const utils = require("./utils.js");
 const lookup = require("./lookup.js");
 const other = require("./other.js");
@@ -25,18 +29,22 @@ const thesKey = process.env.THES_TOKEN;
 const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 const firstTen = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
 const words = ["fak", "fuck", "shit", "fuk"];
-const commands = [
-  ["Let Me Google That For You", config.prefix + "lmgtfy <query>"],
-  ["Define", config.prefix + "define <query>"],
-  ["Clean Bot Messages", config.prefix + "clean", config.prefix + "purge"],
-  ["Spell with Emotes", config.prefix + "spell <query>"],
-  ["Wikipedia Page", config.prefix + "wiki <query>"],
-  ["Coinflip", config.prefix + "coinflip", config.prefix + "flipacoin"],
-  ["Dice Roll", config.prefix + "roll <number of dice> <amount of sides>"],
-  // ["Google Search", config.prefix + "google <query>", config.prefix + "whatis <query>"],
-  ["Lunch Menu", config.prefix + "lunch", config.prefix + "lunch <yesterday/today/tomorrow>", config.prefix + "lunch <day> <month> <year>"]
-]; //[[Description, syntax1, syntax2, etc],...]
 
+// Enmap setup
+const defaultSettings = {
+  prefix: "$",
+  adminRole: "Administrator",
+  mainID: "",
+  musicID: ""
+}
+
+client.on("guildCreate", guild => {
+  settings.set(guild.id, defaultSettings);
+});
+
+client.on("guildDelete", guild => {
+  settings.delete(guild.id);
+});
 
 bot.on('ready', () => {
   console.log('I am ready!');
@@ -52,10 +60,12 @@ bot.on('ready', () => {
 bot.login(process.env.BOT_TOKEN);
 
 bot.on('message', message => {
-  if (message.author.bot) return; // if a bot is talking
+  if (!message.guild || message.author.bot) return; // if a bot is talking or not a server
+
+  const config = settings.get(message.guild.id);
 
   let query = message.content.slice(config.prefix.length).trim().split(/ +/g); // gets query
-  let command = query.shift().toLowerCase(); // gets command
+  const command = query.shift().toLowerCase(); // gets command
 
   // converts query to lowercase;
   if (command != "wiki") {
@@ -64,25 +74,27 @@ bot.on('message', message => {
     }
   }
 
-  // point system
-  if (!points[message.author.id]) {
-    points[message.author.id] = {
-      words: 0,
-      messages: 0
-    };
-  }
-  points[message.author.id].messages++;
-  if (words.some(word => message.content.includes(word))) {
-    points[message.author.id].words++;
-  }
-  fs.writeFile("./points.json", JSON.stringify(config), (err) => console.error);
+  // // point system
+  // if (!points[message.author.id]) {
+  //   points[message.author.id] = {
+  //     words: 0,
+  //     messages: 0
+  //   };
+  // }
+  // points[message.author.id].messages++;
+  // if (words.some(word => message.content.includes(word))) {
+  //   points[message.author.id].words++;
+  // }
 
   // cases
   if (message.content.startsWith(config.prefix)) {
-    if (config.ownerId == message.author.id) {
+    if (message.member.roles.find("name", config.adminRole)) {} else {
       switch (command) {
-        case "test":
-          utils.test(message);
+        case "setconfig":
+          setconfig(message, query, config); // Updates config
+          break;
+        case "showconfig":
+          message.channel.send(utils.showconfig(config));
           break;
         case "restrict":
           utils.restrict(message, query);
@@ -93,17 +105,28 @@ bot.on('message', message => {
         case "prefix":
           utils.prefix(message, query, config);
           break;
-        case "swears":
-          entries = [];
-          for (let i = 0; i < Object.keys(config.counter).length; i++) {
-            entries.push([Object.entries(config.counter)[i]]);
-          }
-          message.channel.send(printMSG(entries, "swears"));
-          break;
+          // case "swears":
+          //   entries = [];
+          //   for (let i = 0; i < Object.keys(config.counter).length; i++) {
+          //     entries.push([Object.entries(config.counter)[i]]);
+          //   }
+          //   message.channel.send(printMSG(entries, "swears"));
+          //   break;
       }
     }
     switch (command) {
       case "commands":
+        const commands = [
+          ["Let Me Google That For You", config.prefix + "lmgtfy <query>"],
+          ["Define", config.prefix + "define <query>"],
+          ["Clean Bot Messages", config.prefix + "clean", config.prefix + "purge"],
+          ["Spell with Emotes", config.prefix + "spell <query>"],
+          ["Wikipedia Page", config.prefix + "wiki <query>"],
+          ["Coinflip", config.prefix + "coinflip", config.prefix + "flipacoin"],
+          ["Dice Roll", config.prefix + "roll <number of dice> <amount of sides>"],
+          // ["Google Search", config.prefix + "google <query>", config.prefix + "whatis <query>"],
+          ["Lunch Menu", config.prefix + "lunch", config.prefix + "lunch <yesterday/today/tomorrow>", config.prefix + "lunch <day> <month> <year>"]
+        ]; //[[Description, syntax1, syntax2, etc],...]
         message.channel.send(utils.printMsg(JSON.parse(JSON.stringify(commands)), "commands"));
         break;
       case "lmgtfy":
@@ -118,7 +141,7 @@ bot.on('message', message => {
         break;
       case "thesaurus":
         let thesSearchQuery = query.join(" ");
-        if (thesSearchQuery){
+        if (thesSearchQuery) {
           let url;
         }
         lookup.apiRequest(url, "thes", message, thesaurus, thesSearchQuery);
@@ -250,4 +273,32 @@ function lunch(date, type, message) {
       message.channel.send("No Lunch for " + date);
     }
   });
+}
+
+// pre: config key asked to be changed
+// post: config will be changed if possible
+function setconfig(message, query, config) => {
+  const config2 = config; // Backup config
+  if (query.length != 2) message.channel.send("Invalid arguments");
+  const key = query.shift();
+
+  if (!guildConf.hasOwnProperty(key)) {
+    return message.channel.send("This key is not in the configuration.");
+  }
+  config[key] = query.shift(); // Change value
+
+  // Confirmation of actions
+  message.channel.send(`Guild configuration item ${key} has been changed to:\n\`${value}\``);
+  message.channel.send("Type `\"undo\"` to undo the changes!");
+  const msgs = await message.channel.awaitMessages(msg =>
+    msg.content.includes("undo"), {
+      time: 3000
+    });
+  if (msgs.length > 0) {
+    message.channel.send("No changes were made to the configuration!")
+    return;
+  } else {
+    message.channel.send("All changes have been saved!");
+    settings.set(message.guild.id, config);
+  }
 }

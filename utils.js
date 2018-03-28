@@ -47,9 +47,7 @@ module.exports.link = (message, query, config) => {
           message.channel.send(":link: Channel linked as main.");
         }
         break;
-      default:
     }
-    fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
   }
 }
 
@@ -58,7 +56,6 @@ module.exports.link = (message, query, config) => {
 module.exports.prefix = (message, query, config) => {
   if (query.join(" ").length == 1) {
     config.prefix = query;
-    fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
     message.channel.send("Prefix changed to " + "`" + config.prefix + "`");
   } else {
     message.channel.send("Prefix: " + config.prefix);
@@ -70,7 +67,7 @@ module.exports.clean = (query, message, config) => {
   // maybe get array of sent messages, filter by bot, shift 1 and get ones above?
   if (query.length == 0) { // Purges only bot messages
     message.channel.fetchMessages().then((messages) => {
-      const botMessages = messages.filter(msg => msg.author.id === bot.user.id).array().slice(0, 100);
+      const botMessages = messages.filter(msg => msg.member.id === bot.user.id).array().slice(0, 100);
       message.channel.bulkDelete(botMessages).catch(error => {
         console.log(error.stack);
         message.channel.send("Error deleting messages!");
@@ -79,7 +76,7 @@ module.exports.clean = (query, message, config) => {
         msg.delete(3000)
       });
     });
-  } else if (config.ownerId == message.author.id) { // if its admin
+  } else if (message.member.roles.find("name", config.adminRole)) { // if its admin
     const user = message.mentions.users.first();
     let amount = !!parseInt(query[0]) ? parseInt(query[0]) : parseInt(query[1]);
     if (!amount) {
@@ -113,6 +110,12 @@ module.exports.clean = (query, message, config) => {
   }
 }
 
+// pre: config is asked for
+// post: returns config
+module.exports.showconfig = (config) => {
+  configKeys = config.map((value, key) => `${key}  :  ${value}`).join("\n");
+  return `The following are the server's current configuration: \`\`\`${configKeys}\`\`\``;
+}
 
 // pre: takes in a entry list and various other arguments for printing
 // post: embed object created for discord to send
