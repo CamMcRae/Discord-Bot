@@ -8,12 +8,12 @@ const jsonframe = require('jsonframe-cheerio');
 const snekfetch = require('snekfetch');
 const querystring = require('querystring');
 const Enmap = require('enmap');
-const EnmapLevel = require('enmap-level');
+const EnmapSQLite = require('enmap-sqlite');
 
 // files
 const bot = new Discord.Client();
 const settings = new Enmap({
-  provider: new EnmapLevel({
+  provider: new EnmapSQLite({
     name: "settings"
   })
 });
