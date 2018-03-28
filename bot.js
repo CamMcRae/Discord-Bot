@@ -39,7 +39,8 @@ const defaultSettings = {
 }
 
 bot.on("guildCreate", guild => {
-  client.settings.set(guild.id, defaultSettings);
+  settings.set(guild.id, defaultSettings);
+  console.log(settings);
 });
 
 bot.on("guildDelete", guild => {
