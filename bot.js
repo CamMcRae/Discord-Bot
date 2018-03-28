@@ -12,11 +12,6 @@ const EnmapSQLite = require('enmap-sqlite');
 
 // files
 const bot = new Discord.Client();
-const settings = new Enmap({
-  provider: new EnmapSQLite({
-    name: "settings"
-  })
-});
 const utils = require("./utils.js");
 const lookup = require("./lookup.js");
 const other = require("./other.js");
@@ -31,6 +26,11 @@ const firstTen = ["zero", "one", "two", "three", "four", "five", "six", "seven",
 const words = ["fak", "fuck", "shit", "fuk"];
 
 // Enmap setup
+const settings = new Enmap({
+  provider: new EnmapSQLite({
+    name: "settings"
+  })
+});
 const defaultSettings = {
   prefix: "$",
   adminRole: "Administrator",
@@ -39,7 +39,7 @@ const defaultSettings = {
 }
 
 bot.on("guildCreate", guild => {
-  settings.set(guild.id, defaultSettings);
+  client.settings.set(guild.id, defaultSettings);
 });
 
 bot.on("guildDelete", guild => {
