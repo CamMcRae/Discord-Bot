@@ -277,7 +277,7 @@ function lunch(date, type, message) {
 
 // pre: config key asked to be changed
 // post: config will be changed if possible
-function setconfig(message, query, config) {
+async function setconfig(message, query, config) {
   const config2 = config; // Backup config
   if (query.length != 2) message.channel.send("Invalid arguments");
   const key = query.shift();
