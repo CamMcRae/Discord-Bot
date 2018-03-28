@@ -38,11 +38,11 @@ const defaultSettings = {
   musicID: ""
 }
 
-client.on("guildCreate", guild => {
+bot.on("guildCreate", guild => {
   settings.set(guild.id, defaultSettings);
 });
 
-client.on("guildDelete", guild => {
+bot.on("guildDelete", guild => {
   settings.delete(guild.id);
 });
 
