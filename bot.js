@@ -38,14 +38,14 @@ const defaultSettings = {
   musicID: ""
 }
 
-bot.on("guildCreate", guild => {
-  settings.set(guild.id, defaultSettings);
-  console.log(settings);
-});
-
-bot.on("guildDelete", guild => {
-  settings.delete(guild.id);
-});
+// bot.on("guildCreate", guild => {
+//   settings.set(guild.id, defaultSettings);
+//   console.log(settings);
+// });
+//
+// bot.on("guildDelete", guild => {
+//   settings.delete(guild.id);
+// });
 
 bot.on('ready', () => {
   console.log('I am ready!');
@@ -63,8 +63,12 @@ bot.login(process.env.BOT_TOKEN);
 bot.on('message', message => {
   if (!message.guild || message.author.bot) return; // if a bot is talking or not a server
 
-  const config = settings.get(message.guild.id);
-  console.log(settings);
+  const config = {
+    prefix: "$",
+    adminRole: "Administrator"
+  }
+
+  // const config = settings.get(message.guild.id);
 
   let query = message.content.slice(config.prefix.length).trim().split(/ +/g); // gets query
   const command = query.shift().toLowerCase(); // gets command
