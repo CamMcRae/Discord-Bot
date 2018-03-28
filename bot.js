@@ -63,7 +63,7 @@ bot.on('message', message => {
   if (!message.guild || message.author.bot) return; // if a bot is talking or not a server
 
   const config = settings.get(message.guild.id);
-  console.log(config);
+  console.log(settings);
 
   let query = message.content.slice(config.prefix.length).trim().split(/ +/g); // gets query
   const command = query.shift().toLowerCase(); // gets command
