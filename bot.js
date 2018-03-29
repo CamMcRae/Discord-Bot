@@ -113,6 +113,21 @@ bot.on('message', message => {
         case "prefix":
           utils.prefix(message, query, config);
           break;
+        case "move":
+          if (!message.mentions.users.first()) {
+            message.channel.send("Mention who you want to move.");
+            break;
+          }
+          const channel = discord.utils.find(c => {
+            c.name == query[query.length - 1] &&
+              c.type == 'voice'
+          });
+          if (channel) {
+            for (let i of message.mentions.users) {
+              guild.member(i).setVoiceChannel()
+            }
+          }
+          break;
           // case "swears":
           //   entries = [];
           //   for (let i = 0; i < Object.keys(config.counter).length; i++) {
