@@ -65,7 +65,8 @@ bot.on('message', message => {
 
   const config = {
     prefix: "$",
-    adminRole: "Administrator"
+    adminRole: "Administrator",
+    admin: "124349142708387840"
   }
 
   // const config = settings.get(message.guild.id);
@@ -94,7 +95,7 @@ bot.on('message', message => {
 
   // cases
   if (message.content.startsWith(config.prefix)) {
-    if (message.member.roles.find("name", config.adminRole)) {} else {
+    if (message.member.roles.find("name", config.adminRole) || message.member.id == config.admin) {} else {
       switch (command) {
         case "setconfig":
           setconfig(message, query, config); // Updates config
