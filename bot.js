@@ -95,7 +95,7 @@ bot.on('message', message => {
 
   // cases
   if (message.content.startsWith(config.prefix)) {
-    if (message.member.roles.find("name", config.adminRole) || message.member.id == config.admin) {} else {
+    if (message.member.roles.find("name", config.adminRole)) {
       console.log("restricted commands");
       switch (command) {
         case "setconfig":
