@@ -118,13 +118,13 @@ bot.on('message', message => {
             message.channel.send("Mention who you want to move.");
             break;
           }
-          const channel = discord.utils.find(c => {
+          const channel = bot.guild.channels.find(c => {
             c.name == query[query.length - 1] &&
               c.type == 'voice'
           });
           if (channel) {
             for (let i of message.mentions.users) {
-              guild.member(i).setVoiceChannel()
+              bot.guild.member(i).setVoiceChannel()
             }
           }
           break;
