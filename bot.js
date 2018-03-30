@@ -62,7 +62,7 @@ bot.login(process.env.BOT_TOKEN);
 
 bot.on('message', message => {
   if (!message.guild || message.author.bot) return; // if a bot is talking or not a server
-
+  console.log(message);
   const config = {
     prefix: "$",
     adminRole: "Administrator",
@@ -117,7 +117,7 @@ bot.on('message', message => {
             message.channel.send("Mention who you want to move.");
             break;
           }
-          query = query.slice(0, message.mentions.users.length);
+          query = query.splice(0, message.mentions.users.length);
           const channel = message.guild.channels.find(c => {
             c.name == query.join(" ") &&
               c.type == 'voice'
