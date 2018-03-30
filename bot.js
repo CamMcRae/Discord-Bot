@@ -117,12 +117,12 @@ bot.on('message', message => {
             message.channel.send("Mention who you want to move.");
             break;
           }
-          query = query.splice(0, message.mentions.users.length);
+          query = query.splice(0);
           const channel = message.guild.channels.find(c => {
             c.name == query.join(" ") &&
               c.type == 'voice'
           });
-          console.log(channel, query, message.mentions.members);
+          console.log(channel, query, message.guild.channels);
           if (channel) {
             for (let member of message.mentions.users) {
               member.setVoiceChannel(channel.id);
