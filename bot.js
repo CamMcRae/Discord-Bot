@@ -123,7 +123,7 @@ bot.on('message', message => {
           });
           if (channel) {
             for (let i of message.mentions.users) {
-              bot.guild.member(i).setVoiceChannel()
+              bot.guild.member(i).setVoiceChannel(channel);
             }
           }
           break;
