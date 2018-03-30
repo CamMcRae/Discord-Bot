@@ -75,7 +75,7 @@ bot.on('message', message => {
   const command = query.shift().toLowerCase(); // gets command
 
   // converts query to lowercase;
-  if (command != "wiki" || command != "move") {
+  if (command != "wiki" && command != "move") {
     for (let i = 0; i < query.length; i++) {
       query[i] = query[i].toLowerCase();
     }
