@@ -62,7 +62,7 @@ bot.login(process.env.BOT_TOKEN);
 
 bot.on('message', message => {
   if (!message.guild || message.author.bot) return; // if a bot is talking or not a server
-  console.log(message);
+  // console.log(message);
   const config = {
     prefix: "$",
     adminRole: "Administrator",
@@ -122,7 +122,7 @@ bot.on('message', message => {
             c.name == query.join(" ") &&
               c.type == 'voice'
           });
-          console.log(channel, query, message.mentions.users.length);
+          console.log(channel, query, message.mentions.members);
           if (channel) {
             for (let member of message.mentions.users) {
               member.setVoiceChannel(channel.id);
