@@ -124,7 +124,7 @@ bot.on('message', message => {
           });
           console.log(channel, query, message.guild.channels);
           if (channel) {
-            for (let member of message.mentions.users) {
+            for (let member of message.mentions.members) {
               member.setVoiceChannel(channel.id);
             }
           } else {
