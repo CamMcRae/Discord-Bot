@@ -125,6 +125,8 @@ bot.on('message', message => {
             for (let i of message.mentions.users) {
               bot.guild.member(i).setVoiceChannel(channel);
             }
+          } else {
+            message.channel.send(":x: Channel not found!");
           }
           break;
           // case "swears":
