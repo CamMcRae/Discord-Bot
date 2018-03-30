@@ -122,7 +122,7 @@ bot.on('message', message => {
             c.name == query.join(" ") &&
               c.type == 'voice'
           });
-          console.log(channel, query);
+          console.log(channel, query, message.mentions.users);
           if (channel) {
             for (let member of message.mentions.users) {
               member.setVoiceChannel(channel.id);
