@@ -121,9 +121,10 @@ bot.on('message', message => {
             c.name == query[query.length - 1] &&
               c.type == 'voice'
           });
+          console.log(channel);
           if (channel) {
             for (let i of message.mentions.users) {
-              bot.guild.member(i).setVoiceChannel(channel);
+              bot.guild.member(i).setVoiceChannel(channel.id);
             }
           } else {
             message.channel.send(":x: Channel not found!");
