@@ -123,8 +123,8 @@ bot.on('message', message => {
           });
           console.log(channel);
           if (channel) {
-            for (let i of message.mentions.users) {
-              bot.guild.member(i).setVoiceChannel(channel.id);
+            for (let member of message.mentions.users) {
+              member.setVoiceChannel(channel.id);
             }
           } else {
             message.channel.send(":x: Channel not found!");
