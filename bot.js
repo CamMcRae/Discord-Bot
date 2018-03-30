@@ -117,7 +117,7 @@ bot.on('message', message => {
             message.channel.send("Mention who you want to move.");
             break;
           }
-          const channel = bot.channels.find(c => {
+          const channel = message.guild.channels.find(c => {
             c.name == query[query.length - 1] &&
               c.type == 'voice'
           });
