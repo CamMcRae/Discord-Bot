@@ -75,7 +75,7 @@ bot.on('message', message => {
   const command = query.shift().toLowerCase(); // gets command
 
   // converts query to lowercase;
-  if (command != "wiki" && command != "move") {
+  if (command != "wiki") {
     for (let i = 0; i < query.length; i++) {
       query[i] = query[i].toLowerCase();
     }
@@ -117,19 +117,7 @@ bot.on('message', message => {
             message.channel.send("Mention who you want to move.");
             break;
           }
-          query.splice(0, message.mentions.members.size);
-          const channel = message.guild.channels.find(c => {
-            c.name == query.join(" ") &&
-              c.type == 'voice'
-          });
-          console.log(channel, query, message.guild.channels);
-          if (channel) {
-            for (let member of message.mentions.members) {
-              member.setVoiceChannel(channel.id);
-            }
-          } else {
-            message.channel.send(":x: Channel not found!");
-          }
+          utils.moveChannel(message, query);
           break;
           // case "swears":
           //   entries = [];

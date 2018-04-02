@@ -117,6 +117,52 @@ module.exports.showconfig = (config) => {
   return `The following are the server's current configuration: \`\`\`${configKeys}\`\`\``;
 }
 
+// pre: user wants to move channels
+// post: defined users will be moved to channel 
+module.exports.moveChannel(message, query) {
+  query.splice(0, message.mentions.members.size);
+  switch (query) {
+    case "dbd":
+      query = "dead by daylight";
+      break;
+    case "csgo":
+      query = "Conter Strik";
+      break;
+    case "pubg":
+      query = "PUBG Skwaaadz";
+      break;
+    case "rl":
+      query = "Rocket League";
+      break;
+    case "general":
+      query = "General Arthur Curry";
+      break;
+    case "r1":
+    case "r2":
+      query = "Restricted " + query.slice(1);
+      break
+    case "hw":
+      query = "Homework"
+      break;
+    case "dst":
+      query = "Don't Starve Together"
+      break;
+  }
+  query = query.toLowerCase();
+  const channel = message.guild.channels.find(c => {
+    c.name.toLowerCase() == query.join(" ") &&
+      c.type == 'voice'
+  });
+  console.log(channel, query, message.guild.channels);
+  if (channel) {
+    for (let member of message.mentions.members) {
+      member.setVoiceChannel(channel.id);
+    }
+  } else {
+    message.channel.send(":x: Channel not found!");
+  }
+}
+
 // pre: takes in a entry list and various other arguments for printing
 // post: embed object created for discord to send
 module.exports.printMsg = (entries, type, searchQuery, json) => {
