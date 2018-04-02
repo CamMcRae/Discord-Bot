@@ -123,34 +123,33 @@ module.exports.moveChannel = (message, query) => {
   query.splice(0, message.mentions.members.size);
   switch (query) {
     case "dbd":
-      query = "dead by daylight";
+      query = ["dead by daylight"];
       break;
     case "csgo":
-      query = "Conter Strik";
+      query = ["Conter Strik"];
       break;
     case "pubg":
-      query = "PUBG Skwaaadz";
+      query = ["PUBG Skwaaadz"];
       break;
     case "rl":
-      query = "Rocket League";
+      query = ["Rocket League"];
       break;
     case "general":
-      query = "General Arthur Curry";
+      query = ["General Arthur Curry"];
       break;
     case "r1":
     case "r2":
-      query = "Restricted " + query.slice(1);
+      query = ["Restricted ", query.slice(1)];
       break
     case "hw":
-      query = "Homework"
+      query = ["Homework"];
       break;
     case "dst":
-      query = "Don't Starve Together"
+      query = ["Don't Starve Together"];
       break;
   }
-  query = query.toLowerCase();
   const channel = message.guild.channels.find(c => {
-    c.name.toLowerCase() == query.join(" ") &&
+    c.name.toLowerCase() == query.join(" ").toLowerCase() &&
       c.type == 'voice'
   });
   console.log(channel, query, message.guild.channels);
