@@ -118,8 +118,8 @@ module.exports.showconfig = (config) => {
 }
 
 // pre: user wants to move channels
-// post: defined users will be moved to channel 
-module.exports.moveChannel(message, query) {
+// post: defined users will be moved to channel
+module.exports.moveChannel = (message, query) => {
   query.splice(0, message.mentions.members.size);
   switch (query) {
     case "dbd":
