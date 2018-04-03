@@ -61,13 +61,13 @@ module.exports.dictionary = (json) => {
         if (temp) {
           entry.push();
         } else {
-          entry = "";
+          entry = [];
         }
       } catch (e) {}
     } else {
       entry.push(i.def.dt.substring(i.def.dt.indexOf(":") + 1));
     }
-    if (entry) {
+    if (entry.length > 0) {
       entries.push(entry); // adds one entry to master list
     }
   }
