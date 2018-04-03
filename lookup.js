@@ -56,19 +56,20 @@ module.exports.dictionary = (json) => {
       }
     } else if (typeof(i.def.dt) == "object") {
       try {
-        let index = i.def.dt.indexOf(":");
-        if (index == -1) {
-          index = 0;
-        }
-        let temp = i.def.dt["#text"].substring(index + 1);
+        let index = i.def.dt.indexOf(":") + 1;
+        let temp = i.def.dt["#text"].substring(index);
         if (temp) {
           entry.push();
+        } else {
+          entry = "";
         }
       } catch (e) {}
     } else {
       entry.push(i.def.dt.substring(i.def.dt.indexOf(":") + 1));
     }
-    entries.push(entry); // adds one entry to master list
+    if (entry) {
+      entries.push(entry); // adds one entry to master list
+    }
   }
   return entries;
 }
