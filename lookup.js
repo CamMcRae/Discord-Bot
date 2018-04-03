@@ -56,8 +56,7 @@ module.exports.dictionary = (json) => {
       }
     } else if (typeof(i.def.dt) == "object") {
       try {
-        let index = i.def.dt.indexOf(":") + 1;
-        let temp = i.def.dt["#text"].substring(index);
+        let temp = i.def.dt["#text"].substring(i.def.dt.indexOf(":") + 1);
         if (temp) {
           entry.push();
         } else {
@@ -67,7 +66,8 @@ module.exports.dictionary = (json) => {
     } else {
       entry.push(i.def.dt.substring(i.def.dt.indexOf(":") + 1));
     }
-    if (entry.length > 0) {
+    console.log(entry);
+    if (Array.isArray(entry[0])) {
       entries.push(entry); // adds one entry to master list
     }
   }
