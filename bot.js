@@ -321,7 +321,7 @@ async function setconfig(message, query, config) {
 async function dictThes(url, type, searchQuery) {
   const response = await lookup.apiRequest(url);
   console.log(fastparse.parse(response));
-  let json = fastparse.parse(response).html.body.entry_list;
+  let json = fastparse.parse(response).entry_list;
   console.log(json);
   if (json.entry) {
     let entries;
