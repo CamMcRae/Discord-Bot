@@ -38,8 +38,15 @@ module.exports.dictionary = (json) => {
       for (k of i.def.dt) {
         if (typeof(k) == "object") {
           try {
-            let temp = k["#text"].substring(k["#text"].indexOf(":") + 1) + k.sx;
+            let temp = k["#text"].substring(k["#text"].indexOf(":") + 1);
+            if (k.sx) {
+              temp += k.sx;
+            }
             entry.push(temp);
+          } catch (e) {}
+        } else if (typeof(i.def.dt) == "object") {
+          try {
+            entry.push(k["#text"]);
           } catch (e) {}
         } else {
           entry.push(k.substring(k.indexOf(":") + 1));
