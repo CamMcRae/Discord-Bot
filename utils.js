@@ -1,4 +1,5 @@
 // libs
+// const snekfetch = require('snekfetch');
 
 // files
 let bot;

@@ -5,7 +5,6 @@ const https = require("https");
 const request = require("request");
 const cheerio = require('cheerio');
 const jsonframe = require('jsonframe-cheerio');
-const snekfetch = require('snekfetch');
 const querystring = require('querystring');
 const Enmap = require('enmap');
 const EnmapSQLite = require('enmap-sqlite');
