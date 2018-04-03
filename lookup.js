@@ -36,27 +36,30 @@ module.exports.dictionary = (json) => {
     entry.push(header);
     if (Array.isArray(i.def.dt)) {
       for (k of i.def.dt) {
-        if (typeof(k) == "object") {
-          try {
-            let temp = k["#text"].substring(k["#text"].indexOf(":") + 1);
-            if (k.sx) {
-              temp += k.sx;
-            }
-            entry.push(temp);
-          } catch (e) {}
+        try {
+          if (typeof(k) == "object") {
+            try {
+              let temp = k["#text"].substring(k["#text"].indexOf(":") + 1);
+              if (k.sx) {
+                temp += k.sx;
+              }
+              entry.push(temp);
+            } catch (e) {}
+          } else {
+            entry.push(k.substring(k.indexOf(":") + 1));
+          }
         }
+      } catch (e) {
+        console.log(e);
       }
     } else if (typeof(i.def.dt) == "object") {
       try {
         entry.push(k["#text"]);
       } catch (e) {}
     } else {
-      entry.push(k.substring(k.indexOf(":") + 1));
+      entry.push(i.def.dt.substring(i.def.dt.indexOf(":") + 1));
     }
-  } else {
-    entry.push(i.def.dt.substring(i.def.dt.indexOf(":") + 1));
+    entries.push(entry); // adds one entry to master list
   }
-  entries.push(entry); // adds one entry to master list
-}
-return entries;
+  return entries;
 }
