@@ -56,7 +56,7 @@ module.exports.dictionary = (json) => {
       }
     } else if (typeof(i.def.dt) == "object") {
       try {
-        entry.push(k["#text"]);
+        entry.push(i.def.dt["#text"].substring(i.def.dt.indexOf(":") + 1));
       } catch (e) {}
     } else {
       entry.push(i.def.dt.substring(i.def.dt.indexOf(":") + 1));
