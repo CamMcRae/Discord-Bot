@@ -52,7 +52,6 @@ bot.on('ready', () => {
       name: "a game"
     }
   });
-  utils.setClient(bot);
   // bot.user.setUsername("Bot Dude");
 });
 

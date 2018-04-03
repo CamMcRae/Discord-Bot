@@ -2,16 +2,12 @@
 // const snekfetch = require('snekfetch');
 
 // files
-let bot;
+let main = require("./bot.js")
+const bot = main.bot;
 
 // module.exports.<function name> = (arguments) => {
 //   return whatever;
 // }
-
-module.exports.setClient = (client) => {
-  bot = client
-}
-
 
 // pre: takes in a query for how many to limit a voice channel
 // post: voice channel is restricted or no voice channel found
