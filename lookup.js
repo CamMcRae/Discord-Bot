@@ -14,9 +14,13 @@ module.exports.apiRequest = async (url) => {
       return cheerio.load(body).html();
     }
   };
-  return await rp(options);
+  try {
+    return await rp(options);
+  } catch (e) {}
 }
 
+// pre: json input
+// post: filter all entries and important information
 module.exports.dictionary = (json) => {
   //goes through json for dictionary entries
   let entries = [];
