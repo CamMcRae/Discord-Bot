@@ -324,9 +324,9 @@ async function dictThes(url, type, searchQuery, message) {
   let entries;
   if (json.entry) {
     if (type == "dict") {
-      entries = await lookup.dictionary(json);
+      entries = lookup.dictionary(json);
     } else if (type == "thes") {
-      entries = await lookup.dictionary(json);
+      entries = lookup.dictionary(json);
     }
   }
   message.channel.send(utils.printMsg(entries, type, searchQuery, json));

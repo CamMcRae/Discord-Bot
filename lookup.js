@@ -14,9 +14,7 @@ module.exports.apiRequest = async (url) => {
       return cheerio.load(body).html();
     }
   };
-  try {
-    return await rp(options);
-  } catch (e) {}
+  return await rp(options);
 }
 
 // pre: json input
