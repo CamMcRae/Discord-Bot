@@ -44,18 +44,19 @@ module.exports.dictionary = (json) => {
             }
             entry.push(temp);
           } catch (e) {}
-        } else if (typeof(i.def.dt) == "object") {
-          try {
-            entry.push(k["#text"]);
-          } catch (e) {}
-        } else {
-          entry.push(k.substring(k.indexOf(":") + 1));
         }
       }
+    } else if (typeof(i.def.dt) == "object") {
+      try {
+        entry.push(k["#text"]);
+      } catch (e) {}
     } else {
-      entry.push(i.def.dt.substring(i.def.dt.indexOf(":") + 1));
+      entry.push(k.substring(k.indexOf(":") + 1));
     }
-    entries.push(entry); // adds one entry to master list
+  } else {
+    entry.push(i.def.dt.substring(i.def.dt.indexOf(":") + 1));
   }
-  return entries;
+  entries.push(entry); // adds one entry to master list
+}
+return entries;
 }
