@@ -5,6 +5,8 @@ const rp = require("request-promise");
 // files
 const utils = require("./utils.js");
 
+// pre: url of page given
+// post: returns xml of page
 module.exports.apiRequest = async (url) => {
   const options = {
     uri: url,
