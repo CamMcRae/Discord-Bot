@@ -321,14 +321,14 @@ async function setconfig(message, query, config) {
 async function dictThes(url, type, searchQuery) {
   const response = await lookup.apiRequest(url);
   let json = fastparse.parse(response).html.body.entry_list;
-  let entries;
-  if (type == "dict") {
-    entries = lookup.dictionary(json);
-  } else if (type == "thes") {
-    entries = lookup.dictionary(json);
+  if (json.entry) {
+    let entries;
+    if (type == "dict") {
+      entries = lookup.dictionary(json);
+    } else if (type == "thes") {
+      entries = lookup.dictionary(json);
+    }
   }
-  if (entries) {
-    return printMsg(entries, type, searchQuery, json);
-  }
+  return printMsg(entries, type, searchQuery, json);
   // console.log(entries);
 }
