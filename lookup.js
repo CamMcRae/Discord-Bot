@@ -1,6 +1,6 @@
 // libs
 const cheerio = require('cheerio');
-const request = require("request-promise");
+const rp = require("request-promise");
 
 // files
 const utils = require("./utils.js");
@@ -12,7 +12,7 @@ module.exports.apiRequest = async (url) => {
       return cheerio.load(body).html();
     }
   };
-  return await request(options);
+  return await rp(options);
 }
 
 module.exports.dictionary = (json) => {
