@@ -1,6 +1,6 @@
 // libs
 const Discord = require("discord.js");
-const xml2js = require("xml2js");
+const fastparse = require('fast-xml-parser');
 const https = require("https");
 const request = require("request");
 const cheerio = require('cheerio');
@@ -150,15 +150,15 @@ bot.on('message', message => {
         let dictSearchQuery = query.join(" ");
         if (dictSearchQuery) {
           let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${dictSearchQuery.split(" ").join("%20")}?key=${dictKey}`;
-          lookup.apiRequest(url, "dict", message, lookup.dictionary, dictSearchQuery);
+          message.channel.send(dictThes(url, "dict", dictSearchQuery));
         }
         break;
       case "thesaurus":
         let thesSearchQuery = query.join(" ");
         if (thesSearchQuery) {
-          let url;
+          let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${dictSearchQuery.split(" ").join("%20")}?key=${dictKey}`;
+          message.channel.send(dictThes(url, "dict", dictSearchQuery));
         }
-        lookup.apiRequest(url, "thes", message, thesaurus, thesSearchQuery);
         break;
       case "purge":
       case "clean":
@@ -183,10 +183,10 @@ bot.on('message', message => {
       case "roll":
         other.rollDice(query, message);
         break;
-        // case "google":
-        // case "whatis":
-        //   google(message, query);
-        //   break;
+      case "google":
+      case "whatis":
+        utils.google(message, query);
+        break;
       case "lunch":
         let td = new Date()
         let date;
@@ -315,4 +315,20 @@ async function setconfig(message, query, config) {
     message.channel.send("All changes have been saved!");
     settings.set(message.guild.id, config);
   }
+}
+
+
+async function dictThes(url, type, searchQuery) {
+  const response = await lookup.apiRequest(url);
+  let json = fastparse.parse(response).html.body.entry_list;
+  let entries;
+  if (type == "dict") {
+    entries = lookup.dictionary(json);
+  } else if (type == "thes") {
+    entries = lookup.dictionary(json);
+  }
+  if (entries) {
+    return printMsg(entries, type, searchQuery, json);
+  }
+  // console.log(entries);
 }

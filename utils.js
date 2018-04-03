@@ -1,5 +1,4 @@
 // libs
-const fs = require("fs");
 
 // files
 let bot;
