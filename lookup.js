@@ -68,7 +68,6 @@ module.exports.dictionary = (json) => {
     } else {
       entry.push(i.def.dt.substring(i.def.dt.indexOf(":") + 1));
     }
-    console.log(entry);
     if (entry[1]) {
       entries.push(entry); // adds one entry to master list
     }

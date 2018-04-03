@@ -329,6 +329,6 @@ async function dictThes(url, type, searchQuery, message) {
       entries = await lookup.dictionary(json);
     }
   }
-  message.channel.send(utils.printMsg(entries, type, searchQuery, json));
+  message.channel.send(await utils.printMsg(entries, type, searchQuery, json));
   // console.log(entries);
 }
