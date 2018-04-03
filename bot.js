@@ -320,15 +320,13 @@ async function setconfig(message, query, config) {
 
 async function dictThes(url, type, searchQuery, message) {
   const response = await lookup.apiRequest(url);
-  console.log(fastparse.parse(response));
   let json = fastparse.parse(response).entry_list;
-  console.log(json);
+  let entries;
   if (json.entry) {
-    let entries;
     if (type == "dict") {
-      entries = lookup.dictionary(json);
+      entries = await lookup.dictionary(json);
     } else if (type == "thes") {
-      entries = lookup.dictionary(json);
+      entries = await lookup.dictionary(json);
     }
   }
   message.channel.send(utils.printMsg(entries, type, searchQuery, json));
