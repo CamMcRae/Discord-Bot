@@ -150,7 +150,7 @@ bot.on('message', message => {
         let dictSearchQuery = query.join(" ");
         if (dictSearchQuery) {
           let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${dictSearchQuery.split(" ").join("%20")}?key=${dictKey}`;
-          dictThes(url, "dict", dictSearchQuery, message);
+          message.channel.send(dictThes(url, "dict", dictSearchQuery));
         }
         break;
       case "thesaurus":
@@ -318,9 +318,11 @@ async function setconfig(message, query, config) {
 }
 
 
-async function dictThes(url, type, searchQuery, message) {
+async function dictThes(url, type, searchQuery) {
   const response = await lookup.apiRequest(url);
   let json = fastparse.parse(response).html.body.entry_list;
+  console.log(fastparse.parse(response));
+  console.log(json);
   if (json.entry) {
     let entries;
     if (type == "dict") {
@@ -329,6 +331,6 @@ async function dictThes(url, type, searchQuery, message) {
       entries = lookup.dictionary(json);
     }
   }
-  message.channel.send(await printMsg(entries, type, searchQuery, json));
+  printMsg(entries, type, searchQuery, json);
   // console.log(entries);
 }
