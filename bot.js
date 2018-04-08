@@ -122,7 +122,7 @@ bot.on('message', message => {
           //   for (let i = 0; i < Object.keys(config.counter).length; i++) {
           //     entries.push([Object.entries(config.counter)[i]]);
           //   }
-          //   message.channel.send(printMSG(entries, "swears"));
+          //   message.channel.send(createEmbed(entries, "swears"));
           //   break;
       }
     }
@@ -139,7 +139,7 @@ bot.on('message', message => {
           // ["Google Search", config.prefix + "google <query>", config.prefix + "whatis <query>"],
           ["Lunch Menu", config.prefix + "lunch", config.prefix + "lunch <yesterday/today/tomorrow>", config.prefix + "lunch <day> <month> <year>"]
         ]; //[[Description, syntax1, syntax2, etc],...]
-        message.channel.send(utils.printMsg(JSON.parse(JSON.stringify(commands)), "commands"));
+        message.channel.send(utils.createEmbed(JSON.parse(JSON.stringify(commands)), "commands"));
         break;
       case "lmgtfy":
         message.channel.send("http://lmgtfy.com/?q=" + message.content.substr(8).replace(/ /g, "%20"));
@@ -280,7 +280,7 @@ function lunch(date, type, message) {
 
     // sends to embed maker
     if (menu.length > 0) {
-      message.channel.send(utils.printMsg(menu, "lunch", (type ? "Daily" : "Weekly")));
+      message.channel.send(utils.createEmbed(menu, "lunch", (type ? "Daily" : "Weekly")));
     } else {
       message.channel.send("No Lunch for " + date);
     }
@@ -317,7 +317,9 @@ async function setconfig(message, query, config) {
 
 
 async function dictThes(url, type, searchQuery, message) {
+  // requests lookup
   const response = await lookup.apiRequest(url);
+  // parses xml into json
   let json = fastparse.parse(response).entry_list;
   let entries;
   if (json.entry) {
@@ -327,5 +329,6 @@ async function dictThes(url, type, searchQuery, message) {
       entries = lookup.dictionary(json);
     }
   }
-  message.channel.send(utils.printMsg(entries, type, searchQuery, json));
+  // creates embed
+  message.channel.send(utils.createEmbed(entries, type, searchQuery, json));
 }

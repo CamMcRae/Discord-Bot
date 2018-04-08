@@ -120,6 +120,7 @@ module.exports.showconfig = (config) => {
 // post: defined users will be moved to channel
 module.exports.moveChannel = (message, query) => {
   query.splice(0, message.mentions.members.size);
+  // shortened cases
   switch (query.join(" ")) {
     case "dbd":
       query = ["dead by daylight"];
@@ -147,15 +148,14 @@ module.exports.moveChannel = (message, query) => {
       query = ["Don't Starve Together"];
       break;
   }
+  // finds channel in guild
   const channel = message.guild.channels.find(c =>
     c.name.toLowerCase() == query.join(" ").toLowerCase() &&
     c.type == 'voice'
   );
+  // moves mentioned users into selected channel
   if (channel) {
     message.mentions.members.map(m => m.id).forEach(m => message.guild.members.get(m).setVoiceChannel(channel.id));
-    // for (let member of message.mentions.members.map(m => m.id)) {
-    //   message.guild.members.get(member).setVoiceChannel(channel.id);
-    // }
   } else {
     message.channel.send(":x: Channel not found!");
   }
@@ -163,7 +163,8 @@ module.exports.moveChannel = (message, query) => {
 
 // pre: takes in a entry list and various other arguments for printing
 // post: embed object created for discord to send
-module.exports.printMsg = (entries, type, searchQuery, json) => {
+// format: [[Title, Description],[[Field Title, Extra], info], [etc...]]
+module.exports.createEmbed = (entries, type, searchQuery, json) => {
   // default object creation
   let obj = {
     embed: {
