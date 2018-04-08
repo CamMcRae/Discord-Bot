@@ -2,8 +2,11 @@
 // const snekfetch = require('snekfetch');
 
 // files
-let main = require("./bot.js")
-const bot = main.bot;
+let bot;
+
+module.exports.setClient = (client) => {
+  bot = client
+}
 
 // module.exports.<function name> = (arguments) => {
 //   return whatever;
