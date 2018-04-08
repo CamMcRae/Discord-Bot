@@ -155,7 +155,7 @@ module.exports.moveChannel = (message, query) => {
   if (channel) {
     for (let member of message.mentions.members) {
       // console.log(member);
-      guild.members[member].setVoiceChannel(channel.id);
+      message.guild.members[member].setVoiceChannel(channel.id);
     }
   } else {
     message.channel.send(":x: Channel not found!");
