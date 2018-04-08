@@ -153,9 +153,9 @@ module.exports.moveChannel = (message, query) => {
   );
   console.log(channel);
   if (channel) {
-    for (let member of message.mentions.members) {
+    for (let member of message.mentions.members.map(m => m.id)) {
       // console.log(member);
-      message.guild.members[member].setVoiceChannel(channel.id);
+      message.guild.members.get(id).setVoiceChannel(channel.id);
     }
   } else {
     message.channel.send(":x: Channel not found!");
