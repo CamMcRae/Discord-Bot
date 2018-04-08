@@ -147,14 +147,14 @@ module.exports.moveChannel = (message, query) => {
       query = ["Don't Starve Together"];
       break;
   }
-  const channel = message.guild.channels.filter(c => {
+  const channel = message.guild.channels.find(c => {
     c.name.toLowerCase() == query.join(" ").toLowerCase() &&
       c.type == 'voice'
-  });
+  }).map(c => c.id);
   console.log(channel);
   if (channel) {
     for (let member of message.mentions.members) {
-      member.id.setVoiceChannel(channel.id);
+      member.setVoiceChannel(channel);
     }
   } else {
     message.channel.send(":x: Channel not found!");
