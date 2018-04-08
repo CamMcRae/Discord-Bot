@@ -152,7 +152,7 @@ module.exports.moveChannel = (message, query) => {
     c.type == 'voice'
   );
   if (channel) {
-    message.mentions.members.map(m => m.id).forEach(m => m.setVoiceChannel(channel.id));
+    message.mentions.members.map(m => m.id).forEach(m => message.guild.members.get(m).setVoiceChannel(channel.id));
     // for (let member of message.mentions.members.map(m => m.id)) {
     //   message.guild.members.get(member).setVoiceChannel(channel.id);
     // }
