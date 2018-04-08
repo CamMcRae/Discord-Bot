@@ -120,7 +120,7 @@ module.exports.showconfig = (config) => {
 // post: defined users will be moved to channel
 module.exports.moveChannel = (message, query) => {
   query.splice(0, message.mentions.members.size);
-  switch (query) {
+  switch (query.join(" ")) {
     case "dbd":
       query = ["dead by daylight"];
       break;
