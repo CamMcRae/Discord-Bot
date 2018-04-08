@@ -151,7 +151,7 @@ module.exports.moveChannel = (message, query) => {
     c.name.toLowerCase() == query.join(" ").toLowerCase() &&
       c.type == 'voice'
   });
-  console.log(channel.id, query);
+  console.log(channel);
   if (channel) {
     for (let member of message.mentions.members) {
       member.id.setVoiceChannel(channel.id);
