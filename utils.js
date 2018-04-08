@@ -151,10 +151,10 @@ module.exports.moveChannel = (message, query) => {
     c.name.toLowerCase() == query.join(" ").toLowerCase() &&
       c.type == 'voice'
   });
-  console.log(channel, query);
+  console.log(channel.id, query);
   if (channel) {
     for (let member of message.mentions.members) {
-      member.setVoiceChannel(channel.id);
+      member.id.setVoiceChannel(channel.id);
     }
   } else {
     message.channel.send(":x: Channel not found!");
