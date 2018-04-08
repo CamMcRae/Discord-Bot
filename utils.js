@@ -144,7 +144,7 @@ module.exports.moveChannel = (message, query) => {
       query = ["Don't Starve Together"];
       break;
   }
-  const channel = message.guild.channels.find(c => {
+  const channel = message.guild.channels.filter(c => {
     c.name.toLowerCase() == query.join(" ").toLowerCase() &&
       c.type == 'voice'
   });

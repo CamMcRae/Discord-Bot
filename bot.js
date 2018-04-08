@@ -111,7 +111,7 @@ bot.on('message', message => {
           break;
         case "move":
           if (!message.mentions.users.first()) {
-            message.channel.send("Mention who you want to move.");
+            message.channel.send(":x: Mention who you want to move.");
             break;
           }
           utils.moveChannel(message, query);
@@ -153,8 +153,8 @@ bot.on('message', message => {
       case "thesaurus":
         let thesSearchQuery = query.join(" ");
         if (thesSearchQuery) {
-          let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${dictSearchQuery.split(" ").join("%20")}?key=${dictKey}`;
-          dictThes(url, "dict", dictSearchQuery, message);
+          let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${thesSearchQuery.split(" ").join("%20")}?key=${dictKey}`;
+          dictThes(url, "thes", thesSearchQuery, message);
         }
         break;
       case "purge":
@@ -191,6 +191,7 @@ bot.on('message', message => {
           date = `${td.getMonth()+1}/${td.getDate()}/${td.getFullYear()}`
         } else {
           switch (query[0]) {
+            case "tm":
             case "tomorrow":
               td.setDate(td.getDate() + 1);
               date = `${td.getMonth()+1}/${td.getDate()}/${td.getFullYear()}`
@@ -256,7 +257,6 @@ function lunch(date, type, message) {
     }
     jsonframe($); // parse and scrape html
     var res = $('tbody').scrape(frame);
-    // console.log(res);
 
     // creates entries for embed
     let menu = [];
