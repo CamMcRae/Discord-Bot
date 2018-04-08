@@ -154,6 +154,7 @@ module.exports.moveChannel = (message, query) => {
   console.log(channel);
   if (channel) {
     for (let member of message.mentions.members.map(m => m.id)) {
+      console.log(member);
       member.setVoiceChannel(channel.id);
     }
   } else {
