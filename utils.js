@@ -151,12 +151,11 @@ module.exports.moveChannel = (message, query) => {
     c.name.toLowerCase() == query.join(" ").toLowerCase() &&
     c.type == 'voice'
   );
-  console.log(channel);
   if (channel) {
-    for (let member of message.mentions.members.map(m => m.id)) {
-      // console.log(member);
-      message.guild.members.get(member).setVoiceChannel(channel.id);
-    }
+    message.mentions.members.map(m => m.id).forEach(m => m.setVoiceChannel(channel.id));
+    // for (let member of message.mentions.members.map(m => m.id)) {
+    //   message.guild.members.get(member).setVoiceChannel(channel.id);
+    // }
   } else {
     message.channel.send(":x: Channel not found!");
   }
