@@ -227,11 +227,10 @@ bot.on('message', message => {
 });
 
 // date, t/f, t = day;
-async function lunchMenu(date, type, message) {
-  const data = await lunch.scrape(date);
+async function lunchMenu(date, type) {
+  const data = await lunch.scrapePage(date);
   const menu = lunch.sort(data);
 
-  // sends to embed maker
   if (menu.length > 0) {
     return (utils.createEmbed(menu, "lunch", (type ? "Daily" : "Weekly")));
   } else {
