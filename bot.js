@@ -197,8 +197,7 @@ bot.on('message', message => {
         console.log(date);
         const type = true;
         if (date) {
-          console.log("1");
-          message.channel.send(lunchMenu(date, true, message));
+          lunchMenu(date, true, message);
         } else {
           message.channel.send("Invalid Arguments");
         }
@@ -227,14 +226,14 @@ bot.on('message', message => {
 });
 
 // date, t/f, t = day;
-async function lunchMenu(date, type) {
+async function lunchMenu(date, type, message) {
   const data = await lunch.scrapePage(date);
   const menu = lunch.sort(data);
 
   if (menu.length > 0) {
-    return (utils.createEmbed(menu, "lunch", (type ? "Daily" : "Weekly")));
+    message.channel.send(utils.createEmbed(menu, "lunch", (type ? "Daily" : "Weekly")));
   } else {
-    return ("No Lunch for " + date);
+    message.channel.send("No Lunch for " + date);
   }
 }
 
