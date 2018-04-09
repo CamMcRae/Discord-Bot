@@ -198,7 +198,7 @@ bot.on('message', message => {
         const type = true;
         if (date) {
           async (date, type, message) => {
-            const data = await lunch.scrape(date);
+            const data = await lunch.scrapePage(date);
             console.log(data);
             const menu = lunch.sort(data);
             console.log(menu);

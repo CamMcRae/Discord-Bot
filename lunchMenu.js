@@ -41,7 +41,7 @@ module.exports.createDate = (query, message) => {
 // pre: date input
 // post: required data scraped from page
 // date, t/f, t = day;
-module.exports.scrape = (date) => {
+module.exports.scrapePage = (date) => {
   const url = `https://menu2.danahospitality.ca/hsc/menu.asp?r=1&ShowDate=${date}`;
   const options = {
     uri: url,
