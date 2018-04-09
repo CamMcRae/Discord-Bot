@@ -1,10 +1,6 @@
 // libs
 const Discord = require("discord.js");
 const fastparse = require('fast-xml-parser');
-const https = require("https");
-const request = require("request");
-const cheerio = require('cheerio');
-const jsonframe = require('jsonframe-cheerio');
 const Enmap = require('enmap');
 const EnmapSQLite = require('enmap-sqlite');
 
@@ -13,6 +9,7 @@ const bot = new Discord.Client();
 const utils = require("./utils.js");
 const lookup = require("./lookup.js");
 const other = require("./other.js");
+const lunch = require("./lunchMenu.js");
 
 // keys from heroku
 const dictKey = process.env.DICT_TOKEN;
@@ -35,6 +32,16 @@ const defaultSettings = {
   mainID: "",
   musicID: ""
 }
+
+// config setup
+// bot.on("guildCreate", guild => {
+// settings[guild.id] = defaultSettings;
+// });
+
+// bot.on("guildDelete", guild => {
+// delete settings[guild.id]
+// })
+
 
 // bot.on("guildCreate", guild => {
 //   settings.set(guild.id, defaultSettings);
@@ -186,36 +193,21 @@ bot.on('message', message => {
         utils.google(message, query);
         break;
       case "lunch":
-        let td = new Date()
-        let date;
-        if (query.length == 0 || query[0] == "today") { // no query or "today"
-          date = `${td.getMonth()+1}/${td.getDate()}/${td.getFullYear()}`
-        } else {
-          switch (query[0]) {
-            case "tm":
-            case "tomorrow":
-              td.setDate(td.getDate() + 1);
-              date = `${td.getMonth()+1}/${td.getDate()}/${td.getFullYear()}`
-              break;
-            case "yesterday":
-              td.setDate(td.getDate() - 1);
-              date = `${td.getMonth()+1}/${td.getDate()}/${td.getFullYear()}`
-              break;
-            case "week":
-              break;
-            default:
-              try {
-                td = new Date(query[2], query[1] - 1, query[0]);
-              } catch (e) {
-                message.channel.send("Invalid Arguments provided");
-              }
-              date = `${td.getMonth()+1}/${td.getDate()}/${td.getFullYear()}`
-              break;
-          }
-        }
+        const date = lunch.createDate(query, message);
         console.log(date);
         if (date) {
-          lunch(date, true, message);
+          async (date, true, message) => {
+            const data = await lunch.scrape(date);
+            const menu = lunch.sort(data);
+
+            // sends to embed maker
+            if (menu.length > 0) {
+              message.channel.send(utils.createEmbed(menu, "lunch", (type ? "Daily" : "Weekly")));
+            } else {
+              message.channel.send("No Lunch for " + date);
+            }
+          }
+          // lunch(date, true, message);
         }
         // link: https://menu2.danahospitality.ca/hsc/menu.asp?r=1&ShowDate=1/26/2018
         break;
@@ -241,50 +233,17 @@ bot.on('message', message => {
   }
 });
 
-// url, t/f, t = day;
-function lunch(date, type, message) {
-  let url = `https://menu2.danahospitality.ca/hsc/menu.asp?r=1&ShowDate=${date}`;
-  request(url, function(error, response, body) {
-    let $ = cheerio.load(body); // load html
-    let frame = {
-      "menu": {
-        _s: "tr",
-        _d: [{
-          "type": ".MenuSection",
-          "name": ".ItemName .ItemName",
-          "desc": ".ItemDescription"
-        }]
-      }
-    }
-    jsonframe($); // parse and scrape html
-    var res = $('tbody').scrape(frame);
+// date, t/f, t = day;
+async function lunch(date, type, message) {
+  const data = await lunch.scrape(date);
+  const menu = lunch.sort(data);
 
-    // creates entries for embed
-    let menu = [];
-    let menuTemp = [];
-    for (let i of res.menu) { // each item of list
-      if (menuTemp.length > 1) {
-        menuTemp = [];
-      }
-      if (Object.keys(i) == "type") {
-        menuTemp.push(i.type) // header
-      } else {
-        for (let j of Object.keys(i)) {
-          menuTemp.push(i[j]); // name and description
-        }
-      }
-      if (menuTemp.length != 1) { // only pushes if there is more than just a name
-        menu.push(menuTemp);
-      }
-    }
-
-    // sends to embed maker
-    if (menu.length > 0) {
-      message.channel.send(utils.createEmbed(menu, "lunch", (type ? "Daily" : "Weekly")));
-    } else {
-      message.channel.send("No Lunch for " + date);
-    }
-  });
+  // sends to embed maker
+  if (menu.length > 0) {
+    message.channel.send(utils.createEmbed(menu, "lunch", (type ? "Daily" : "Weekly")));
+  } else {
+    message.channel.send("No Lunch for " + date);
+  }
 }
 
 // pre: config key asked to be changed
