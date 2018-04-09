@@ -86,4 +86,5 @@ module.exports.sort = (data) => {
       menu.push(menuTemp);
     }
   }
+  return menu;
 }
