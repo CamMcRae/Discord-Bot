@@ -198,21 +198,9 @@ bot.on('message', message => {
         const type = true;
         if (date) {
           console.log("1");
-          message.channel.send(async (date, type, message) => {
-            console.log("2");
-            const data = await lunch.scrapePage(date);
-            console.log(data);
-            const menu = lunch.sort(data);
-            console.log(menu);
-
-            // sends to embed maker
-            if (menu.length > 0) {
-              return (utils.createEmbed(menu, "lunch", (type ? "Daily" : "Weekly")));
-            } else {
-              return ("No Lunch for " + date);
-            }
-          });
-          // lunchMenu(date, true, message);
+          message.channel.send(lunchMenu(date, true, message));
+        } else {
+          message.channel.send("Invalid Arguments");
         }
         // link: https://menu2.danahospitality.ca/hsc/menu.asp?r=1&ShowDate=1/26/2018
         break;
@@ -245,9 +233,9 @@ async function lunchMenu(date, type, message) {
 
   // sends to embed maker
   if (menu.length > 0) {
-    message.channel.send(utils.createEmbed(menu, "lunch", (type ? "Daily" : "Weekly")));
+    return (utils.createEmbed(menu, "lunch", (type ? "Daily" : "Weekly")));
   } else {
-    message.channel.send("No Lunch for " + date);
+    return ("No Lunch for " + date);
   }
 }
 
