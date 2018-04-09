@@ -199,8 +199,8 @@ bot.on('message', message => {
         if (date) {
           async (date, type, message) => {
             const data = await lunch.scrape(date);
-            const menu = lunch.sort(data);
             console.log(data);
+            const menu = lunch.sort(data);
             console.log(menu);
 
             // sends to embed maker
