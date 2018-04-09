@@ -200,6 +200,8 @@ bot.on('message', message => {
           async (date, type, message) => {
             const data = await lunch.scrape(date);
             const menu = lunch.sort(data);
+            console.log(data);
+            console.log(menu);
 
             // sends to embed maker
             if (menu.length > 0) {
