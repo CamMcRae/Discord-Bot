@@ -195,8 +195,9 @@ bot.on('message', message => {
       case "lunch":
         const date = lunch.createDate(query, message);
         console.log(date);
+        const type = true;
         if (date) {
-          async (date, true, message) => {
+          async (date, type, message) => {
             const data = await lunch.scrape(date);
             const menu = lunch.sort(data);
 
