@@ -61,7 +61,7 @@ module.exports.scrape = (date) => {
       return $('tbody').scrape(frame);
     }
   }
-  return request(options);
+  return requestpromise(options);
 }
 
 
