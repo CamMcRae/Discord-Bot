@@ -208,7 +208,7 @@ bot.on('message', message => {
               message.channel.send("No Lunch for " + date);
             }
           }
-          // lunch(date, true, message);
+          // lunchMenu(date, true, message);
         }
         // link: https://menu2.danahospitality.ca/hsc/menu.asp?r=1&ShowDate=1/26/2018
         break;
@@ -235,7 +235,7 @@ bot.on('message', message => {
 });
 
 // date, t/f, t = day;
-async function lunch(date, type, message) {
+async function lunchMenu(date, type, message) {
   const data = await lunch.scrape(date);
   const menu = lunch.sort(data);
 
