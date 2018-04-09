@@ -198,7 +198,7 @@ bot.on('message', message => {
         const type = true;
         if (date) {
           console.log("1");
-          async (date, type, message) => {
+          message.channel.send(async (date, type, message) => {
             console.log("2");
             const data = await lunch.scrapePage(date);
             console.log(data);
@@ -207,11 +207,11 @@ bot.on('message', message => {
 
             // sends to embed maker
             if (menu.length > 0) {
-              message.channel.send(utils.createEmbed(menu, "lunch", (type ? "Daily" : "Weekly")));
+              return (utils.createEmbed(menu, "lunch", (type ? "Daily" : "Weekly")));
             } else {
-              message.channel.send("No Lunch for " + date);
+              return ("No Lunch for " + date);
             }
-          }
+          });
           // lunchMenu(date, true, message);
         }
         // link: https://menu2.danahospitality.ca/hsc/menu.asp?r=1&ShowDate=1/26/2018
