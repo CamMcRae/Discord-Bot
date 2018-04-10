@@ -67,7 +67,7 @@ module.exports.scrapePage = (date) => {
 
 // pre: json with lunch menu information
 // post: object with organized data
-function sort(data, date, type) {
+module.exports.sort = (data, date, type) => {
   // Default Menu
   const menu = {
     title: "Lunch Menu for: " + date,
