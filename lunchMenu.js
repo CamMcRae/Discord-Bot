@@ -65,25 +65,26 @@ module.exports.scrapePage = (date) => {
 }
 
 
-// REWORK TO MAKE JSON FOR EMBED
 // pre: json with lunch menu information
-// post: list with organized data
-module.exports.sort = (data) => {
-  let menu = [];
-  let menuTemp = [];
+// post: object with organized data
+function sort(data, date, type) {
+  // Default Menu
+  const menu = {
+    title: "Lunch Menu for: " + date,
+    desc: (type ? "Daily" : " Weekly"),
+    fields: []
+  }
+  // Default field values
+  let menuTemp = {};
   for (let i of data.menu) { // each item of list
-    if (menuTemp.length > 1) {
-      menuTemp = [];
-    }
     if (Object.keys(i) == "type") {
-      menuTemp.push(i.type) // header
+      menuTemp.name = i.type;
     } else {
-      for (let j of Object.keys(i)) {
-        menuTemp.push(i[j]); // name and description
-      }
+      menuTemp.value = Object.values(i).join("\n_") + (Object.values(i).length == 1 ? "" : "_");
     }
-    if (menuTemp.length != 1) { // only pushes if there is more than just a name
-      menu.push(menuTemp);
+    if (menuTemp.value) {
+      menu.fields.push(menuTemp);
+      menuTemp = {}
     }
   }
   return menu;

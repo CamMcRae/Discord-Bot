@@ -265,28 +265,16 @@ module.exports.createEmbed = (entries, type, searchQuery, json) => {
       }
       break;
     case "lunch":
-      obj.embed.title = "Lunch Menu"
-      obj.embed.description = searchQuery;
+      obj.embed.title = entries.title;
+      obj.embed.description = entries.desc;
+      obj.embed.fields = entries.fields;
       obj.embed.color = 0x1FFF00;
       obj.embed.footer.text = "Lunch Menu";
+
       // obj.embed.thumbnail = {
       //   url: "./assets/Food.png"
       // }
 
-      for (let i = 0; i < entries.length; i++) {
-        obj.embed.fields.push({});
-
-        let temp = "";
-        temp += "**" + entries[i].shift() + "** ";
-        obj.embed.fields[i].name = temp;
-
-        temp = "";
-        temp = entries[i].shift();
-        for (let j of entries[i]) {
-          temp += "\n_" + j + "_";
-        }
-        obj.embed.fields[i].value = temp;
-      }
       break;
   }
   return obj;

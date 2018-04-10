@@ -231,7 +231,7 @@ async function lunchMenu(date, type, message) {
   const menu = lunch.sort(data);
 
   if (menu.length > 0) {
-    message.channel.send(utils.createEmbed(menu, "lunch", (type ? "Daily" : "Weekly")));
+    message.channel.send(utils.createEmbed(menu, "lunch"));
   } else {
     message.channel.send("No Lunch for " + date);
   }
