@@ -230,7 +230,7 @@ async function lunchMenu(date, type, message) {
   const data = await lunch.scrapePage(date);
   const menu = lunch.sort(data, date, type);
 
-  if (menu) {
+  if (menu.fields.length > 1) {
     message.channel.send(utils.createEmbed(menu, "lunch"));
   } else {
     message.channel.send("No Lunch for " + date);
