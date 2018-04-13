@@ -74,6 +74,8 @@ module.exports.clean = (query, message, config) => {
       message.channel.send(":recycle: `" + botMessages.length + " ` messages were removed!").then(msg => {
         msg.delete(3000)
       });
+    }).catch(error => {
+      console.log(error);
     });
   } else if (message.member.roles.find("name", config.adminRole)) { // if its admin
     const user = message.mentions.users.first();
@@ -92,7 +94,9 @@ module.exports.clean = (query, message, config) => {
         message.channel.send(":recycle: `" + messages.length + " ` messages were removed!").then(msg => {
           msg.delete(3000)
         });
-      });
+      }).catch(error => {
+        console.log(error);
+      });;
     } else { // if no user is specified
       message.channel.fetchMessages({
         limit: amount
@@ -104,7 +108,9 @@ module.exports.clean = (query, message, config) => {
         message.channel.send(":recycle: `" + amount + "` messages were removed!").then(msg => {
           msg.delete(3000)
         });
-      });
+      }).catch(error => {
+        console.log(error);
+      });;
     }
   }
 }

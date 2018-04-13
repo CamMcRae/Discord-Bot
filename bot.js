@@ -18,7 +18,6 @@ const thesKey = process.env.THES_TOKEN;
 // other setup items
 const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 const firstTen = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
-const words = ["fak", "fuck", "shit", "fuk"];
 
 // Enmap setup
 const settings = new Enmap({
@@ -197,7 +196,7 @@ bot.on('message', message => {
         console.log(date);
         const type = true;
         if (date) {
-          lunchMenu(date, true, message);
+          lunchMenu(date, type, message);
         } else {
           message.channel.send("Invalid Arguments");
         }
