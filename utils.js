@@ -261,10 +261,10 @@ module.exports.createEmbed = (entries, type, searchQuery, json) => {
       obj.embed.color = 0xff0909;
       obj.embed.footer.text = "Commands";
 
-      for (let i = 0; i < entries.length; i++) { // first list element with name and date
+      for (let i = 0; i < entries.length; i++) {
         obj.embed.fields.push({
           name: "**" + entries[i].shift() + "**",
-          value = entries[i].join("\n")
+          value: entries[i].join("\n")
         });
         // obj.embed.fields[i].name = ;
         // obj.embed.fields[i].value = entries[i].join("\n");
