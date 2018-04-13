@@ -61,6 +61,8 @@ module.exports.prefix = (message, query, config) => {
   }
 }
 
+// pre:
+// post: cleans the defined amount of messages, only bot interaction messages or a users messages
 module.exports.clean = async (query, message, config) => {
   message.delete();
   // maybe get array of sent messages, filter by bot, shift 1 and get ones above?
@@ -260,11 +262,12 @@ module.exports.createEmbed = (entries, type, searchQuery, json) => {
       obj.embed.footer.text = "Commands";
 
       for (let i = 0; i < entries.length; i++) { // first list element with name and date
-        obj.embed.fields.push({});
-        let temp = "";
-        temp += "**" + entries[i].shift() + "** ";
-        obj.embed.fields[i].name = temp; // adds to embed
-        obj.embed.fields[i].value = entries[i].join("\n");
+        obj.embed.fields.push({
+          name: "**" + entries[i].shift() + "**",
+          value = entries[i].join("\n")
+        });
+        // obj.embed.fields[i].name = ;
+        // obj.embed.fields[i].value = entries[i].join("\n");
       }
       break;
     case "lunch":
