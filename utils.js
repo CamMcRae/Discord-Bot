@@ -65,17 +65,14 @@ module.exports.clean = async (query, message, config) => {
   message.delete();
   // maybe get array of sent messages, filter by bot, shift 1 and get ones above?
   if (query.length == 0) { // Purges only bot messages
-    message.channel.fetchMessages().then((messages) => {
-      const botMessages = await messages.filter(msg => msg.member.id === bot.user.id).array().slice(0, 100);
-      message.channel.bulkDelete(botMessages).catch(error => {
-        console.log(error.stack);
-        message.channel.send("Error deleting messages!");
-      });
-      message.channel.send(":recycle: `" + botMessages.length + " ` messages were removed!").then(msg => {
-        msg.delete(3000)
-      });
-    }).catch(error => {
-      console.log(error);
+    const fetched = await message.channel.fetchMessages();
+    const botMessages = await messages.filter(msg => msg.member.id === bot.user.id).array().slice(0, 100);
+    message.channel.bulkDelete(botMessages).catch(error => {
+      console.log(error.stack);
+      message.channel.send("Error deleting messages!");
+    });
+    message.channel.send(":recycle: `" + botMessages.length + " ` messages were removed!").then(msg => {
+      msg.delete(3000)
     });
   } else if (message.member.roles.find("name", config.adminRole)) { // if its admin
     const user = message.mentions.users.first();
