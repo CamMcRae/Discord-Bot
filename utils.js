@@ -61,12 +61,12 @@ module.exports.prefix = (message, query, config) => {
   }
 }
 
-module.exports.clean = (query, message, config) => {
+module.exports.clean = async (query, message, config) => {
   message.delete();
   // maybe get array of sent messages, filter by bot, shift 1 and get ones above?
   if (query.length == 0) { // Purges only bot messages
     message.channel.fetchMessages().then((messages) => {
-      const botMessages = messages.filter(msg => msg.member.id === bot.user.id).array().slice(0, 100);
+      const botMessages = await messages.filter(msg => msg.member.id === bot.user.id).array().slice(0, 100);
       message.channel.bulkDelete(botMessages).catch(error => {
         console.log(error.stack);
         message.channel.send("Error deleting messages!");
