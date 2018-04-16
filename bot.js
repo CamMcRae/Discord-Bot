@@ -121,6 +121,10 @@ bot.on('message', message => {
             message.channel.send(":x: Mention who you want to move.");
             break;
           }
+          if (!message.member.voiceChannel) {
+            message.channel.send(":x: You need to be in a voice channel to use this command.");
+            break;
+          }
           utils.moveChannel(message, query);
           break;
           // case "swears":

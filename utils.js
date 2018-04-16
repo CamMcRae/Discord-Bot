@@ -266,8 +266,6 @@ module.exports.createEmbed = (entries, type, searchQuery, json) => {
           name: "**" + entries[i].shift() + "**",
           value: entries[i].join("\n")
         });
-        // obj.embed.fields[i].name = ;
-        // obj.embed.fields[i].value = entries[i].join("\n");
       }
       break;
     case "lunch":
