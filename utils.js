@@ -124,6 +124,7 @@ module.exports.showconfig = (config) => {
 // pre: user wants to move channels
 // post: defined users will be moved to channel
 module.exports.moveChannel = (message, query) => {
+  // add option for server owner to add and remove prefixes by command
   query.splice(0, message.mentions.members.size);
   // shortened cases
   switch (query.join(" ")) {
@@ -203,7 +204,7 @@ module.exports.createEmbed = (entries, type, searchQuery, json) => {
           if (entries[i][0].length > 0) {
             temp += "[" + entries[i][0].shift() + "]";
           }
-          obj.embed.fields[i].name = temp; // adds to embed
+          obj.embed.fields[i].name = temp.substring(0, temp.length > 1024 ? 1024 : temp.length); // adds to embed
           entries[i].shift(); // removes list
           temp = "\u2060";
           for (let j of entries[i]) { // adds each element
