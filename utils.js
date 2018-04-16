@@ -204,13 +204,13 @@ module.exports.createEmbed = (entries, type, searchQuery, json) => {
           if (entries[i][0].length > 0) {
             temp += "[" + entries[i][0].shift() + "]";
           }
-          obj.embed.fields[i].name = temp.substring(0, temp.length > 1024 ? 1024 : temp.length); // adds to embed
+          obj.embed.fields[i].name = temp; // adds to embed
           entries[i].shift(); // removes list
           temp = "\u2060";
           for (let j of entries[i]) { // adds each element
             temp += " - " + j.trim() + "\n";
           }
-          obj.embed.fields[i].value = temp;
+          obj.embed.fields[i].value = temp.substring(0, temp.length > 1024 ? 1024 : temp.length);
         }
       } else {
         // if there are no entries for the input
