@@ -262,12 +262,12 @@ module.exports.createEmbed = (entries, type, searchQuery, json) => {
       obj.embed.color = 0xff0909;
       obj.embed.footer.text = "Commands";
 
-      for (let i = 0; i < entries.length; i++) {
+      Object.keys(commands).forEach(i => {
         obj.embed.fields.push({
-          name: "**" + entries[i].shift() + "**",
-          value: entries[i].join("\n")
+          name: entries[i].name,
+          value: "$" + entries[i].usage.join("\n$")
         });
-      }
+      });
       break;
     case "lunch":
       obj.embed.title = entries.title;
@@ -284,13 +284,6 @@ module.exports.createEmbed = (entries, type, searchQuery, json) => {
   }
   return obj;
 }
-
-// pre: prefix provided
-// post: object with commands returned
-// module.exports.commands = (prefix) = {
-//
-// }
-
 
 // async function google(message, query) {
 //   let googleUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;

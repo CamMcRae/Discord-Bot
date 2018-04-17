@@ -10,6 +10,7 @@ const utils = require("./utils.js");
 const lookup = require("./lookup.js");
 const other = require("./other.js");
 const lunch = require("./lunchMenu.js");
+const commands = require("./commands.json");
 
 // keys from heroku
 const dictKey = process.env.DICT_TOKEN;
@@ -139,7 +140,7 @@ bot.on('message', message => {
           ["Lunch Menu", config.prefix + "lunch", config.prefix + "lunch <yesterday/today/tomorrow>", prefix + "lunch <day> <month> <year>"],
           ["Move", config.prefix + "move", "<@mentions> <channel name>"]
         ]; //[[Description, syntax1, syntax2, etc],...]
-        message.channel.send(utils.createEmbed(JSON.parse(JSON.stringify(utils.commands(config.prefix))), "commands"));
+        message.channel.send(utils.createEmbed(commands), "commands");
         break;
       case "lmgtfy":
         message.channel.send("http://lmgtfy.com/?q=" + message.content.substr(8).replace(/ /g, "%20"));
