@@ -128,7 +128,7 @@ bot.on('message', message => {
     }
     switch (command) {
       case "commands":
-        message.channel.send(utils.createEmbed(commands), "commands");
+        message.channel.send(utils.createEmbed(commands, "commands"));
         break;
       case "lmgtfy":
         message.channel.send("http://lmgtfy.com/?q=" + message.content.substr(8).replace(/ /g, "%20"));
