@@ -116,17 +116,6 @@ bot.on('message', message => {
         case "prefix":
           utils.prefix(message, query, config);
           break;
-        case "move":
-          if (!message.mentions.users.first()) {
-            message.channel.send(":x: Mention who you want to move.");
-            break;
-          }
-          if (!message.member.voiceChannel) {
-            message.channel.send(":x: You need to be in a voice channel to use this command.");
-            break;
-          }
-          utils.moveChannel(message, query);
-          break;
           // case "swears":
           //   entries = [];
           //   for (let i = 0; i < Object.keys(config.counter).length; i++) {
@@ -205,6 +194,17 @@ bot.on('message', message => {
           message.channel.send("Invalid Arguments");
         }
         // link: https://menu2.danahospitality.ca/hsc/menu.asp?r=1&ShowDate=1/26/2018
+        break;
+      case "move":
+        if (!message.mentions.users.first()) {
+          message.channel.send(":x: Mention who you want to move.");
+          break;
+        }
+        if (!message.member.voiceChannel) {
+          message.channel.send(":x: You need to be in a voice channel to use this command.");
+          break;
+        }
+        utils.moveChannel(message, query);
         break;
     }
   } else {
