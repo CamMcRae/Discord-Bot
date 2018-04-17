@@ -285,22 +285,11 @@ module.exports.createEmbed = (entries, type, searchQuery, json) => {
   return obj;
 }
 
-
-module.exports.commands = (prefix) = {
-  const commands = [
-    ["Let Me Google That For You", prefix + "lmgtfy <query>"],
-    ["Define", prefix + "define <query>"],
-    ["Clean Bot Messages", prefix + "clean", prefix + "purge"],
-    ["Spell with Emotes", prefix + "spell <query>"],
-    ["Wikipedia Page", prefix + "wiki <query>"],
-    ["Coinflip", prefix + "coinflip", prefix + "flipacoin"],
-    ["Dice Roll", prefix + "roll <number of dice> <amount of sides>"],
-    // ["Google Search", config.prefix + "google <query>", config.prefix + "whatis <query>"],
-    ["Lunch Menu", prefix + "lunch", prefix + "lunch <yesterday/today/tomorrow>", prefix + "lunch <day> <month> <year>"],
-    ["Move", prefix + "move", "<@mentions> <channel name>"]
-  ]; //[[Description, syntax1, syntax2, etc],...]
-  return commands;
-}
+// pre: prefix provided
+// post: object with commands returned
+// module.exports.commands = (prefix) = {
+//
+// }
 
 
 // async function google(message, query) {

@@ -1,0 +1,30 @@
+{
+  "commands": [{
+    "name": "Let Me Google That For You",
+    "usage": ["lmgtfy <query>"]
+  }, {
+    "name": "Define",
+    "usage": ["define <query>"]
+  }, {
+    "name": "Clean Bot Messages",
+    "usage": ["clean", "purge"]
+  }, {
+    "name": "Spell with emotes",
+    "usage": ["spell <query>"]
+  }, {
+    "name": "Wikipedia Page",
+    "usage": "wiki <query>"
+  }, {
+    "name": "Coinflip",
+    "usage": ["conflip <side 1> <side 2>", "flipacoin <side 1> <side 2>"]
+  }, {
+    "name": "Dice Roll",
+    "usage": ["roll <number of dice> <amount of sides>"]
+  }, {
+    "name": "Lunch Menu",
+    "usage": ["lunch", "lunch <yesterday/today/tomorrow>", "lunch <day> <month> <year>"]
+  }, {
+    "name": "Move",
+    "usage": ["move <@mentions> <channel name>"]
+  }]
+}
