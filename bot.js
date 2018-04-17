@@ -136,7 +136,8 @@ bot.on('message', message => {
           ["Coinflip", config.prefix + "coinflip", config.prefix + "flipacoin"],
           ["Dice Roll", config.prefix + "roll <number of dice> <amount of sides>"],
           // ["Google Search", config.prefix + "google <query>", config.prefix + "whatis <query>"],
-          ["Lunch Menu", config.prefix + "lunch", config.prefix + "lunch <yesterday/today/tomorrow>", config.prefix + "lunch <day> <month> <year>"]
+          ["Lunch Menu", config.prefix + "lunch", config.prefix + "lunch <yesterday/today/tomorrow>", config.prefix + "lunch <day> <month> <year>"],
+          ["Move", config.prefix + "move", "<@mentions> <channel name>"]
         ]; //[[Description, syntax1, syntax2, etc],...]
         message.channel.send(utils.createEmbed(JSON.parse(JSON.stringify(commands)), "commands"));
         break;
