@@ -18,6 +18,19 @@ const thesKey = process.env.THES_TOKEN;
 // other setup items
 const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 const firstTen = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
+const commands = [
+  ["Let Me Google That For You", config.prefix + "lmgtfy <query>"],
+  ["Define", config.prefix + "define <query>"],
+  ["Clean Bot Messages", config.prefix + "clean", config.prefix + "purge"],
+  ["Spell with Emotes", config.prefix + "spell <query>"],
+  ["Wikipedia Page", config.prefix + "wiki <query>"],
+  ["Coinflip", config.prefix + "coinflip", config.prefix + "flipacoin"],
+  ["Dice Roll", config.prefix + "roll <number of dice> <amount of sides>"],
+  // ["Google Search", config.prefix + "google <query>", config.prefix + "whatis <query>"],
+  ["Lunch Menu", config.prefix + "lunch", config.prefix + "lunch <yesterday/today/tomorrow>", config.prefix + "lunch <day> <month> <year>"],
+  ["Move", config.prefix + "move", "<@mentions> <channel name>"]
+]; //[[Description, syntax1, syntax2, etc],...]
+
 
 // Enmap setup
 const settings = new Enmap({
@@ -127,18 +140,6 @@ bot.on('message', message => {
     }
     switch (command) {
       case "commands":
-        const commands = [
-          ["Let Me Google That For You", config.prefix + "lmgtfy <query>"],
-          ["Define", config.prefix + "define <query>"],
-          ["Clean Bot Messages", config.prefix + "clean", config.prefix + "purge"],
-          ["Spell with Emotes", config.prefix + "spell <query>"],
-          ["Wikipedia Page", config.prefix + "wiki <query>"],
-          ["Coinflip", config.prefix + "coinflip", config.prefix + "flipacoin"],
-          ["Dice Roll", config.prefix + "roll <number of dice> <amount of sides>"],
-          // ["Google Search", config.prefix + "google <query>", config.prefix + "whatis <query>"],
-          ["Lunch Menu", config.prefix + "lunch", config.prefix + "lunch <yesterday/today/tomorrow>", config.prefix + "lunch <day> <month> <year>"],
-          ["Move", config.prefix + "move", "<@mentions> <channel name>"]
-        ]; //[[Description, syntax1, syntax2, etc],...]
         message.channel.send(utils.createEmbed(JSON.parse(JSON.stringify(commands)), "commands"));
         break;
       case "lmgtfy":

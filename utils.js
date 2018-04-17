@@ -210,7 +210,7 @@ module.exports.createEmbed = (entries, type, searchQuery, json) => {
           for (let j of entries[i]) { // adds each element
             temp += " - " + j.trim() + "\n";
           }
-          obj.embed.fields[i].value = temp.substring(0, temp.length > 1024 ? temp.substring(1024).lastIndexOf("-") - 2 : temp.length);
+          obj.embed.fields[i].value = temp.substring(0, temp.length > 1024 ? temp.substring(0, 1024).lastIndexOf("-") - 2 : temp.length);
         }
       } else {
         // if there are no entries for the input
