@@ -268,7 +268,6 @@ module.exports.createEmbed = (entries, type, searchQuery, json) => {
           value: "$" + entries[i].usage.join("\n$")
         });
       });
-      console.log(obj.embed);
       break;
     case "lunch":
       obj.embed.title = entries.title;
