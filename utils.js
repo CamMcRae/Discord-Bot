@@ -262,7 +262,7 @@ module.exports.createEmbed = (entries, type, searchQuery, json) => {
       obj.embed.color = 0xff0909;
       obj.embed.footer.text = "Commands";
 
-      Object.keys(commands).forEach(i => {
+      Object.keys(entries).forEach(i => {
         obj.embed.fields.push({
           name: entries[i].name,
           value: "$" + entries[i].usage.join("\n$")
