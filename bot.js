@@ -204,7 +204,7 @@ bot.on('message', message => {
     }
     switch (message.content.toLowerCase()) {
       case "ping":
-        message.channel.send('pong');
+        message.channel.send(`Pong! ${Date.now() - message.createdAt.getTime()}ms`);
       case "pong":
         message.channel.send('hah you suck');
         break;
