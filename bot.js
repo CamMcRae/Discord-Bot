@@ -176,7 +176,7 @@ bot.on('message', message => {
         if (date) {
           lunchMenu(date, type, message);
         } else {
-          message.channel.send("Invalid Arguments" + utils.commandUsage(lunch, config.prefix));
+          message.channel.send("Invalid Arguments" + utils.commandUsage("lunch", config.prefix));
         }
         // link: https://menu2.danahospitality.ca/hsc/menu.asp?r=1&ShowDate=1/26/2018
         break;
