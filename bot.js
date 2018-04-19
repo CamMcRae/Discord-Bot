@@ -186,9 +186,7 @@ bot.on('message', message => {
           message.channel.send(":x: Mention who you want to move.\n - " + commands.move.usage.join("\n - "));
           break;
         }
-        if (message.mentions.users.find(user => {
-            user.id == message.member.id
-          })) {
+        if (message.mentions.users.has(message.member.id)) {
           console.log("this thing");
         }
         if (!message.member.voiceChannel) {
