@@ -185,7 +185,7 @@ bot.on('message', message => {
           message.channel.send(":x: Mention who you want to move.\n - " + commands.move.usage.join("\n - "));
           break;
         }
-        if (!message.mentions.users.find(user => user.id == message.member.id) || message.member.roles.find("name", config.adminRole)) {
+        if (!message.mentions.users.find(user => user.id == message.member.id) || !message.member.roles.find("name", config.adminRole)) {
           break;
         }
         if (!message.member.voiceChannel) {
