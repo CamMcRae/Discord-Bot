@@ -172,12 +172,11 @@ bot.on('message', message => {
         break;
       case "lunch":
         const date = lunch.createDate(query, message);
-        console.log(date);
         const type = true;
         if (date) {
           lunchMenu(date, type, message);
         } else {
-          message.channel.send("Invalid Arguments");
+          message.channel.send("Invalid Arguments\n - " + commands.lunch.usage.join("\n - "));
         }
         // link: https://menu2.danahospitality.ca/hsc/menu.asp?r=1&ShowDate=1/26/2018
         break;
@@ -186,7 +185,7 @@ bot.on('message', message => {
           message.channel.send(":x: Mention who you want to move.\n - " + commands.move.usage.join("\n - "));
           break;
         }
-        if (!message.mentions.users.find(user => user.id == message.member.id)) {
+        if (!message.mentions.users.find(user => user.id == message.member.id) || message.member.roles.find("name", config.adminRole)) {
           break;
         }
         if (!message.member.voiceChannel) {
