@@ -170,10 +170,6 @@ bot.on('message', message => {
       case "roll":
         other.rollDice(query, message);
         break;
-      case "google":
-      case "whatis":
-        utils.google(message, query);
-        break;
       case "lunch":
         const date = lunch.createDate(query, message);
         console.log(date);
@@ -187,7 +183,7 @@ bot.on('message', message => {
         break;
       case "move":
         if (!message.mentions.users.first()) {
-          message.channel.send(":x: Mention who you want to move.");
+          message.channel.send(":x: Mention who you want to move.\n - " + commands.move.usage.join("\n - "));
           break;
         }
         if (!message.member.voiceChannel) {

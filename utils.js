@@ -8,10 +8,6 @@ module.exports.setClient = (client) => {
   bot = client
 }
 
-// module.exports.<function name> = (arguments) => {
-//   return whatever;
-// }
-
 // pre: takes in a query for how many to limit a voice channel
 // post: voice channel is restricted or no voice channel found
 module.exports.restrict = (message, query) => {
@@ -69,6 +65,10 @@ module.exports.clean = async (query, message, config) => {
   if (query.length == 0) { // Purges only bot messages
     const fetched = await message.channel.fetchMessages();
     const botMessages = await fetched.filter(msg => msg.member.id === bot.user.id).array().slice(0, 100);
+
+    botMessages.forEach(msg => {
+      allFetched.push(fetched.indexOf(msg))
+    })
     message.channel.bulkDelete(botMessages).catch(error => {
       console.log(error.stack);
       message.channel.send("Error deleting messages!");
@@ -284,15 +284,3 @@ module.exports.createEmbed = (entries, type, searchQuery, json) => {
   }
   return obj;
 }
-
-// async function google(message, query) {
-//   let googleUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
-//   return snekfetch.get(googleUrl).then((result) => {
-//     let $ = cheerio.load(result.text); // Parse HTML
-//     let googleData = $('.r').first().find('a').first().attr('href');
-//     googleData = querystring.parse(googleData.replace('/url?', ''));
-//     message.channel.send(`Result found!\n${googleData.q}`);
-//   }).catch((err) => { // No results
-//     message.channel.send('No results found!');
-//   });
-// }
