@@ -286,5 +286,5 @@ module.exports.createEmbed = (entries, type, searchQuery, json) => {
 }
 
 module.exports.commandUsage(cmd, prefix) {
-  return "\n - " + prefix + commands[cmd].usage.join("\n - " + prefix);
+  return "```\n - " + prefix + commands[cmd].usage.join("\n - " + prefix) + "```";
 }
