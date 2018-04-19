@@ -68,10 +68,10 @@ module.exports.clean = async (query, message, config) => {
   if (query.length == 0) { // Purges only bot messages
     const fetched = await message.channel.fetchMessages();
     const botMessages = await fetched.filter(msg => msg.member.id === bot.user.id).array().slice(0, 100);
-
-    botMessages.forEach(msg => {
-      allFetched.push(fetched.indexOf(msg))
-    })
+    // 
+    // botMessages.forEach(msg => {
+    //   allFetched.push(fetched.indexOf(msg))
+    // })
     message.channel.bulkDelete(botMessages).catch(error => {
       console.log(error.stack);
       message.channel.send("Error deleting messages!");
