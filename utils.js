@@ -2,6 +2,9 @@
 // const snekfetch = require('snekfetch');
 
 // files
+const commands = require("./commands.json");
+
+// other setup items
 let bot;
 
 module.exports.setClient = (client) => {
