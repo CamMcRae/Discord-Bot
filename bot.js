@@ -149,6 +149,7 @@ bot.on('message', message => {
         break;
       case "purge":
       case "clean":
+        message.delete();
         utils.clean(query, message, config);
         break;
       case "spell":

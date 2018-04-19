@@ -63,12 +63,11 @@ module.exports.prefix = (message, query, config) => {
 // pre:
 // post: cleans the defined amount of messages, only bot interaction messages or a users messages
 module.exports.clean = async (query, message, config) => {
-  message.delete();
   // maybe get array of sent messages, filter by bot, shift 1 and get ones above?
   if (query.length == 0) { // Purges only bot messages
     const fetched = await message.channel.fetchMessages();
     const botMessages = await fetched.filter(msg => msg.member.id === bot.user.id).array().slice(0, 100);
-    // 
+    //
     // botMessages.forEach(msg => {
     //   allFetched.push(fetched.indexOf(msg))
     // })
