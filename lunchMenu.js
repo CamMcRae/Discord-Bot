@@ -26,9 +26,9 @@ module.exports.createDate = (query, message) => {
         break;
       default:
         try {
+          query[2].toString();
           td = new Date(query[2], query[1] - 1, query[0]);
         } catch (e) {
-          message.channel.send("Invalid Arguments provided");
           return;
         }
         date = `${td.getMonth()+1}/${td.getDate()}/${td.getFullYear()}`
