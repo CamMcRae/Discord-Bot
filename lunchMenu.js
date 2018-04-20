@@ -85,6 +85,8 @@ module.exports.sort = (data, date, type) => {
     if (menuTemp.value && menuTemp.name) {
       menu.fields.push(menuTemp);
       menuTemp = {}
+    } else if (menuTemp.value && !menuTemp.name){
+      menuTemp = {}
     }
   }
   return menu;
