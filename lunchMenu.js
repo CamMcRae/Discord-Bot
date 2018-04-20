@@ -82,7 +82,7 @@ module.exports.sort = (data, date, type) => {
     } else {
       menuTemp.value = Object.values(i).join("\n_") + (Object.values(i).length == 1 ? "" : "_");
     }
-    if (menuTemp.value) {
+    if (menuTemp.value && menuTemp.name) {
       menu.fields.push(menuTemp);
       menuTemp = {}
     }
