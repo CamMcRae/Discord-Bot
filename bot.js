@@ -223,8 +223,7 @@ bot.on('message', message => {
 async function lunchMenu(date, type, message) {
   const data = await lunch.scrapePage(date);
   const menu = lunch.sort(data, date, type);
-  console.log(menu);
-
+  
   if (menu.fields.length > 1) {
     message.channel.send(utils.createEmbed(menu, "lunch"));
   } else {
