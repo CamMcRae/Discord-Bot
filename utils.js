@@ -194,21 +194,23 @@ module.exports.createEmbed = (entries, type, searchQuery, json) => {
       obj.embed.description = dictDesc;
       obj.embed.color = 3447003;
       obj.embed.footer.text = word.charAt(0).toUpperCase() + word.slice(1);
-      if (entries.length > 0) {
-        for (let i = 0; i < entries.length; i++) { // first list element with name and date
-          obj.embed.fields.push({});
-          let temp = "";
-          temp += "**" + entries[i][0].shift() + "** ";
-          if (entries[i][0].length > 0) {
-            temp += "[" + entries[i][0].shift() + "]";
+      if (entries) {
+        if (entries.length > 0) {
+          for (let i = 0; i < entries.length; i++) { // first list element with name and date
+            obj.embed.fields.push({});
+            let temp = "";
+            temp += "**" + entries[i][0].shift() + "** ";
+            if (entries[i][0].length > 0) {
+              temp += "[" + entries[i][0].shift() + "]";
+            }
+            obj.embed.fields[i].name = temp; // adds to embed
+            entries[i].shift(); // removes list
+            temp = "\u2060";
+            for (let j of entries[i]) { // adds each element
+              temp += " - " + j.trim() + "\n";
+            }
+            obj.embed.fields[i].value = temp.substring(0, temp.length > 1024 ? temp.substring(0, 1024).lastIndexOf("-") - 2 : temp.length);
           }
-          obj.embed.fields[i].name = temp; // adds to embed
-          entries[i].shift(); // removes list
-          temp = "\u2060";
-          for (let j of entries[i]) { // adds each element
-            temp += " - " + j.trim() + "\n";
-          }
-          obj.embed.fields[i].value = temp.substring(0, temp.length > 1024 ? temp.substring(0, 1024).lastIndexOf("-") - 2 : temp.length);
         }
       } else {
         // if there are no entries for the input
