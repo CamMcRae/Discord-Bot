@@ -160,16 +160,16 @@ module.exports.moveChannel = (message, query) => {
   );
 
   // generate member list
-  let members;
+  let users;
   if (message.mentions.members.first()) {
-    members = message.mentions.members
+    users = message.mentions.members
   } else {
-    members = message.author.voiceChannel.members
+    users = message.author.voiceChannel.members
   }
 
   // moves mentioned users into selected channel
   if (channel) {
-    members.map(m => m.id).forEach(m => message.guild.members.get(m).setVoiceChannel(channel.id));
+    users.map(m => m.id).forEach(m => message.guild.members.get(m).setVoiceChannel(channel.id));
   } else {
     message.channel.send(":x: Channel not found!");
   }
