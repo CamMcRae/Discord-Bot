@@ -122,7 +122,6 @@ module.exports.showconfig = (config) => {
 // pre: user wants to move channels
 // post: defined users will be moved to channel
 module.exports.moveChannel = (message, query) => {
-  // add option for server owner to add and remove prefixes by command
   query.splice(0, message.mentions.members.size);
   // shortened cases
   switch (query.join(" ")) {
@@ -157,9 +156,18 @@ module.exports.moveChannel = (message, query) => {
     c.name.toLowerCase() == query.join(" ").toLowerCase() &&
     c.type == 'voice'
   );
+
+  // generate member list
+  let members;
+  if (message.members.mentions.first()) {
+    members = message.mentions.members
+  } else {
+    members = message.author.voiceChannel.members
+  }
+
   // moves mentioned users into selected channel
   if (channel) {
-    message.mentions.members.map(m => m.id).forEach(m => message.guild.members.get(m).setVoiceChannel(channel.id));
+    members.map(m => m.id).forEach(m => message.guild.members.get(m).setVoiceChannel(channel.id));
   } else {
     message.channel.send(":x: Channel not found!");
   }

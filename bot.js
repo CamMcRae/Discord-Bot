@@ -63,6 +63,14 @@ bot.on('ready', () => {
   // bot.user.setUsername("Bot Dude");
 });
 
+// bot.on('reconnecting', () => {
+//
+// });
+//
+// bot.on('resume', () => {
+//
+// });
+
 bot.login(process.env.BOT_TOKEN);
 
 bot.on('message', message => {
@@ -182,19 +190,24 @@ bot.on('message', message => {
         // link: https://menu2.danahospitality.ca/hsc/menu.asp?r=1&ShowDate=1/26/2018
         break;
       case "move":
-        if (!message.mentions.users.first()) {
-          message.channel.send(":x: Mention who you want to move.\n - " + commands.move.usage.join("\n - "));
-          break;
-        }
+        // makes sure user is in mentioned users
         if (!message.member.roles.find("name", config.adminRole)) {
           if (!message.mentions.users.find(user => user.id == message.member.id)) {
             break;
           }
+          // makes sure someone is mentioned
+          if (!message.mentions.users.first()) {
+            message.channel.send(":x: Mention who you want to move.\n - " + commands.move.usage.join("\n - "));
+            break;
+          }
         }
+
+        // makes sure member is in a voice channel
         if (!message.member.voiceChannel) {
           message.channel.send(":x: You need to be in a voice channel to use this command.");
           break;
         }
+
         utils.moveChannel(message, query);
         break;
     }
@@ -223,7 +236,7 @@ bot.on('message', message => {
 async function lunchMenu(date, type, message) {
   const data = await lunch.scrapePage(date);
   const menu = lunch.sort(data, date, type);
-  
+
   if (menu.fields.length > 1) {
     message.channel.send(utils.createEmbed(menu, "lunch"));
   } else {
