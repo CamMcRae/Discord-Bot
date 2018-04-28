@@ -123,6 +123,7 @@ module.exports.showconfig = (config) => {
 // post: defined users will be moved to channel
 module.exports.moveChannel = (message, query) => {
   query.splice(0, message.mentions.members.size);
+
   // shortened cases
   switch (query.join(" ")) {
     case "dbd":
@@ -151,6 +152,7 @@ module.exports.moveChannel = (message, query) => {
       query = ["Don't Starve Together"];
       break;
   }
+
   // finds channel in guild
   const channel = message.guild.channels.find(c =>
     c.name.toLowerCase() == query.join(" ").toLowerCase() &&
@@ -159,7 +161,7 @@ module.exports.moveChannel = (message, query) => {
 
   // generate member list
   let members;
-  if (message.members.mentions.first()) {
+  if (message.mentions.members.first()) {
     members = message.mentions.members
   } else {
     members = message.author.voiceChannel.members
