@@ -149,7 +149,6 @@ bot.on('message', message => {
       break;
     case "define":
       const dictSearchQuery = query.join(" ");
-      console.log(dictSearchQuery)
       if (dictSearchQuery) {
         let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${dictSearchQuery.split(" ").join("%20")}?key=${dictKey}`;
         dictThes(url, "dict", dictSearchQuery, message);
@@ -265,11 +264,10 @@ async function dictThes(url, type, searchQuery, message) {
   const json = fastparse.parse(response).entry_list;
   let entries = {
     key: searchQuery.charAt(0).toUpperCase() + searchQuery.slice(1)
-  };
-  console.log(searchQuery);
+  }
 
   if (json.entry) entries.definitions = lookup.format(json);
-  if (json.suggestion) entries = " - " + json.suggestion.join("\n - ");
+  if (json.suggestion) entries.suggestion = " - " + json.suggestion.join("\n - ");
 
   // creates embed
   message.channel.send(utils.createEmbed(entries, type, searchQuery, json));
