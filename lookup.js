@@ -130,7 +130,10 @@ module.exports.format = (json) => {
     } else {
       definitions[count].definition.push(i.def.dt.substring(i.def.dt.indexOf(":") + 1));
     }
-    if (definitions[count].definition.length == 0) definitions[count].definition = ["**No Entry**"]
+    for (let i of Object.keys(definitions)) {
+      definitions[i].definition = definitions[i].definition.filter(Boolean);
+      if (definitions[i].definition.length == 0) definitions[i].definition = ["**No Entry**"]
+    }
   }
   return definitions
 }

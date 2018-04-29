@@ -28,9 +28,11 @@ module.exports.run = (entries, type, searchQuery, json) => {
 
       if (entries.definitions) {
         Object.keys(entries.definitions).forEach(i => {
+          let temp = entries.definitions[i].definition.join("\n - ");
+          if (temp.length > 1024) temp = temp.substring(0, temp.substring(0, 1024).lastIndexOf("-") - 2);
           obj.embed.fields.push({
             name: entries.definitions[i].name,
-            value: entries.definitions[i].definition.join("\n - ").substring(0, temp.length > 1024 ? temp.substring(0, 1024).lastIndexOf("-") - 2 : temp.length);
+            value: entries.definitions[i].definition = " - " + temp
           });
         });
       } else {
