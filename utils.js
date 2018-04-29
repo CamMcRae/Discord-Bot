@@ -206,7 +206,6 @@ module.exports.createEmbed = (entries, type, searchQuery, json) => {
   switch (type) {
     case "dict": //dictionary entry
       obj.embed.title = "Definitions for:";
-      console.log(entries.key);
       obj.embed.description = `[${entries.key}](http://www.dictionary.com/browse/${entries.key.split(" ").join("-")} ?s=t)`;
       obj.embed.color = 3447003;
       obj.embed.footer.text = entries.key;

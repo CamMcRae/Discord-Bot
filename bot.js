@@ -148,14 +148,15 @@ bot.on('message', message => {
       message.channel.send("http://lmgtfy.com/?q=" + message.content.substr(8).replace(/ /g, "%20"));
       break;
     case "define":
-      let dictSearchQuery = query.join(" ");
+      const dictSearchQuery = query.join(" ");
+      console.log(dictSearchQuery)
       if (dictSearchQuery) {
         let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${dictSearchQuery.split(" ").join("%20")}?key=${dictKey}`;
         dictThes(url, "dict", dictSearchQuery, message);
       }
       break;
     case "thesaurus":
-      let thesSearchQuery = query.join(" ");
+      const thesSearchQuery = query.join(" ");
       if (thesSearchQuery) {
         let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${thesSearchQuery.split(" ").join("%20")}?key=${dictKey}`;
         dictThes(url, "thes", thesSearchQuery, message);
@@ -265,6 +266,7 @@ async function dictThes(url, type, searchQuery, message) {
   let entries = {
     key: searchQuery.charAt(0).toUpperCase() + searchQuery.slice(1)
   };
+  console.log(searchQuery);
 
   if (json.entry) entries.definitions = lookup.format(json);
   if (json.suggestion) entries = " - " + json.suggestion.join("\n - ");
