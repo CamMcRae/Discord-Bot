@@ -267,7 +267,7 @@ async function dictThes(url, type, searchQuery, message) {
   }
 
   if (json.entry) entries.definitions = lookup.format(json);
-  if (json.suggestion) entries.suggestion = " - " + json.suggestion.join("\n - ");
+  if (json.suggestion) entries.suggestion = "\u2060- " + json.suggestion.join("\n - ");
 
   // creates embed
   message.channel.send(utils.createEmbed(entries, type, searchQuery, json));
