@@ -229,7 +229,7 @@ module.exports.createEmbed = (entries, type, searchQuery, json) => {
         if (entries.suggestion) {
           obj.embed.fields.push({
             name: "Did you mean:",
-            value: "\u2060- " + entries.suggestion.join("\n - ")
+            value: "\u2060- " + entries.suggestion
           });
         }
       }

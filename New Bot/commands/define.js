@@ -30,7 +30,7 @@ async function dictionary(url, message, searchQuery) {
   if (json.suggestion) entries.suggestion = " - " + json.suggestion.join("\n - ");
 
   // creates embed
-  message.channel.send(createEmbed.run(entries, "dict", searchQuery, json));
+  message.channel.send(createEmbed.run(entries, "dict"));
 }
 
 function format(json) {
