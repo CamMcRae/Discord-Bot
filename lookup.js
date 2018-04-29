@@ -130,9 +130,7 @@ module.exports.format = (json) => {
     } else {
       definitions[count].definition.push(i.def.dt.substring(i.def.dt.indexOf(":") + 1));
     }
+    if (definitions[count].definition.length == 0) definitions[count].definition = "\u2060"
   }
-  definitions.count.forEach(e => {
-    if (e.definition.length == 0) e.definition = "\u2060"
-  });
   return definitions
 }
