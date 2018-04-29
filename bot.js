@@ -266,7 +266,7 @@ async function dictThes(url, type, searchQuery, message) {
     key: searchQuery.charAt(0).toUpperCase() + searchQuery.slice(1)
   };
 
-  if (json.entry) entries.definitions = format(json);
+  if (json.entry) entries.definitions = lookup.format(json);
   if (json.suggestion) entries = " - " + json.suggestion.join("\n - ");
 
   // creates embed

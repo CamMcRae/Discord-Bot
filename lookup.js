@@ -77,7 +77,7 @@ module.exports.dictionary = (json) => {
   return entries;
 }
 
-function format(json) {
+module.exports.format = (json) => {
   let definitions = {};
   let count = 0;
   for (let i of json.entry) {
