@@ -220,14 +220,14 @@ module.exports.createEmbed = (entries, type, searchQuery, json) => {
       } else {
         // if there are no entries for the input
         obj.embed.fields.push({
-          name = "No entries found for " + word,
-          value = "\u200b"
+          name: "No entries found for " + word,
+          value: "\u200b"
         });
         // if a suggested word list is returned
         if (json.suggestion) {
           obj.embed.fields.push({
-            name = "Did you mean:",
-            value = "\u2060- " + json.suggestion.join("\n - ")
+            name: "Did you mean:",
+            value: "\u2060- " + json.suggestion.join("\n - ")
           });
         }
       }
