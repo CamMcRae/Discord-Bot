@@ -22,7 +22,7 @@ module.exports.run = (entries, type, searchQuery, json) => {
   switch (type) {
     case "dict": //dictionary entry
       obj.embed.title = "Definitions for:";
-      obj.embed.description = "[" + word.charAt(0).toUpperCase() + word.slice(1) + "](http://www.dictionary.com/browse/" + word.split(" ").join("-") + "?s=t)";
+      obj.embed.description = "[" + entries.key.charAt(0).toUpperCase() + entries.key.slice(1) + "](http://www.dictionary.com/browse/" + word.split(" ").join("-") + "?s=t)";
       obj.embed.color = 3447003;
       obj.embed.footer.text = entries.key;
 
