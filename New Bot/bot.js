@@ -72,14 +72,13 @@ bot.on('message', message => {
       break;
   }
 
-  // cases
-  if (!message.content.startsWith(config.prefix)) return;
-
   const config = {
     prefix: "$",
     adminRole: "Administrator",
     admin: "124349142708387840"
   }
+
+  if (!message.content.startsWith(config.prefix)) return;
 
   const query = message.content.slice(config.prefix.length).trim().split(/ +/g); // gets query
   const cmd = query.shift().toLowerCase(); // gets command
