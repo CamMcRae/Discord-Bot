@@ -131,5 +131,8 @@ module.exports.format = (json) => {
       definitions[count].definition.push(i.def.dt.substring(i.def.dt.indexOf(":") + 1));
     }
   }
+  definitions.count.forEach(e => {
+    if (e.definition.length == 0) e.definition = "\u2060"
+  });
   return definitions
 }
