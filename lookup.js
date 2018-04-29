@@ -91,7 +91,7 @@ module.exports.format = (json) => {
     }
 
     // date
-    definitions[count].name += " [" + (typeof(i.def.date) == "object" ? i.def.date.join("") : i.def.date.toString()) + "]";
+    if (i.def.date) definitions[count].name += " [" + (typeof(i.def.date) == "object" ? i.def.date.join("") : i.def.date.toString()) + "]";
 
     if (Array.isArray(i.def.dt)) {
       for (k of i.def.dt) {
