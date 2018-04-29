@@ -214,7 +214,7 @@ module.exports.createEmbed = (entries, type, searchQuery, json) => {
         Object.keys(entries.definitions).forEach(i => {
           obj.embed.fields.push({
             name: entries.definitions[i].name,
-            value: entries.definitions[i].definition.join("\n - ").substring(0, temp.length > 1024 ? temp.substring(0, 1024).lastIndexOf("-") - 2 : temp.length)
+            value: entries.definitions[i].definition.join("\n - ").substring(0, entries.definitions[i].definition.join("\n - ").length > 1024 ? temp.substring(0, 1024).lastIndexOf("-") - 2 : temp.length)
           });
         });
       } else {
