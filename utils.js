@@ -216,7 +216,7 @@ module.exports.createEmbed = (entries, type, searchQuery, json) => {
           if (temp.length > 1024) temp = temp.substring(0, temp.substring(0, 1024).lastIndexOf("-") - 2);
           obj.embed.fields.push({
             name: entries.definitions[i].name,
-            value: entries.definitions[i].definition = " - " + temp
+            value: entries.definitions[i].definition = "\u2060- " + temp
           });
         });
       } else {
