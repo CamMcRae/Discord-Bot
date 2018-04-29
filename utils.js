@@ -185,7 +185,7 @@ module.exports.poll = (message, query) => {
 // pre: takes in a entry list and various other arguments for printing
 // post: embed object created for discord to send
 // format: [[Title, Description],[[Field Title, Extra], info], [etc...]]
-module.exports.createEmbed = (entries, type, searchQuery, json) => {
+module.exports.createEmbed = (entries, type) => {
   // default object creation
   let obj = {
     embed: {

@@ -123,19 +123,9 @@ bot.on('message', message => {
       case "prefix":
         utils.prefix(message, query, config);
         break;
-        // case "swears":
-        //   entries = [];
-        //   for (let i = 0; i < Object.keys(config.counter).length; i++) {
-        //     entries.push([Object.entries(config.counter)[i]]);
-        //   }
-        //   message.channel.send(createEmbed(entries, "swears"));
-        //   break;
     }
   }
   switch (command) {
-    case "commands":
-      message.channel.send(utils.createEmbed(commands, "commands"));
-      break;
     case "define":
       let dictSearchQuery = query.join(" ");
       if (dictSearchQuery) {
@@ -155,7 +145,6 @@ bot.on('message', message => {
       message.delete();
       utils.clean(query, message, config);
       break;
-    case "spell":
     case "lenny":
       message.delete();
       if (message.author.id == config.ownerId) {
