@@ -34,5 +34,9 @@
   "move": {
     "name": "Move",
     "usage": ["move <@mentions> <channel name>"]
+  },
+  "poll": {
+    "name": "Poll",
+    "usage": ["poll <time(seconds)> [<option 1> <option 2> <etc>]"]
   }
 }

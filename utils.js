@@ -175,6 +175,13 @@ module.exports.moveChannel = (message, query) => {
   }
 }
 
+// pre: user creates a poll
+// post: creates a poll for a set amount of time
+module.exports.poll = (message, query) => {
+  let time = query.shift();
+  message.channel.send();
+}
+
 // pre: takes in a entry list and various other arguments for printing
 // post: embed object created for discord to send
 // format: [[Title, Description],[[Field Title, Extra], info], [etc...]]
@@ -198,6 +205,34 @@ module.exports.createEmbed = (entries, type, searchQuery, json) => {
   };
   switch (type) {
     case "dict": //dictionary entry
+      obj.embed.title = "Definitions for:";
+      obj.embed.description = "[" + word.charAt(0).toUpperCase() + word.slice(1) + "](http://www.dictionary.com/browse/" + word.split(" ").join("-") + "?s=t)";
+      obj.embed.color = 3447003;
+      obj.embed.footer.text = entries.key;
+
+      if (entries.definitions) {
+        Object.keys(entries.definitions).forEach(i => {
+          obj.embed.fields.push({
+            name: entries.definitions[i].name,
+            value: entries.definitions[i].definition.join("\n - ").substring(0, temp.length > 1024 ? temp.substring(0, 1024).lastIndexOf("-") - 2 : temp.length);
+          });
+        });
+      } else {
+        // if there are no entries for the input
+        obj.embed.fields.push({
+          name = "No entries found for " + word,
+          value = "\u200b"
+        });
+        // if a suggested word list is returned
+        if (json.suggestion) {
+          obj.embed.fields.push({
+            name = "Did you mean:",
+            value = "\u2060- " + json.suggestion.join("\n - ")
+          });
+        }
+      }
+      break;
+      // break
       let word = (searchQuery ? searchQuery : json.entry[0].ew.join(""));
       obj.embed.title = "Definitions for:";
       let dictDesc = "[" + word.charAt(0).toUpperCase() + word.slice(1) + "](http://www.dictionary.com/browse/" + word.split(" ").join("-") + "?s=t)";
