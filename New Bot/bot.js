@@ -136,9 +136,6 @@ bot.on('message', message => {
     case "commands":
       message.channel.send(utils.createEmbed(commands, "commands"));
       break;
-    case "lmgtfy":
-      message.channel.send("http://lmgtfy.com/?q=" + message.content.substr(8).replace(/ /g, "%20"));
-      break;
     case "define":
       let dictSearchQuery = query.join(" ");
       if (dictSearchQuery) {
@@ -159,20 +156,11 @@ bot.on('message', message => {
       utils.clean(query, message, config);
       break;
     case "spell":
-      other.spell(query, message);
-      break;
     case "lenny":
       message.delete();
       if (message.author.id == config.ownerId) {
         message.channel.send("( ͡° ͜ʖ ͡°)");
       }
-      break;
-    case "coinflip":
-    case "flipacoin":
-      message.channel.send(other.coinflip(query));
-      break;
-    case "roll":
-      other.rollDice(client, message, query);
       break;
     case "lunch":
       const date = lunch.createDate(query, message);

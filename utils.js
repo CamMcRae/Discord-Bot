@@ -226,49 +226,11 @@ module.exports.createEmbed = (entries, type, searchQuery, json) => {
           value: "\u200b"
         });
         // if a suggested word list is returned
-        if (json.suggestion) {
+        if (entries.suggestion) {
           obj.embed.fields.push({
             name: "Did you mean:",
-            value: "\u2060- " + json.suggestion.join("\n - ")
+            value: "\u2060- " + entries.suggestion.join("\n - ")
           });
-        }
-      }
-      break;
-      // break
-      let word = (searchQuery ? searchQuery : json.entry[0].ew.join(""));
-      obj.embed.title = "Definitions for:";
-      let dictDesc = "[" + word.charAt(0).toUpperCase() + word.slice(1) + "](http://www.dictionary.com/browse/" + word.split(" ").join("-") + "?s=t)";
-      obj.embed.description = dictDesc;
-      obj.embed.color = 3447003;
-      obj.embed.footer.text = word.charAt(0).toUpperCase() + word.slice(1);
-      if (entries) {
-        if (entries.length > 0) {
-          for (let i = 0; i < entries.length; i++) { // first list element with name and date
-            obj.embed.fields.push({});
-            let temp = "";
-            temp += "**" + entries[i][0].shift() + "** ";
-            if (entries[i][0].length > 0) {
-              temp += "[" + entries[i][0].shift() + "]";
-            }
-            obj.embed.fields[i].name = temp; // adds to embed
-            entries[i].shift(); // removes list
-            temp = "\u2060";
-            for (let j of entries[i]) { // adds each element
-              temp += " - " + j.trim() + "\n";
-            }
-            obj.embed.fields[i].value = temp.substring(0, temp.length > 1024 ? temp.substring(0, 1024).lastIndexOf("-") - 2 : temp.length);
-          }
-        }
-      } else {
-        // if there are no entries for the input
-        obj.embed.fields.push({});
-        obj.embed.fields[0].name = "No entries found for " + word;
-        obj.embed.fields[0].value = "\u200b";
-        // if a suggested word list is returned
-        if (json.suggestion) {
-          obj.embed.fields.push({});
-          obj.embed.fields[1].name = "Did you mean:"
-          obj.embed.fields[1].value = "\u2060- " + json.suggestion.join("\n - ")
         }
       }
       break;

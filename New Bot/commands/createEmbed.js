@@ -1,6 +1,5 @@
 // pre: takes in a entry list and various other arguments for printing
 // post: embed object created for discord to send
-// format: [[Title, Description],[[Field Title, Extra], info], [etc...]]
 module.exports.run = (entries, type, searchQuery, json) => {
   // default object creation
   let obj = {
@@ -22,7 +21,7 @@ module.exports.run = (entries, type, searchQuery, json) => {
   switch (type) {
     case "dict": //dictionary entry
       obj.embed.title = "Definitions for:";
-      obj.embed.description = "[" + entries.key.charAt(0).toUpperCase() + entries.key.slice(1) + "](http://www.dictionary.com/browse/" + word.split(" ").join("-") + "?s=t)";
+      obj.embed.description = `[${entries.key}](http://www.dictionary.com/browse/${entries.key.split(" ").join("-")}?s=t)`;
       obj.embed.color = 3447003;
       obj.embed.footer.text = entries.key;
 
@@ -38,14 +37,14 @@ module.exports.run = (entries, type, searchQuery, json) => {
       } else {
         // if there are no entries for the input
         obj.embed.fields.push({
-          name = "No entries found for " + word,
-          value = "\u200b"
+          name: "No entries found for " + entries.key,
+          value: "\u200b"
         });
         // if a suggested word list is returned
         if (json.suggestion) {
           obj.embed.fields.push({
-            name = "Did you mean:",
-            value = "\u2060- " + json.suggestion.join("\n - ")
+            name: "Did you mean:",
+            value: "\u2060- " + json.suggestion.join("\n - ")
           });
         }
       }
