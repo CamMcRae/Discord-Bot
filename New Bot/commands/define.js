@@ -27,7 +27,7 @@ async function dictionary(url, message, searchQuery) {
   }
 
   if (json.entry) entries.definitions = format(json);
-  if (json.suggestion) entries.suggestion = " - " + json.suggestion.join("\n - ");
+  if (json.suggestion) entries.suggestion = (Array.isArray(json.suggestion) ? json.suggestion.join("\n - ") : json.suggestion);
 
   // creates embed
   message.channel.send(createEmbed.run(entries, "dict"));
