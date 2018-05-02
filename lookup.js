@@ -22,6 +22,11 @@ module.exports.apiRequest = async (url) => {
 module.exports.format = (json) => {
   let definitions = {};
   let count = 0;
+  if (!Array.isArray(json.entry)) {
+    json.entry2 = json.entry
+    json.entry = [];
+    json.entry.push(json.entry2);
+  }
   for (let i of json.entry) {
     let entry = [];
     count++;
