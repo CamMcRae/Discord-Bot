@@ -17,7 +17,7 @@ module.exports.apiRequest = async (url) => {
   return await requestpromise(options);
 }
 
-// pre: json input
+// pre: json input 
 // post: filter all entries and important information
 module.exports.format = (json) => {
   let definitions = {};
