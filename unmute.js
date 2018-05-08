@@ -1,4 +1,4 @@
-module.exports.run = (client, message, query) = {
+module.exports.run = (client, message, query) => {
   if (!query) query = false;
   if (message.member.hasPermission("MUTE_MEMBERS")) {
     message.guild.members.forEach(m => m.setMute(query));
