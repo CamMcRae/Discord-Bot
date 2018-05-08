@@ -1,3 +1,5 @@
+// pre:
+// post
 module.exports.run = (client, message, query) => {
   if (!query.length) query = [false];
   if (message.member.hasPermission("MUTE_MEMBERS")) {
