@@ -142,7 +142,7 @@ bot.on('message', message => {
   }
   switch (command) {
     case "unmute":
-      const unmute = require("./ummute.js");
+      const unmute = require("./unmute.js");
       unmute.run(client, message, query);
       break;
     case "commands":
