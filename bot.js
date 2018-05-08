@@ -142,7 +142,8 @@ bot.on('message', message => {
   }
   switch (command) {
     case "unmute":
-      require("./ummute.js").run(client, message, query);
+      const unmute = require("./ummute.js");
+      unmute.run(client, message, query);
       break;
     case "commands":
       message.channel.send(utils.createEmbed(commands, "commands"));
