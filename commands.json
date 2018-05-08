@@ -38,5 +38,9 @@
   "poll": {
     "name": "Poll",
     "usage": ["poll <time(seconds)> [<option 1> <option 2> <etc>]"]
+  },
+  "unmute": {
+    "name": "Unmute Bots",
+    "usage": ["unmute"]
   }
 }
