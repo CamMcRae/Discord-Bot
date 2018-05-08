@@ -102,7 +102,7 @@ bot.on('message', message => {
   }
 
   try {
-    require("./commands/${file}.js").run(bot, message, query);
+    require(`./commands/${file}.js`).run(bot, message, query);
   } catch (err) {}
 
   // admin commands
