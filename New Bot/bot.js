@@ -106,7 +106,11 @@ bot.on('message', message => {
   } catch (err) {}
 
   // admin commands
-  if (message.member.roles.find("name", config.adminRole)) {
+  if (message.member.hasPermission("ADMINISTRATOR")) {
+    try {
+      require(`./commands/${file}.js`).run(bot, message, query);
+    } catch (err) {}
+
     switch (command) {
       case "setconfig":
         setconfig(message, query, config); // Updates config
@@ -125,6 +129,8 @@ bot.on('message', message => {
         break;
     }
   }
+
+  // normal commands
   switch (command) {
     case "define":
       let dictSearchQuery = query.join(" ");
@@ -145,12 +151,6 @@ bot.on('message', message => {
       message.delete();
       utils.clean(query, message, config);
       break;
-    case "lenny":
-      message.delete();
-      if (message.author.id == config.ownerId) {
-        message.channel.send("( ͡° ͜ʖ ͡°)");
-      }
-      break;
     case "lunch":
       const date = lunch.createDate(query, message);
       const type = true;
@@ -160,27 +160,6 @@ bot.on('message', message => {
         message.channel.send("Invalid Arguments" + utils.commandUsage("lunch", config.prefix));
       }
       // link: https://menu2.danahospitality.ca/hsc/menu.asp?r=1&ShowDate=1/26/2018
-      break;
-    case "move":
-      // makes sure user is in mentioned users
-      if (!message.member.roles.find("name", config.adminRole)) {
-        if (!message.mentions.users.find(user => user.id == message.member.id)) {
-          break;
-        }
-        // makes sure someone is mentioned
-        if (!message.mentions.users.first()) {
-          message.channel.send(":x: Mention who you want to move.\n - " + commands.move.usage.join("\n - "));
-          break;
-        }
-      }
-
-      // makes sure member is in a voice channel
-      if (!message.member.voiceChannel) {
-        message.channel.send(":x: You need to be in a voice channel to use this command.");
-        break;
-      }
-
-      utils.moveChannel(message, query);
       break;
   }
 });
