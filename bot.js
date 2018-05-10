@@ -74,16 +74,19 @@ bot.on('ready', () => {
 bot.login(process.env.BOT_TOKEN);
 
 bot.on('message', message => {
-  if (message.slice(0, 1) == "!") {
+  // deletes any messages starting with !
+  if (message.content.slice(0, 1) == "!") {
     message.delete();
     const channel = message.guild.channels.find(channel => channel.name === "music").toString();
     message.channel.send("Use " + channel + " please! :angry:");
   }
+  // deletes any bot messages
   if (message.author.bot) {
     if (message.author.id != bot.user.id) {
       message.delete();
     }
   }
+
   if (!message.guild || message.author.bot) return; // if a bot is talking or not a server
 
   if (message.content.startsWith("r/")) {
