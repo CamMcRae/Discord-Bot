@@ -79,7 +79,7 @@ bot.on('message', message => {
     const channel = message.guild.channels.find(channel => channel.name === "music");
     if (message.channel == channel) return;
     message.delete();
-    message.channel.send("Use " + channel.toString() + " please! :angry:");
+    message.channel.send(message.author + "Use " + channel.toString() + " please! :angry:");
   }
 
   // deletes any bot messages
