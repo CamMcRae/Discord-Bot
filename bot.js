@@ -74,6 +74,7 @@ bot.on('ready', () => {
 bot.login(process.env.BOT_TOKEN);
 
 bot.on('message', message => {
+  message.edit("sup bitch");
   // deletes any messages starting with !
   if (message.content.slice(0, 1) == "!" || message.content.slice(0, 1) == ">") {
     const channel = message.guild.channels.find(channel => channel.name === "music");
