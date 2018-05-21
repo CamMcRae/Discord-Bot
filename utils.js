@@ -156,7 +156,8 @@ module.exports.moveChannel = (message, query) => {
   // finds channel in guild
   const channel = message.guild.channels.find(c =>
     c.name.toLowerCase() == query.join(" ").toLowerCase() &&
-    c.type == 'voice'
+    c.type == 'voice' &&
+    !c.full
   );
 
   // generate member list
@@ -169,7 +170,11 @@ module.exports.moveChannel = (message, query) => {
 
   // moves mentioned users into selected channel
   if (channel) {
-    users.map(m => m.id).forEach(m => message.guild.members.get(m).setVoiceChannel(channel.id));
+    users.map(m => m.id).forEach(m => {
+      if (m.voiceChannel === message.author.voiceChannel) {
+        message.guild.members.get(m).setVoiceChannel(channel.id)
+      }
+    });
   } else {
     message.channel.send(":x: Channel not found!");
   }
