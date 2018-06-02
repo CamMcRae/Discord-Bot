@@ -165,7 +165,7 @@ module.exports.moveChannel = (message, query) => {
   if (message.mentions.members.first()) {
     users = message.mentions.members
   } else {
-    users = message.author.voiceChannel.members
+    users = message.author.VoiceChannel.members
   }
 
   // moves mentioned users into selected channel
