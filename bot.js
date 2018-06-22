@@ -137,7 +137,7 @@ bot.on('message', message => {
   // admin commands
   if (message.member.roles.find("name", config.adminRole)) {
     try {
-      require(`./commands/admin/${file}.js`).run(bot, message, query, config);
+      require(`./commands/admin/${file}.js`).run(bot, message, query, config, redis);
     } catch (err) {
       console.log(err);
     }
