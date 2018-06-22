@@ -10,7 +10,7 @@ const apiRequest = require("./apiRequest.js");
 module.exports.run = (client, message, query) => {
   const dictSearchQuery = query.join(" ");
   if (!dictSearchQuery) return;
-  let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${dictSearchQuery.split(" ").join("%20")}?key=${dictKey}`;
+  let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${dictSearchQuery.split(" ").join("%20")}?key=${process.env.DICT_TOKEN}`;
   dictionary(url, message, dictSearchQuery);
 }
 

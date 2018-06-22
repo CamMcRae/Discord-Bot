@@ -4,8 +4,41 @@ const Discord = require("discord.js");
 // files
 const bot = new Discord.Client();
 
+// Redis setup
+if (process.env.REDISTOGO_URL) {
+  let rtg = require("url").parse(process.env.REDISTOGO_URL);
+  let redis = require("redis").createClient(rtg.port, rtg.hostname);
 
+  redis.auth(rtg.auth.split(":")[1]);
 
+} else {
+  let redis = require("redis").createClient();
+}
+
+redis.on("ready", () => {
+  console.log("redis ready!");
+});
+
+redis.on('error', (err) => {
+  console.log('Something went wrong ' + err);
+});
+
+const defaultSettings = {
+  prefix: "$",
+  adminRole: "Administrator",
+  mainID: "",
+  musicID: ""
+}
+
+// GUILD SETUPS IN REDIS
+bot.on("guildCreate", guild => {
+  redis.set(guild.id, defaultSettings);
+  console.log(redis);
+});
+
+bot.on("guildDelete", guild => {
+  redis.del(guild.id);
+});
 
 bot.on('ready', () => {
   console.log('I am ready!');
@@ -28,6 +61,15 @@ bot.on('message', message => {
   if (message.content.startsWith("r/")) {
     message.delete();
     message.channel.send("https://www.reddit.com/" + message.content.trim());
+  }
+
+  if (message.content == "prefix") {
+    redis.get(message.guild.id.prefix, (err, result) => {
+      if (err) {
+        console.log("Error getting key");
+      }
+      message.channel.send("Prefix: " + result);
+    });
   }
 
   // ping the bot
