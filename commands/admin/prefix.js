@@ -10,6 +10,7 @@ if (process.env.REDISTOGO_URL) {
 // pre:
 // post: changes prefix for the bot
 module.exports.run = (client, message, query, config) => {
+  console.log(query);
   if (query.length == 1) {
     updateConfig.run(message.guild.id, "prefix", query[0])
     redis.get((message.guild.id).toString(), (err, result) => {
