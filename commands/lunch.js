@@ -1,5 +1,11 @@
 const createEmbed = require("./createEmbed.js");
 
+// libs
+const cheerio = require('cheerio');
+const requestpromise = require("request-promise");
+const fastparse = require('fast-xml-parser');
+const jsonframe = require('jsonframe-cheerio');
+
 
 // link: https://menu2.danahospitality.ca/hsc/menu.asp?r=1&ShowDate=1/26/2018
 module.exports.run = (client, message, query) => {
@@ -10,7 +16,7 @@ module.exports.run = (client, message, query) => {
   } else {
     message.channel.send("Invalid Arguments" + require("./usage").run("lunch", config.prefix));
   }
-  break;
+  return;
 }
 
 // date, t/f, t = day;
@@ -24,12 +30,6 @@ async function lunchMenu(date, type, message) {
     message.channel.send("No Lunch for " + date);
   }
 }
-
-// libs
-const cheerio = require('cheerio');
-const requestpromise = require("request-promise");
-const fastparse = require('fast-xml-parser');
-const jsonframe = require('jsonframe-cheerio');
 
 // pre:
 // post: link with requested date created
