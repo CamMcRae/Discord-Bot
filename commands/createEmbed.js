@@ -8,8 +8,8 @@ module.exports.run = (entries, type, searchQuery, json) => {
         url: "https://cdn.discordapp.com/embed/avatars/0.png"
       },
       author: {
-        name: bot.user.username,
-        icon_url: bot.user.avatarURL
+        name: client.user.username,
+        icon_url: client.user.avatarURL
       },
       footer: {
         icon_url: "https://cdn.discordapp.com/embed/avatars/0.png"
@@ -81,7 +81,7 @@ module.exports.run = (entries, type, searchQuery, json) => {
       obj.embed.color = 0xff00ff;
       break;
     case "commands":
-      obj.embed.title = "Commands for " + bot.user.username;
+      obj.embed.title = "Commands for " + client.user.username;
       obj.embed.description = "<Usage>";
       obj.embed.color = 0xff0909;
       obj.embed.footer.text = "Commands";
