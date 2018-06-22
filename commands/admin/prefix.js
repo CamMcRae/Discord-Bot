@@ -1,3 +1,5 @@
+const updateConfig = require("./updateConfig");
+
 if (process.env.REDISTOGO_URL) {
   let rtg = require("url").parse(process.env.REDISTOGO_URL);
   let redis = require("redis").createClient(rtg.port, rtg.hostname);
@@ -9,7 +11,9 @@ if (process.env.REDISTOGO_URL) {
 // post: changes prefix for the bot
 module.exports.run = (message, query, config) => {
   if (query.length == 1) {
-    redis.set(message.guild.id.prefix, query);
-    message.channel.send("Prefix changed to " + "`" + message.guild.id.prefix + "`");
+    updateConfig.run(message.guild.id, "prefix", query[0])
+    redis.get((message.guild.id).toString(), (err, result) => {
+      message.channel.send("Prefix changed to " + "`" + JSON.parse(result).prefix + "`");
+    });
   }
 }
