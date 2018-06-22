@@ -13,7 +13,7 @@
     "jsonframe-cheerio": "2.0.52",
     "request": "2.85.0",
     "request-promise": "4.2.2",
-    "redis": "0.6.0"
+    "redis": "2.8.0"
   },
   "engines": {
     "node": "9.8.0"
