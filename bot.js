@@ -17,8 +17,8 @@ bot.login(process.env.BOT_TOKEN);
 
 bot.on('message', message => {
   // if a bot is talking or not a server
-  if (message.author.bot) return;
-  if (!message.guild) return;
+  // if (message.author.bot) return;
+  // if (!message.guild) return;
 
   // subreddit
   if (message.content.startsWith("r/")) {
