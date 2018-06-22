@@ -94,7 +94,7 @@ bot.on('message', message => {
   }
 
   redis.get((message.guild.id).toString(), (err, result) => {
-    console.log(JSON.parse(result));
+    // console.log(JSON.parse(result));
   });
 
   const config = {
