@@ -6,6 +6,10 @@ const EnmapSQLite = require('enmap-sqlite');
 
 // files
 const bot = new Discord.Client();
+const utils = require("./utils.js");
+const lookup = require("./lookup.js");
+const other = require("./other.js");
+const lunch = require("./lunchMenu.js");
 const commands = require("./commands.json");
 
 // keys from heroku
@@ -16,6 +20,19 @@ const thesKey = process.env.THES_TOKEN;
 const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 const firstTen = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
 
+// Enmap setup
+const settings = new Enmap({
+  provider: new EnmapSQLite({
+    name: "settings"
+  })
+});
+const defaultSettings = {
+  prefix: "$",
+  adminRole: "Administrator",
+  mainID: "",
+  musicID: ""
+}
+
 // config setup
 // bot.on("guildCreate", guild => {
 // settings[guild.id] = defaultSettings;
@@ -25,21 +42,14 @@ const firstTen = ["zero", "one", "two", "three", "four", "five", "six", "seven",
 // delete settings[guild.id]
 // })
 
+
 // bot.on("guildCreate", guild => {
 //   settings.set(guild.id, defaultSettings);
 //   console.log(settings);
 // });
-
+//
 // bot.on("guildDelete", guild => {
 //   settings.delete(guild.id);
-// });
-
-// bot.on('reconnecting', () => {
-//
-// });
-//
-// bot.on('resume', () => {
-//
 // });
 
 bot.on('ready', () => {
@@ -49,21 +59,45 @@ bot.on('ready', () => {
       name: "a game"
     }
   });
+  utils.setClient(bot);
+  // bot.user.setUsername("Bot Dude");
 });
+
+// bot.on('reconnecting', () => {
+//
+// });
+//
+// bot.on('resume', () => {
+//
+// });
 
 bot.login(process.env.BOT_TOKEN);
 
 bot.on('message', message => {
-  // if a bot is talking or not a server
-  if (!message.guild || message.author.bot) return;
+  // deletes any messages starting with !
+  if (message.content.slice(0, 1) == "!" || message.content.slice(0, 1) == ">") {
+    const channel = message.guild.channels.find(channel => channel.name === "music");
+    if (message.channel == channel) return;
+    message.delete();
+    message.channel.send("Use " + channel.toString() + " please! :angry: " + message.author);
+  }
 
-  // subreddit
+  // deletes any bot messages
+  if (message.author.bot) {
+    const channel = message.guild.channels.find(channel => channel.name === "music");
+    if (message.channel == channel) return;
+    if (message.author.id != bot.user.id) {
+      message.delete();
+    }
+  }
+
+  if (!message.guild || message.author.bot) return; // if a bot is talking or not a server
+
   if (message.content.startsWith("r/")) {
     message.delete();
     message.channel.send("https://www.reddit.com/" + message.content.trim());
   }
 
-  // ping the bot
   switch (message.content.toLowerCase()) {
     case "ping":
       message.channel.send(`Pong! ${Date.now() - message.createdAt.getTime()}ms`);
@@ -71,6 +105,7 @@ bot.on('message', message => {
       message.channel.send('hah you suck');
       break;
   }
+
 
   const config = {
     prefix: "$",
@@ -80,37 +115,23 @@ bot.on('message', message => {
 
   if (!message.content.startsWith(config.prefix)) return;
 
-  const query = message.content.slice(config.prefix.length).trim().split(/ +/g); // gets query
-  const cmd = query.shift().toLowerCase(); // gets command
-  let file;
+  let query = message.content.slice(config.prefix.length).trim().split(/ +/g); // gets query
+  const command = query.shift().toLowerCase(); // gets command
 
-  // changes command to proper filename
-  switch (cmd) {
-    case "purge":
-    case "clean":
-      file = "clean"
-      break;
-    case "roll":
-      file = "diceRoll"
-      break;
-    case "coinflip":
-    case "flipacoin":
-      file = "coinflip"
-      break;
-    default:
-      file = cmd
-  }
+  // // point system
+  // if (!points[message.author.id]) {
+  //   points[message.author.id] = {
+  //     words: 0,
+  //     messages: 0
+  //   };
+  // }
+  // points[message.author.id].messages++;
+  // if (words.some(word => message.content.includes(word))) {
+  //   points[message.author.id].words++;
+  // }
 
-  try {
-    require(`./commands/${file}.js`).run(bot, message, query);
-  } catch (err) {}
-
-  // admin commands
-  if (message.member.hasPermission("ADMINISTRATOR")) {
-    try {
-      require(`./commands/${file}.js`).run(bot, message, query);
-    } catch (err) {}
-
+  // cases
+  if (message.member.roles.find("name", config.adminRole)) {
     switch (command) {
       case "setconfig":
         setconfig(message, query, config); // Updates config
@@ -127,20 +148,35 @@ bot.on('message', message => {
       case "prefix":
         utils.prefix(message, query, config);
         break;
+        // case "swears":
+        //   entries = [];
+        //   for (let i = 0; i < Object.keys(config.counter).length; i++) {
+        //     entries.push([Object.entries(config.counter)[i]]);
+        //   }
+        //   message.channel.send(createEmbed(entries, "swears"));
+        //   break;
     }
   }
-
-  // normal commands
   switch (command) {
+    case "unmute":
+      const unmute = require("./unmute.js");
+      unmute.run(bot, message, query);
+      break;
+    case "commands":
+      message.channel.send(utils.createEmbed(commands, "commands"));
+      break;
+    case "lmgtfy":
+      message.channel.send("http://lmgtfy.com/?q=" + message.content.substr(8).replace(/ /g, "%20"));
+      break;
     case "define":
-      let dictSearchQuery = query.join(" ");
+      const dictSearchQuery = query.join(" ");
       if (dictSearchQuery) {
         let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${dictSearchQuery.split(" ").join("%20")}?key=${dictKey}`;
-        message.channel.send(dictThes(url, "dict", dictSearchQuery, message));
+        dictThes(url, "dict", dictSearchQuery, message);
       }
       break;
     case "thesaurus":
-      let thesSearchQuery = query.join(" ");
+      const thesSearchQuery = query.join(" ");
       if (thesSearchQuery) {
         let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${thesSearchQuery.split(" ").join("%20")}?key=${dictKey}`;
         dictThes(url, "thes", thesSearchQuery, message);
@@ -151,6 +187,22 @@ bot.on('message', message => {
       message.delete();
       utils.clean(query, message, config);
       break;
+    case "spell":
+      other.spell(query, message);
+      break;
+    case "lenny":
+      message.delete();
+      if (message.author.id == config.ownerId) {
+        message.channel.send("( ͡° ͜ʖ ͡°)");
+      }
+      break;
+    case "coinflip":
+    case "flipacoin":
+      message.channel.send(other.coinflip(query));
+      break;
+    case "roll":
+      other.rollDice(query, message);
+      break;
     case "lunch":
       const date = lunch.createDate(query, message);
       const type = true;
@@ -160,6 +212,27 @@ bot.on('message', message => {
         message.channel.send("Invalid Arguments" + utils.commandUsage("lunch", config.prefix));
       }
       // link: https://menu2.danahospitality.ca/hsc/menu.asp?r=1&ShowDate=1/26/2018
+      break;
+    case "move":
+      // makes sure user is in mentioned users
+      if (!message.member.roles.find("name", config.adminRole)) {
+        if (!message.mentions.users.find(user => user.id == message.member.id)) {
+          break;
+        }
+        // makes sure someone is mentioned
+        if (!message.mentions.users.first()) {
+          message.channel.send(":x: Mention who you want to move.\n - " + commands.move.usage.join("\n - "));
+          break;
+        }
+
+        // makes sure member is in a voice channel
+        if (!message.member.voiceChannel) {
+          message.channel.send(":x: You need to be in a voice channel to use this command.");
+          break;
+        }
+      }
+
+      utils.moveChannel(message, query);
       break;
   }
 });
@@ -209,15 +282,14 @@ async function dictThes(url, type, searchQuery, message) {
   // requests lookup
   const response = await lookup.apiRequest(url);
   // parses xml into json
-  let json = fastparse.parse(response).entry_list;
-  let entries;
-  if (json.entry) {
-    if (type == "dict") {
-      entries = lookup.dictionary(json);
-    } else if (type == "thes") {
-      entries = lookup.dictionary(json);
-    }
+  const json = fastparse.parse(response).entry_list;
+  let entries = {
+    key: searchQuery.charAt(0).toUpperCase() + searchQuery.slice(1)
   }
+
+  if (json.entry) entries.definitions = lookup.format(json);
+  if (json.suggestion) entries.suggestion = (Array.isArray(json.suggestion) ? json.suggestion.join("\n - ") : json.suggestion);
+
   // creates embed
   message.channel.send(utils.createEmbed(entries, type, searchQuery, json));
 }

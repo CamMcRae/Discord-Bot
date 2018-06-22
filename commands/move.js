@@ -9,12 +9,12 @@ module.exports.run = (client, message, query) => {
       message.channel.send(":x: Mention who you want to move.\n - " + commands.move.usage.join("\n - "));
       return
     }
-  }
 
-  // makes sure member is in a voice channel
-  if (!message.member.voiceChannel) {
-    message.channel.send(":x: You need to be in a voice channel to use this command.");
-    return
+    // makes sure member is in a voice channel
+    if (!message.member.voiceChannel) {
+      message.channel.send(":x: You need to be in a voice channel to use this command.");
+      return
+    }
   }
 
   // gets channel
@@ -52,7 +52,8 @@ module.exports.run = (client, message, query) => {
   // finds channel in guild
   const channel = message.guild.channels.find(c =>
     c.name.toLowerCase() == query.join(" ").toLowerCase() &&
-    c.type == 'voice'
+    c.type == 'voice' &&
+    !c.full
   );
 
   // generate member list
@@ -65,7 +66,13 @@ module.exports.run = (client, message, query) => {
 
   // moves mentioned users into selected channel
   if (channel) {
-    users.map(m => m.id).forEach(m => message.guild.members.get(m).setVoiceChannel(channel.id));
+    users.map(m => m.id).forEach(m => {
+      if (!channel.full) {
+        if (m.voiceChannel === message.author.voiceChannel) {
+          message.guild.members.get(m).setVoiceChannel(channel.id)
+        }
+      }
+    });
   } else {
     message.channel.send(":x: Channel not found!");
   }

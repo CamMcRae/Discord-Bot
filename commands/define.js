@@ -8,7 +8,7 @@ const createEmbed = require("./createEmbed.js");
 const apiRequest = require("./apiRequest.js");
 
 module.exports.run = (client, message, query) = {
-  let dictSearchQuery = query.join(" ");
+  const dictSearchQuery = query.join(" ");
   if (!dictSearchQuery) return;
   let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${dictSearchQuery.split(" ").join("%20")}?key=${dictKey}`;
   dictionary(url, message, dictSearchQuery);
@@ -23,7 +23,7 @@ async function dictionary(url, message, searchQuery) {
   const json = fastparse.parse(response).entry_list;
 
   let entries = {
-    key: searchQuery.charAt(0).toUpperCase() + word.slice(1)
+    key: searchQuery.charAt(0).toUpperCase() + searchQuery.slice(1)
   }
 
   if (json.entry) entries.definitions = format(json);
@@ -36,6 +36,11 @@ async function dictionary(url, message, searchQuery) {
 function format(json) {
   let definitions = {};
   let count = 0;
+  if (!Array.isArray(json.entry)) {
+    json.entry2 = json.entry
+    json.entry = [];
+    json.entry.push(json.entry2);
+  }
   for (let i of json.entry) {
     let entry = [];
     count++;

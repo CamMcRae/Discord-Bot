@@ -13,5 +13,4 @@ module.exports.run = (client, message, query) => {
       console.log(error);
       message.channel.send(":x: Could not restrict channel!");
     });
-
 }

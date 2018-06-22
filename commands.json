@@ -15,10 +15,6 @@
     "name": "Spell with emotes",
     "usage": ["spell <query>"]
   },
-  "wiki": {
-    "name": "Wikipedia Page",
-    "usage": ["wiki <query>"]
-  },
   "coinflip": {
     "name": "Coinflip",
     "usage": ["coinflip <side 1> <side 2>", "flipacoin <side 1> <side 2>"]
