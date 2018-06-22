@@ -94,7 +94,7 @@ bot.on('message', message => {
   }
 
   redis.get(message.guild["id"], (err, result) => {
-    console.log(require("util").inspect(obj, {
+    console.log(require("util").inspect(result, {
       depth: null
     }));
   });
