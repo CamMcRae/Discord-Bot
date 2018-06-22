@@ -11,7 +11,7 @@ bot.on('ready', () => {
       name: "a game"
     }
   });
-  require("./createEmbed").setClient(bot);
+  require("./commands/createEmbed").setClient(bot);
 });
 
 bot.login(process.env.BOT_TOKEN);
