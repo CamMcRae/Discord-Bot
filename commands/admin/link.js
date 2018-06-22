@@ -1,6 +1,7 @@
 // pre: takes in a channel argument
 // post: channel link will be updated in config
 module.exports.run = (message, query, config) => {
+
   if (query.length >= 1) {
     switch (query.shift()) {
       case "music":
