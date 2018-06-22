@@ -1,4 +1,4 @@
-const updateConfig = require("./updateConfig");
+const updateConfig = require("../updateConfig");
 
 if (process.env.REDISTOGO_URL) {
   let rtg = require("url").parse(process.env.REDISTOGO_URL);
