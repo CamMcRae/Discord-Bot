@@ -1,3 +1,10 @@
+let client
+
+module.exports.setClient = (bot) => {
+  client = bot
+}
+
+
 // pre: takes in a entry list and various other arguments for printing
 // post: embed object created for discord to send
 module.exports.run = (entries, type, searchQuery, json) => {
