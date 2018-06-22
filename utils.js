@@ -165,14 +165,16 @@ module.exports.moveChannel = (message, query) => {
   if (message.mentions.members.first()) {
     users = message.mentions.members
   } else {
-    users = message.member.voiceChannel.members
+    users = message.author.voiceChannel.members
   }
 
   // moves mentioned users into selected channel
   if (channel) {
     users.map(m => m.id).forEach(m => {
-      if (m.voiceChannel === message.author.voiceChannel) {
-        message.guild.members.get(m).setVoiceChannel(channel.id)
+      if (!channel.full) {
+        if (m.voiceChannel === message.author.voiceChannel) {
+          message.guild.members.get(m).setVoiceChannel(channel.id)
+        }
       }
     });
   } else {
