@@ -2,7 +2,7 @@ const createEmbed = require("./createEmbed.js");
 
 
 // link: https://menu2.danahospitality.ca/hsc/menu.asp?r=1&ShowDate=1/26/2018
-module.exports.run = (client, message, query) = {
+module.exports.run = (client, message, query) => {
   const date = createDate(query, message);
   const type = true;
   if (date) {
