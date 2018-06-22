@@ -7,7 +7,7 @@ const fastparse = require('fast-xml-parser');
 const createEmbed = require("./createEmbed.js");
 const apiRequest = require("./apiRequest.js");
 
-module.exports.run = (client, message, query) = {
+module.exports.run = (client, message, query) => {
   const dictSearchQuery = query.join(" ");
   if (!dictSearchQuery) return;
   let url = `https://www.dictionaryapi.com/api/v1/references/collegiate/xml/${dictSearchQuery.split(" ").join("%20")}?key=${dictKey}`;

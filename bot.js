@@ -4,6 +4,9 @@ const Discord = require("discord.js");
 // files
 const bot = new Discord.Client();
 
+
+
+
 bot.on('ready', () => {
   console.log('I am ready!');
   bot.user.setPresence({
