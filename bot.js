@@ -27,11 +27,11 @@ const defaultSettings = {
 
 // GUILD SETUPS IN REDIS
 bot.on("guildCreate", guild => {
-  redis.set(guild["id"], defaultSettings);
+  redis.set((guild.id).toString(), JSON.stringify(defaultSettings));
 });
 
 bot.on("guildDelete", guild => {
-  redis.del(guild["id"]);
+  redis.del((guild.id).toString());
 });
 
 bot.on('ready', () => {
@@ -76,7 +76,7 @@ bot.on('message', message => {
   }
 
   if (message.content == "prefix") {
-    redis.get(message.guild.id.prefix, (err, result) => {
+    redis.get((message.guild.id).toString().prefix, (err, result) => {
       if (err) {
         console.log("Error getting key");
       }
@@ -93,10 +93,8 @@ bot.on('message', message => {
       break;
   }
 
-  redis.get(message.guild["id"], (err, result) => {
-    console.log(require("util").inspect(result, {
-      depth: null
-    }));
+  redis.get((message.guild.id).toString(), (err, result) => {
+    console.log(JSON.parse(result));
   });
 
   const config = {
