@@ -1,3 +1,5 @@
+const requestpromise = require("request-promise");
+
 // pre: url of page given
 // post: returns xml of page
 module.exports.run = async (url) => {
