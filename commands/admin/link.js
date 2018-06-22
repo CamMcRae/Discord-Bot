@@ -1,4 +1,4 @@
-const updateConfig = require("./updateConfig");
+const updateConfig = require("./updateConfig.js");
 
 // pre: takes in a channel argument
 // post: channel link will be updated in config
