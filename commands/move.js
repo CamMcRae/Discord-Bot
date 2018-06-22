@@ -1,4 +1,4 @@
-module.exports.run = (client, message, query) => {
+module.exports.run = (client, message, query, config) => {
   // makes sure user is in mentioned users
   if (!message.member.roles.find("name", config.adminRole)) {
     if (!message.mentions.users.find(user => user.id == message.member.id)) {

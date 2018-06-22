@@ -68,7 +68,7 @@ bot.on('message', message => {
   console.log(file);
 
   try {
-    require(`./commands/${file}.js`).run(bot, message, query);
+    require(`./commands/${file}.js`).run(bot, message, query, config);
   } catch (err) {
     console.log(err);
   }
@@ -76,7 +76,7 @@ bot.on('message', message => {
   // admin commands
   if (message.member.roles.find("name", config.adminRole)) {
     try {
-      require(`./commands/admin/${file}.js`).run(bot, message, query);
+      require(`./commands/admin/${file}.js`).run(bot, message, query, config);
     } catch (err) {}
   }
 });
