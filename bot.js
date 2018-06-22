@@ -5,15 +5,10 @@ const Discord = require("discord.js");
 const bot = new Discord.Client();
 
 // Redis setup
-if (process.env.REDISTOGO_URL) {
-  let rtg = require("url").parse(process.env.REDISTOGO_URL);
-  let redis = require("redis").createClient(rtg.port, rtg.hostname);
+let rtg = require("url").parse(process.env.REDISTOGO_URL);
+let redis = require("redis").createClient(rtg.port, rtg.hostname);
 
-  redis.auth(rtg.auth.split(":")[1]);
-
-} else {
-  let redis = require("redis").createClient();
-}
+redis.auth(rtg.auth.split(":")[1]);
 
 redis.on("ready", () => {
   console.log("redis ready!");
