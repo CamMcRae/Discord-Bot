@@ -33,7 +33,7 @@ async function lunchMenu(date, type, message) {
 
 // pre:
 // post: link with requested date created
-createDate(query, message) {
+function createDate(query, message) {
   let td = new Date()
   let date;
   if (query.length == 0 || query[0] == "today") { // no query or "today"
@@ -68,7 +68,7 @@ createDate(query, message) {
 // pre: date input
 // post: required data scraped from page
 // date, t/f, t = day;
-scrapePage(date) {
+function scrapePage(date) {
   const url = `https://menu2.danahospitality.ca/hsc/menu.asp?r=1&ShowDate=${date}`;
   const options = {
     uri: url,
@@ -94,7 +94,7 @@ scrapePage(date) {
 
 // pre: json with lunch menu information
 // post: object with organized data
-sort(data, date, type) {
+function sort(data, date, type) {
   // Default Menu
   const menu = {
     title: "Lunch Menu for: " + date,
