@@ -76,11 +76,11 @@ bot.on('message', message => {
   }
 
   if (message.content == "prefix") {
-    redis.get((message.guild.id).toString().prefix, (err, result) => {
+    redis.get((message.guild.id).toString(), (err, result) => {
       if (err) {
         console.log("Error getting key");
       }
-      message.channel.send("Prefix: " + result);
+      message.channel.send("Prefix: " + JSON.parse(result).prefix);
     });
   }
 
