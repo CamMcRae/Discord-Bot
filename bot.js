@@ -138,6 +138,8 @@ bot.on('message', message => {
   if (message.member.roles.find("name", config.adminRole)) {
     try {
       require(`./commands/admin/${file}.js`).run(bot, message, query, config);
-    } catch (err) {}
+    } catch (err) {
+      console.log(err);
+    }
   }
 });
