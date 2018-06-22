@@ -1,4 +1,5 @@
 const requestpromise = require("request-promise");
+const cheerio = require('cheerio');
 
 // pre: url of page given
 // post: returns xml of page

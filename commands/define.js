@@ -1,6 +1,4 @@
 // libs
-const cheerio = require('cheerio');
-const requestpromise = require("request-promise");
 const fastparse = require('fast-xml-parser');
 
 // files
