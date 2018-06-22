@@ -27,12 +27,12 @@ const defaultSettings = {
 
 // GUILD SETUPS IN REDIS
 bot.on("guildCreate", guild => {
-  redis.set(guild.id, defaultSettings);
+  redis.set(guild[id], defaultSettings);
   console.log(redis);
 });
 
 bot.on("guildDelete", guild => {
-  redis.del(guild.id);
+  redis.del(guild[id]);
 });
 
 bot.on('ready', () => {
@@ -94,8 +94,8 @@ bot.on('message', message => {
       break;
   }
 
-  redis.get(message.guild.id, (err, result) => {
-    console.log(result.prefix);
+  redis.get(message.guild[id], (err, result) => {
+    console.log(result);
   })
 
   const config = {
