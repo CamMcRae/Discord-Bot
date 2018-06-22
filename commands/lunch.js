@@ -24,6 +24,8 @@ async function lunchMenu(date, type, message) {
   const data = await scrapePage(date);
   const menu = sort(data, date, type);
 
+  console.log(menu);
+
   if (menu.fields.length > 1) {
     message.channel.send(createEmbed.run(menu, "lunch"));
   } else {
