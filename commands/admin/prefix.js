@@ -1,5 +1,5 @@
 const updateConfig = require("../updateConfig.js");
-// 
+//
 // if (process.env.REDISTOGO_URL) {
 //   let rtg = require("url").parse(process.env.REDISTOGO_URL);
 //   let redis = require("redis").createClient(rtg.port, rtg.hostname);
