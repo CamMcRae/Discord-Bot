@@ -75,6 +75,7 @@ bot.on('message', message => {
     message.channel.send("https://www.reddit.com/" + message.content.trim());
   }
 
+  // sends prefix
   if (message.content == "prefix") {
     redis.get((message.guild.id).toString(), (err, result) => {
       if (err) {
@@ -94,52 +95,45 @@ bot.on('message', message => {
   }
 
   redis.get((message.guild.id).toString(), (err, result) => {
-    // console.log(JSON.parse(result));
-  });
 
-  const config = {
-    prefix: "$",
-    adminRole: "Administrator",
-    admin: "124349142708387840"
-  }
+    const config = JSON.parse(result);
 
-  if (!message.content.startsWith(config.prefix)) return;
+    if (!message.content.startsWith(config.prefix)) return;
 
-  const query = message.content.slice(config.prefix.length).trim().split(/ +/g); // gets query
-  const cmd = query.shift().toLowerCase(); // gets command
-  let file;
+    const query = message.content.slice(config.prefix.length).trim().split(/ +/g); // gets query
+    const cmd = query.shift().toLowerCase(); // gets command
+    let file;
 
-  // changes command to proper filename
-  switch (cmd) {
-    case "purge":
-    case "clean":
-      file = "clean"
-      break;
-    case "roll":
-      file = "diceRoll"
-      break;
-    case "coinflip":
-    case "flipacoin":
-      file = "coinflip"
-      break;
-    default:
-      file = cmd
-  }
+    // changes command to proper filename
+    switch (cmd) {
+      case "purge":
+      case "clean":
+        file = "clean"
+        break;
+      case "roll":
+        file = "diceRoll"
+        break;
+      case "coinflip":
+      case "flipacoin":
+        file = "coinflip"
+        break;
+      default:
+        file = cmd
+    }
 
-  console.log(file);
-
-  try {
-    require(`./commands/${file}.js`).run(bot, message, query, config);
-  } catch (err) {
-    console.log(err);
-  }
-
-  // admin commands
-  if (message.member.roles.find("name", config.adminRole)) {
     try {
-      require(`./commands/admin/${file}.js`).run(bot, message, query, config, redis);
+      require(`./commands/${file}.js`).run(bot, message, query, config, redis);
     } catch (err) {
       console.log(err);
     }
-  }
+
+    // admin commands
+    if (message.member.roles.find("name", config.adminRole)) {
+      try {
+        require(`./commands/admin/${file}.js`).run(bot, message, query, config, redis);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  });
 });
