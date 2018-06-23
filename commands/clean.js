@@ -1,6 +1,6 @@
 // pre:
 // post: cleans the defined amount of messages, only bot interaction messages or a users messages
-module.exports.run = async (query, message, config) => {
+module.exports.run = async (client, query, message, config) => {
   // maybe get array of sent messages, filter by bot, shift 1 and get ones above?
   if (query.length == 0) { // Purges only bot messages
     const fetched = await message.channel.fetchMessages();
