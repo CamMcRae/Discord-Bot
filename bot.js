@@ -1,19 +1,18 @@
 // libs
 const Discord = require("discord.js");
-
-// files
 const bot = new Discord.Client();
 
 // Redis setup
 let rtg = require("url").parse(process.env.REDISTOGO_URL);
 let redis = require("redis").createClient(rtg.port, rtg.hostname);
-
 redis.auth(rtg.auth.split(":")[1]);
 
+// when redis is ready to be used
 redis.on("ready", () => {
   console.log("redis ready!");
 });
 
+// if error on redis initiation
 redis.on('error', (err) => {
   console.log('Something went wrong ' + err);
 });
@@ -26,14 +25,17 @@ const defaultSettings = {
 }
 
 // GUILD SETUPS IN REDIS
+// when the bot is added to a guild
 bot.on("guildCreate", guild => {
   redis.set((guild.id).toString(), JSON.stringify(defaultSettings));
 });
 
-bot.on("guildDelete", guild => {
-  redis.del((guild.id).toString());
+
+// when the bot is added to a guildbot.on("guildDelete", guild => {
+redis.del((guild.id).toString());
 });
 
+// when the bot is ready to be used
 bot.on('ready', () => {
   console.log('I am ready!');
   bot.user.setPresence({
@@ -48,21 +50,16 @@ bot.login(process.env.BOT_TOKEN);
 
 bot.on('message', message => {
 
-  // deletes any messages starting with !
+  // deletes any messages starting with ! or >
   if (message.content.slice(0, 1) == "!" || message.content.slice(0, 1) == ">") {
-    const channel = message.guild.channels.find(channel => channel.name === "music");
-    if (message.channel == channel) return;
-    message.delete();
-    message.channel.send("Use " + channel.toString() + " please! :angry: " + message.author);
-  }
-
-  // deletes any bot messages
-  if (message.author.bot) {
-    const channel = message.guild.channels.find(channel => channel.name === "music");
-    if (message.channel == channel) return;
-    if (message.author.id != bot.user.id) {
-      message.delete();
-    }
+    redis.get((message.guild.id).toString(), (err, result) => {
+      if (err) console.log(err);
+      if (JSON.parse(result).musicID) {
+        if (message.channel.id == JSON.parse(result).musicID) return;
+        message.delete();
+        message.channel.send("Use " + message.guild.channels.find(c => c.id == JSON.parse(result).musicID).toString() + " please! :angry: " + message.author);
+      }
+    });
   }
 
   // if a bot is talking or not a server
@@ -78,9 +75,7 @@ bot.on('message', message => {
   // sends prefix
   if (message.content == "prefix") {
     redis.get((message.guild.id).toString(), (err, result) => {
-      if (err) {
-        console.log("Error getting key");
-      }
+      if (err) console.log("Error getting key");
       message.channel.send("Prefix: " + JSON.parse(result).prefix);
     });
   }
@@ -94,10 +89,12 @@ bot.on('message', message => {
       break;
   }
 
+  // main command handler
   redis.get((message.guild.id).toString(), (err, result) => {
 
     const config = JSON.parse(result);
 
+    // doesn't allow regular messages
     if (!message.content.startsWith(config.prefix)) return;
 
     const query = message.content.slice(config.prefix.length).trim().split(/ +/g); // gets query
