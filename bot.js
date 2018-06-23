@@ -30,7 +30,7 @@ bot.on("guildCreate", guild => {
   redis.set((guild.id).toString(), JSON.stringify(defaultSettings));
 });
 
-// when the bot is added to a guild
+// when the bot is removed from a guild
 bot.on("guildDelete", guild => {
   redis.del((guild.id).toString());
 });
