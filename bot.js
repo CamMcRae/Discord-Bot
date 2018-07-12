@@ -121,7 +121,9 @@ bot.on('message', message => {
     try {
       require(`./commands/${file}.js`).run(bot, message, query, config, redis);
     } catch (err) {
-      console.log(err);
+      if (err.code != 'MODULE_NOT_FOUND') {
+        console.log(err);
+      }
     }
 
     // admin commands
@@ -129,7 +131,9 @@ bot.on('message', message => {
       try {
         require(`./commands/admin/${file}.js`).run(bot, message, query, config, redis);
       } catch (err) {
-        console.log(err);
+        if (err.code != 'MODULE_NOT_FOUND') {
+          console.log(err);
+        }
       }
     }
   });
