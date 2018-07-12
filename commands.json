@@ -17,7 +17,7 @@
   },
   "coinflip": {
     "name": "Coinflip",
-    "usage": ["coinflip <side 1> <side 2>", "flipacoin <side 1> <side 2>"]
+    "usage": ["coinflip [<side 1> <side 2> etc]", "flipacoin [<side 1> <side 2> etc]"]
   },
   "roll": {
     "name": "Dice Roll",
