@@ -23,7 +23,7 @@ module.exports.run = async (query) => {
 
 async function lunchMenu(date) {
   const data = await scrapePage(date);
-  const menu = sort(data);
+  const menu = sort(data, date);
 }
 
 // pre: date input
@@ -55,11 +55,10 @@ function scrapePage(date) {
 
 // pre: json with lunch menu information
 // post: object with organized data
-function sort(data) {
+function sort(data, date) {
   // Default Menu
   const menu = {
     title: "Lunch Menu for: " + date,
-    desc: (type ? "Daily" : " Weekly"),
     fields: []
   }
   // Default field values
