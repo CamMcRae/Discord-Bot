@@ -10,6 +10,6 @@ io.on('connect', (socket) => {
   socket.on('disconnect', () => console.log('Client disconnected'));
 });
 
-socket.on("getMenu", (socket) => {
+io.on("getMenu", (socket) => {
   console.log(socket);
 })
