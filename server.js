@@ -6,6 +6,7 @@ const io = sio(server);
 
 io.on('connect', (socket) => {
   console.log('Client connected');
+  socket.emit("test", "sdfsdf");
   socket.on('disconnect', () => console.log('Client disconnected'));
 });
 
