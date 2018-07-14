@@ -6,6 +6,7 @@ const io = sio(server);
 
 io.on('connect', (socket) => {
   console.log('Client connected');
+  io.sockets.emit('test', "The quick brown fox");
   socket.on("getMenu", (d) => {
     console.log(d);
   })
