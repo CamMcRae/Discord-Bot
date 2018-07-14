@@ -6,10 +6,10 @@ const io = sio(server);
 
 io.on('connect', (socket) => {
   console.log('Client connected');
-  socket.emit("test", "sdfsdf");
+  setTimeout(stuff, 1000);
   socket.on('disconnect', () => console.log('Client disconnected'));
 });
 
-setInterval(() => {
-  io.emit('test', "dsfsdfsdf");
-}, 1000);
+function stuff() {
+  io.emit("test", "Stuff and things");
+}
