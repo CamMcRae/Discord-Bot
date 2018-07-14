@@ -8,3 +8,5 @@ io.on('connect', (socket) => {
   console.log('Client connected');
   socket.on('disconnect', () => console.log('Client disconnected'));
 });
+
+setInterval(() => io.emit('time', new Date().toTimeString()), 2000);
