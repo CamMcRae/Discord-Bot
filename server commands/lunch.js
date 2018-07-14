@@ -7,7 +7,7 @@ const jsonframe = require('jsonframe-cheerio');
 
 // link: https://menu2.danahospitality.ca/hsc/menu.asp?r=1&ShowDate=1/26/2018
 module.exports.run = (query) => {
-  const date = date = `${td.getMonth()+1}/${td.getDate()}/${td.getFullYear()}`
+  const date = date = `${query.getMonth()+1}/${query.getDate()}/${query.getFullYear()}`
   let menu = {}
   if (date) {
     menu.lunch = lunchMenu(date);
