@@ -1,12 +1,11 @@
 const express = require('express')();
 const sio = require('socket.io')
-// const server = express.listen(process.env.PORT);
+const server = express.listen(process.env.PORT);
 
-const io = sio.listen(express);
+const io = sio(server);
 
 io.on('connect', (socket) => {
-  console.log('Client connected');
-
+  console.log('Client connected' + socket);
   socket.on('disconnect', () => console.log('Client disconnected'));
 });
 
