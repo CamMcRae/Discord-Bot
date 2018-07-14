@@ -8,7 +8,7 @@ const io = sio(server);
 io.on('connect', (socket) => {
   socket.on("getMenu", async (d) => {
     let menu = await lunch.run(d);
-    console.log(menu);
+    socket.emit('returnMenu', menu);
   });
   socket.on('disconnect', () => console.log('Client disconnected'));
 });
