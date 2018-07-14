@@ -6,6 +6,7 @@ const io = sio(server);
 
 io.on('connect', (socket) => {
   console.log('Client connected');
-  io.sockets.emit('time', new Date().toTimeString());
   socket.on('disconnect', () => console.log('Client disconnected'));
 });
+
+setInterval(() => io.sockets.emit('time', new Date()), 1000);
