@@ -12,7 +12,7 @@ module.exports.run = async (query) => {
   let menu = {}
   if (date) {
     menu.lunch = await lunchMenu(date);
-    if (menu.lunch.field.length <= 1) {
+    if (menu.lunch.fields.length <= 1) {
       menu.error = true;
     }
   } else {
