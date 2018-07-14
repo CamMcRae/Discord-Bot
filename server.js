@@ -9,4 +9,4 @@ io.on('connect', (socket) => {
   socket.on('disconnect', () => console.log('Client disconnected'));
 });
 
-setInterval(() => io.sockets.emit('test', "dsfsdfsdf"), 1000);
+setInterval(() => io.emit('test', "dsfsdfsdf"), 1000);
