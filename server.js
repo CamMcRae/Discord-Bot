@@ -11,5 +11,4 @@ io.on('connect', (socket) => {
 
 setInterval(() => {
   io.emit('test', "dsfsdfsdf");
-  console.log("stuff");
 }, 1000);
