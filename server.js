@@ -8,6 +8,7 @@ const io = sio(server);
 
 
 io.on('connect', (socket) => {
+  console.log("Client Connected");
   socket.on("getMenu", async (d) => {
     const menu = await lunch.run(d);
     socket.emit('returnMenu', menu);
