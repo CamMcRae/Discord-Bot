@@ -59,7 +59,7 @@ function scrapePage(date) {
 function sort(data, date) {
   // Default Menu
   const menu = {
-    title: "Lunch Menu for: " + date,
+    date
     fields: []
   }
   // Default field values
