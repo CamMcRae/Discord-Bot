@@ -58,7 +58,7 @@ function scrapePage(date) {
 function sort(data, date) {
   // Default Menu
   const menu = {
-    date = new Date(date),
+    date: new Date(date),
     fields: []
   }
   // Default field values
