@@ -12,7 +12,7 @@ io.on('connect', (socket) => {
   socket.on("getMenu", async (d) => {
     const menu = {}
     for (let i = 0; i < d.dates.length; i++) {
-      menu[i] = await lunch.run(d[i]);
+      menu[i] = await lunch.run(d.dates[i]);
     }
     socket.emit('returnMenu', menu);
   });
