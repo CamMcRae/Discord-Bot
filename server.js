@@ -13,7 +13,7 @@ io.on('connect', (socket) => {
     const menu = {}
     console.log(d);
     for (let i = 0; i < d.length; i++) {
-      menu[i] = await lunch.run(d);
+      menu[i] = await lunch.run(d[i]);
       console.log(menu);
     }
     console.log(menu);
