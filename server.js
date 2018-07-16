@@ -11,12 +11,9 @@ io.on('connect', (socket) => {
   console.log("Client Connected");
   socket.on("getMenu", async (d) => {
     const menu = {}
-    console.log(d.dates);
     for (let i = 0; i < d.dates.length; i++) {
       menu[i] = await lunch.run(d[i]);
-      console.log(menu);
     }
-    console.log(menu);
     socket.emit('returnMenu', menu);
   });
   socket.on('disconnect', () => console.log('Client disconnected'));

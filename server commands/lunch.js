@@ -8,8 +8,8 @@ const jsonframe = require('jsonframe-cheerio');
 // link: https://menu2.danahospitality.ca/hsc/menu.asp?r=1&ShowDate=1/26/2018
 module.exports.run = async (query) => {
   const td = new Date(query);
-  const date = "1/26/2018"
-  // const date = `${td.getMonth()+1}/${td.getDate()}/${td.getFullYear()}`
+  // const date = "1/26/2018"
+  const date = `${td.getMonth()+1}/${td.getDate()}/${td.getFullYear()}`
   let menu = {}
   if (date) {
     menu.lunch = await lunchMenu(date);
