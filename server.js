@@ -10,10 +10,12 @@ const io = sio(server);
 io.on('connect', (socket) => {
   console.log("Client Connected");
   socket.on("getMenu", async (d) => {
+    console.log("Received");
     const menu = {}
     for (let i = 0; i < d.dates.length; i++) {
       menu[i] = await lunch.run(d.dates[i]);
     }
+    console.log("sent");
     socket.emit('returnMenu', menu);
   });
   socket.on('disconnect', () => console.log('Client disconnected'));
