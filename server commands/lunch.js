@@ -22,7 +22,8 @@ module.exports.run = async (query) => {
   } else {
     menu.error = true;
   }
-  console.log("RETURN: " + Date.now() - time);
+  console.log("RETURN: ");
+  console.log(Date.now() - time);
   return menu;
 }
 
