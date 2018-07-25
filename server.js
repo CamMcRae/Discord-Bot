@@ -20,7 +20,7 @@ io.on('connect', (socket) => {
 });
 
 // stop server sleeping
-const keepAwake = require('http')
-setInterval(() => {
-  keepAwake.get("https://nutty-discord-bot.herokuapp.com/")
-}, 300000);
+// const keepAwake = require('http')
+// setInterval(() => {
+//   keepAwake.get("https://nutty-discord-bot.herokuapp.com/")
+// }, 300000);
