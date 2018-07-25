@@ -1,3 +1,7 @@
+const cheerio = require('cheerio');
+const requestpromise = require("request-promise");
+const jsonframe = require('jsonframe-cheerio');
+
 module.exports.run = async (date) => {
   const data = await scrapePage(date);
   return sort(data, date);
