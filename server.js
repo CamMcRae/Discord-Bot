@@ -4,7 +4,7 @@ const lunch = require("./server commands/lunch.js");
 // let server = require('http').createServer(express);
 // let io = require('socket.io')(server)
 // server.listen(process.env.PORT);
-let io = require('socket.io').listen(8080);
+let io = require('socket.io')().listen(8080);
 
 
 io.on('connect', (socket) => {
