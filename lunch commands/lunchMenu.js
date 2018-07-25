@@ -36,7 +36,7 @@ function scrapePage(date) {
 // pre: json with lunch menu information
 // post: object with organized data
 function sort(data, date) {
-  // Default Menu
+  // Default Menu object
   const menu = {
     fields: []
   }

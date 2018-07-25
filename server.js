@@ -1,10 +1,9 @@
 const lunch = require("./server commands/lunch.js");
 
-const http = require('https');
 const express = require('express')();
-const sio = require('socket.io')
-const server = express.listen(process.env.PORT);
-const io = sio(server);
+const server = require('https').createServer(express);
+const io = require('socket.io')(server)
+server.listen(process.env.PORT);
 
 
 io.on('connect', (socket) => {
@@ -19,6 +18,7 @@ io.on('connect', (socket) => {
   socket.on('disconnect', () => console.log('Client disconnected'));
 });
 
+// stop server sleeping
 setInterval(() => {
   http.get("https://nutty-discord-bot.herokuapp.com/")
 }, 300000);
