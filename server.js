@@ -1,9 +1,9 @@
 const lunch = require("./server commands/lunch.js");
 
 let express = require('express')();
-// let server = require('http').createServer(express);
+let server = require('http').createServer(express);
 let io = require('socket.io')(express)
-express.listen(process.env.PORT);
+server.listen(process.env.PORT);
 
 
 io.on('connect', (socket) => {
