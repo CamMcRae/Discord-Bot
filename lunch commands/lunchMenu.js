@@ -1,4 +1,4 @@
-module.exports.run = (date) => {
+module.exports.run = async (date) => {
   const data = await scrapePage(date);
   return sort(data, date);
 }
