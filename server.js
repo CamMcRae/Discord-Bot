@@ -1,5 +1,6 @@
 const lunch = require("./server commands/lunch.js");
 
+let md5 = require('md5');
 let express = require('express')();
 let http = require('http');
 let server = http.createServer();
@@ -10,7 +11,7 @@ server.listen(process.env.PORT);
 io.on('connect', (socket) => {
   console.log("Client Connected");
   socket.on("getMenu", async (d) => {
-    if (d.hash) console.log(d.hash);
+    if (md5(d.hash) == process.env.HASH) console.log(d.hash);
     const menu = {}
     for (let i = 0; i < d.dates.length; i++) {
       menu[i] = await lunch.run(d.dates[i]);
