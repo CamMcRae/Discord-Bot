@@ -9,7 +9,7 @@ redis.auth(rtg.auth.split(":")[1]);
 
 // when redis is ready to be used
 redis.on("ready", () => {
-  console.log("redis ready!");
+  console.log("Worker Redis ready!");
 });
 
 // if error on redis initiation
