@@ -10,6 +10,7 @@ server.listen(process.env.PORT);
 io.on('connect', (socket) => {
   console.log("Client Connected");
   socket.on("getMenu", async (d) => {
+    if (d.hash) console.log(d.hash);
     const menu = {}
     for (let i = 0; i < d.dates.length; i++) {
       menu[i] = await lunch.run(d.dates[i]);
