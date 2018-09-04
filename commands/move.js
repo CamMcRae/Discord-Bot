@@ -4,6 +4,7 @@ module.exports.run = (client, message, query, config) => {
     if (!message.mentions.users.find(user => user.id == message.member.id)) {
       return
     }
+
     // makes sure someone is mentioned
     if (!message.mentions.users.first()) {
       message.channel.send(":x: Mention who you want to move.\n - " + commands.move.usage.join("\n - "));
