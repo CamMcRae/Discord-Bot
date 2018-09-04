@@ -5,11 +5,11 @@ module.exports.run = (client, message, query, config) => {
       return
     }
 
-    // makes sure someone is mentioned
-    if (!message.mentions.users.first()) {
-      message.channel.send(":x: Mention who you want to move.\n - " + commands.move.usage.join("\n - "));
-      return
-    }
+    // // makes sure someone is mentioned
+    // if (!message.mentions.users.first()) {
+    //   message.channel.send(":x: Mention who you want to move.\n - " + commands.move.usage.join("\n - "));
+    //   return
+    // }
 
     // makes sure member is in a voice channel
     if (!message.member.voiceChannel) {
