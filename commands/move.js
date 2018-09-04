@@ -62,7 +62,7 @@ module.exports.run = (client, message, query, config) => {
   if (message.mentions.members.first()) {
     users = message.mentions.members
   } else {
-    console.log(message.author.voiceChannel);
+    console.log(message.member.voiceChannel);
     users = message.author.voiceChannel.members
   }
 
