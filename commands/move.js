@@ -62,8 +62,7 @@ module.exports.run = (client, message, query, config) => {
   if (message.mentions.members.first()) {
     users = message.mentions.members
   } else {
-    console.log(message.member.voiceChannel);
-    users = message.author.voiceChannel.members
+    users = message.member.voiceChannel.members
   }
 
   // moves mentioned users into selected channel
